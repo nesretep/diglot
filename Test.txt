@@ -5,3 +5,9 @@ I have to use it for a minute.
 I will delete the file later.
 
 I am making changes at this point.
+
+Here are two changes.
+
+I should see them at the end.
+
+When I run the diff.
