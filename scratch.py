@@ -64,10 +64,6 @@ class Chunk(object):
             return 0
 
 
-    @property
-    def to_dict(self):
-        return self.__dict__
-
 
 
 
