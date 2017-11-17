@@ -1,4 +1,6 @@
-#! usr/bin/env python
+#! usr/bin/env python3
+# filename: python_api.py
+# trying out writing a basic API
 
 import requests
 import mysql.connector as mariadb
@@ -12,7 +14,7 @@ def flip_words(not_sure_what_should_go_here):
 	pass
 
 
-def flip_one_word(position):
+def get_one_word(position):
 	pass
 
 
