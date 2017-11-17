@@ -39,6 +39,16 @@ class Chunk(object):
 			audio_clip_url (str) : URL where the audio clip for the chunk is located
 	"""
 
+	
+	def __cmp__(self, other):
+		if self.pos > other.pos:
+			return 1
+		elif self.pos < other.pos:
+			return -1
+		else:
+			return 0
+
+
 	def __init__(self, uid, value, flip_status=0, definition=None, audio_clip_url=None):
 		self.uid = uid
 		self.value = value
@@ -52,8 +62,8 @@ class Chunk(object):
 
 
 	# I don't know if these would be helpful or not.
-	pos_id = self.uid.split(":")[4]
-	verse_id = self.uid.split(":")[3]
-	chapter_id = self.uid.split(":")[2]
-	book_id = self.uid.split(":")[1]
-	lang_id = self.uid.split(":")[0]
+	pos = self.uid.split(":")[4]
+	verse = self.uid.split(":")[3]
+	chapter = self.uid.split(":")[2]
+	book = self.uid.split(":")[1]
+	lang = self.uid.split(":")[0]
