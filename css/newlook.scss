@@ -1,0 +1,59 @@
+// **************************************
+// primer base - general sass variables and such
+// **************************************/
+
+// change any details after copying to your project, this is just to get you started
+// prefixed with  to denote that these should be updated with the site specifics, NOT kept as the primer defaults
+// structure for variables also uses bem syntax like our class names
+
+
+$lds__color__graphite: #333;
+$lds__color__dark: #555;
+$lds__color__stone: #737373;
+$lds__color__lunarsoil: #b6b6b6;
+$lds__color__cement: #e6e6e6;
+$lds__color__cloud: #f3f3f3;
+$lds__color__white: #ffffff;
+
+$lds__color__cerulean: #0091bc; // blue
+$lds__color__fern: #52bd96; // green
+$lds__color__honey: #f89e1e; // yellow
+$lds__color__rose: #ef5458; // red
+$lds__color__dusk: #7f6db0; // purple
+
+
+// $lds__color__link:$lds__color__cerulean;
+// $lds__color__text:$lds__color__graphite;
+// $lds__color__background:#6D6F71;
+
+// $lds__font__size--lg:26px;
+// $lds__font__size--md:33px;
+// $lds__font__size:18px;
+// $lds__font__size--sm:11px;
+
+$lds__font__linespacing--tighter: 110%;
+$lds__font__linespacing--tight: 140%;
+$lds__font__linespacing--loose: 170%;
+
+$lds__font__family--sans:'Open Sans',"Zoram ldslat","noto sans", Helvetica, Arial, sans-serif;
+$lds__font__family--slab:"Helam Slab", "Roboto Slab", Calibri, Helvetica, Arial, sans-serif;
+$lds__font__family--icon:"Gideon";
+$lds__font__family--serif:Palatino, "Palatino Linotype", "Pahoran", "Georgia", "Times New Roman", serif;
+
+// $lds__spacing--primary:50px;
+// $lds__spacing--secondary:15px;
+
+$lds__border--radius:3px;
+$lds__box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+
+// mq = media-query
+$lds__mq--lg:700px;
+$lds__mq--md:500px;
+$lds__mq--sm:400px;
+
+// $breakpoints: (
+// 	'lds__mq--sm': 400px,
+// 	'lds__mq--md': 550px,
+// 	'lds__mq--lg': 700px,
+// 	'lds__mq--xl': 1100px
+// );

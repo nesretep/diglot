@@ -1,0 +1,1390 @@
+@import "../newlook";
+/* @group reset */
+/* http://meyerweb.com/eric/tools/css/reset/ */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline; background: transparent;} body {line-height: 1;} ol, ul {list-style: none;} blockquote, q {quotes: none;} blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;} :focus {outline: default;} ins {text-decoration: none;} del {text-decoration: line-through;} table {border-collapse: collapse; border-spacing: 0;}
+/* @end reset */
+
+/* ie10 snapmode fix */
+@-ms-viewport { width: device-width; }
+
+/* @group basics */
+body {
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	color: $lds__color__graphite;
+	background-color: #2a3753;
+	display:block;
+}
+@media screen and (min-width:1500px){
+	body {
+		/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+		background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFkMjgzZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyOTM3NTIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+');
+		background: -moz-linear-gradient(top,  rgba(29,40,62,1) 0%, rgba(41,55,82,1) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(29,40,62,1)), color-stop(100%,rgba(41,55,82,1))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(29,40,62,1) 0%,rgba(41,55,82,1) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(29,40,62,1) 0%,rgba(41,55,82,1) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(29,40,62,1) 0%,rgba(41,55,82,1) 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  rgba(29,40,62,1) 0%,rgba(41,55,82,1) 100%); /* W3C */
+		filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d283e', endColorstr='#293752',GradientType=0 )'; /* IE6-8 */
+		background-size:20px 50px;
+		background-repeat:repeat-x;
+		background-color: #2a3753;
+	}
+}
+a {color: $lds__color__cerulean;}
+a:link, a:visited {text-decoration: none;}
+a:hover {
+	color: $lds__color__cerulean;
+	text-decoration: underline;
+}
+/* @end basics */
+
+/* @group font-face */
+.ldsicon {
+	text-indent:-10em;
+	width:16px;
+	height:16px;
+	display:inline-block;
+	overflow:hidden;
+	position:relative;
+}
+a.ldsicon {
+	text-decoration:none;
+}
+.ldsicon:before {
+	font-family:ldsicon;
+	position:absolute;
+	top:0;
+	left:0;
+	text-indent:0;
+}
+.ldsicon.play:before {
+	content:"\25b6";
+}
+.ldsicon.twitter:before {
+	content: "\e001";
+}
+.ldsicon.facebook:before {
+	content: "\e002";
+}
+.ldsicon.youtube:before {
+	content: "\e003";
+}
+/* @end font-face */
+
+/* @group ruby text fix for firefox */
+body:not(:-moz-handler-blocked) ruby {
+	display: inline-table;
+	text-align: center;
+	white-space: nowrap;
+	text-indent: 0;
+	margin: 0;
+	vertical-align: bottom;
+}
+body:not(:-moz-handler-blocked) ruby > rt {
+	display: table-header-group;
+	font-size: 60%;
+	line-height: normal;
+	letter-spacing: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+body:not(:-moz-handler-blocked) rp {display: none;}
+/* @end ruby text fix for firefox */
+
+/* @group no link style for SEO */
+#platform .no-link-style,
+#platform .no-link-style:link,
+#platform .no-link-style:hover,
+#platform .no-link-style:active,
+#platform .no-link-style:visited {
+	text-decoration: none !important;
+	border: none !important; /* turn off anchors that have borders set as a text-decoration */
+	color: #2f393a; /* this color will have to be overwritten based on what the text color is around the anchor */
+}
+/* @end no link style for SEO */
+
+/* @group platform */
+#platform {
+	//background: url(../../../platform/ver/images/platform-spotlight-2.jpg) no-repeat center 0;
+	min-width: 976px; /* Needed because background image will reposition if window resolution is less than 976px */
+}
+.pf-responsive #platform {
+	min-width: 0;
+}
+.narrow #platform {
+//	background: url(../../../platform/ver/images/platform-spotlight-narrow-2.jpg) no-repeat center 0;
+}
+.fluid #platform {background-position: -288px 0;}
+/* @end platform */
+
+
+
+/* @group platform canvas */
+#platform-canvas {
+	width: 976px;
+	margin: 0 auto 68px;
+	position: relative;
+}
+.pf-responsive #platform-canvas {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	max-width: 976px;
+	width:auto;
+	background:#fff;
+}
+.pf-canvas-wrapper {
+	background:#fff;
+}
+.fluid #platform-canvas {
+	width: auto;
+	margin: 0 20px 68px;
+	margin-left: 12px\9;
+}
+#platform-canvas-content {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	width: 100%;
+	padding: 8px;
+	background: #fff;
+	position: relative;
+
+}
+.narrow #platform-canvas-content {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	max-width: 824px;
+	width:100%;
+	float: left;
+}
+/* .ie8 .narrow #platform-canvas-content{
+	max-width: 808px;
+} */
+.fluid #platform-canvas-content {
+	width: auto;
+	min-height: 100%;
+}
+#platform-canvas-nav {display: none;}
+.narrow #platform-canvas-nav {
+	width: 152px;
+	display: block;
+	float: left;
+	position: relative;
+	z-index: 2;
+}
+/* @end platform canvas */
+
+/* @group clear float */
+.clear {clear: both;}
+.clearfix {display: inline-block;}
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+.clear:after,
+.clearfix:after,
+#platform-header:after,
+#platform-canvas:after,
+.jericho .jericho-inner:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+/* @end clear float */
+
+/* @group button */
+a.button, button, input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-appearance: none;
+	color: $lds__color__white;
+	display: inline-block;
+	font-size: 13px;
+	border: none;
+	padding: 4px 17px;
+	margin: 0 5px 0 0;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	// border:1px solid $lds__color__stone;
+	border-radius: $lds__border--radius;
+	background: $lds__color__cerulean;
+}
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+	padding: 3px 17px;
+}
+a.button, button, input[type="button"], input[type="submit"], input[type="reset"] {	/*ie*/
+	border: 1px solid #bfbdb7\9;
+	border-top-color: #d8d6d0\9;
+	border-bottom-color: #a5a39d\9;
+}
+*+html button, *+html input[type="button"], *+html input[type="submit"], *+html input[type="reset"] {
+	width: 1;
+	overflow: visible;
+}
+a.button.small, button.small, input[type="button"].small, input[type="submit"].small, input[type="reset"].small {
+	font-size: 12.5px;
+	line-height: 1.2;
+	padding: 3px 8px 1px;
+}
+a.button:focus, button:focus, input[type="button"]:focus, input[type="submit"]:focus, input[type="reset"]:focus,
+a.button:hover, button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+	text-decoration: none;
+}
+a.button.cancel:focus, button.cancel:focus, input[type="button"].cancel:focus, input[type="submit"].cancel:focus, input[type="reset"].cancel:focus,
+a.button.cancel:hover, button.cancel:hover, input[type="button"].cancel:hover, input[type="submit"].cancel:hover, input[type="reset"].cancel:hover {
+	color: #660004;
+}
+a.button.active, a.button:active,
+button.active, button:active,
+input[type="button"].active, input[type="button"]:active,
+input[type="submit"].active, input[type="submit"]:active,
+input[type="reset"].active, input[type="reset"]:active {
+
+}
+button.active, button:active,
+input[type="button"].active, input[type="button"]:active,
+input[type="submit"].active, input[type="submit"]:active,
+input[type="reset"].active, input[type="reset"]:active {
+	// padding-top: 4px;
+	// padding-bottom: 2px;
+}
+a.button.disabled {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+}
+button[disabled], input[type="button"][disabled], input[type="submit"][disabled], input[type="reset"][disabled] {
+	padding-top: 3px !important;
+	padding-bottom: 3px !important;
+}
+a.button.small.active, a.button.small:active {
+	padding-top: 5px;
+	padding-bottom: 1px;
+}
+a.button.small.disabled {
+	padding-top: 4px !important;
+	padding-bottom: 2px !important;
+}
+button.small.active, button.small:active,
+input[type="button"].small.active, input[type="button"].small:active,
+input[type="submit"].small.active, input[type="submit"].small:active,
+input[type="reset"].small.active, input[type="reset"].small:active {
+	padding-top: 4px;
+	padding-bottom: 0;
+}
+a.button.disabled.small, button[disabled].small, input[type="button"][disabled].small, input[type="submit"][disabled].small, input[type="reset"][disabled].small {
+	padding-top: 3px !important;
+	padding-bottom: 1px !important;
+}
+a.button.disabled, button[disabled], input[type="button"][disabled], input[type="submit"][disabled], input[type="reset"][disabled] {
+	color: #818181 !important;
+	cursor: default !important;
+	-moz-box-shadow: 0 1px 3px rgba(64,63,61,0.5) !important;
+	-webkit-box-shadow: 0 1px 3px rgba(64,63,61,0.5) !important;
+	box-shadow: 0 1px 3px rgba(64,63,57,0.5) !important;
+	background-color: #e8e5de !important;
+	background-image: -moz-linear-gradient(top, #f6f4ed, #dfddd8) !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f4ed), to(#dfddd8)) !important;
+	filter: "progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#f6f4ed, endColorstr=#dfddd8) progid:DXImageTransform.Microsoft.Shadow(color=#8c8a85,direction=120,strength=1)" !important;
+}
+.button-group {
+	display: inline-block;
+	vertical-align: middle;
+}
+*+html .button-group {
+	display: inline;
+	zoom: 1;
+}
+.button-group > ul {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.button-group > ul > li {
+	display: inline;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.button-group > ul > li.button-tight > a.button,
+.button-group > ul > li.button-tight > button,
+.button-group > ul > li.button-tight > input[type="button"],
+.button-group > ul > li.button-tight > input[type="submit"],
+.button-group > ul > li.button-tight > input[type="reset"] {
+	border-right: 1px solid #c6c4be;
+	border-right-color: rgba(144,143,143,0.4);
+	margin-right: 0;
+	-moz-border-radius-topright: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-radius-topright: 0;
+	border-radius-bottomright: 0;
+}
+.button-group > ul > li.button-tight + li > a.button,
+.button-group > ul > li.button-tight + li > button,
+.button-group > ul > li.button-tight + li > input[type="button"],
+.button-group > ul > li.button-tight + li > input[type="submit"],
+.button-group > ul > li.button-tight + li > input[type="reset"] {
+	border-left: 1px solid #f2f1ea;
+	border-left-color: rgba(255,254,254,0.4);
+	margin-left: 0;
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-radius-topleft: 0;
+	border-radius-bottomleft: 0;
+}
+
+.button-list {
+	display: inline-block;
+	position: relative;
+}
+*+html .button-list {
+	display: inline;
+	zoom: 1;
+}
+.button-list > a.button {
+	padding-right: 0;
+}
+.button-list > a.button.small {
+	padding-right: 10px;
+}
+.button-list > a.button > span.button-list-arrow,
+.button-list > ul > li:first-child > a > span.button-list-arrow {
+	display: inline-block;
+	background-image: url(../../../platform/images/button-list.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 23px;
+	width: 15px;
+	margin: -6px 9px -4px 21px;
+	vertical-align: middle;
+}
+.button-list > a.button.active > span.button-list-arrow,
+.button-list > a.button:active > span.button-list-arrow {
+	margin-top: -7px;
+	margin-bottom: -3px;
+}
+.button-list > a.button.disabled.active > span.button-list-arrow,
+.button-list > a.button.disabled:active > span.button-list-arrow {
+	margin-top: -6px;
+	margin-bottom: -4px;
+}
+.button-list > a.button.small > span.button-list-arrow {
+	height: 21px;
+	margin: -5px -2px -2px 15px;
+}
+.button-list > a.button.small.active > span.button-list-arrow,
+.button-list > a.button.small:active > span.button-list-arrow {
+	margin-top: -6px;
+	margin-bottom: -1px;
+}
+.button-list > a.button.small.disabled.active > span.button-list-arrow,
+.button-list > a.button.small.disabled:active > span.button-list-arrow {
+	margin-top: -5px;
+	margin-bottom: -2px;
+}
+.button-list > ul > li:first-child > a > span.button-list-arrow {
+	margin: 0;
+	position: absolute;
+	top: 4px;
+	right: 13px;
+}
+.button-list > a.button.small + ul > li:first-child > a > span.button-list-arrow {top: 3px;}
+.button-list > a.button + * {
+	display: none;
+	background: #fff;
+	padding-bottom: 12px;
+	position: absolute;
+	top: -4px;
+	right: 0;
+	z-index: 1000;
+	border: 1px solid #bab8b2;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.75);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.75);
+}
+.button-list > a.button.small + * {right: -1px;}
+.button-list.active > a.button + * {display: block;}
+.button-list > ul > li {
+	display: block;
+	float: none;
+	text-align: left;
+}
+.button-list > ul > li > a {
+	color: #474747;
+	display: block;
+	padding: 8px 25px 8px 18px;
+	white-space: nowrap;
+	text-align: left;
+	text-shadow: rgba(255,255,255,0.49) 0 1px 1px;
+}
+.button-list > ul > li > a:hover, .button-list > ul > li > a:focus {
+	background: #ebebe3;
+	text-decoration: none;
+}
+.button-list > ul > li:first-child > a,
+.button-list > ul > li:first-child > a:hover,
+.button-list > ul > li:first-child > a:focus {
+	padding: 10px 32px 10px 18px;
+	-moz-border-radius: 12px 12px 0 0;
+	-webkit-border-radius: 12px 12px 0 0;
+	border-radius: 12px 12px 0 0;
+	border-bottom: 1px solid #bab8b2;
+	background: #ede9e1;
+}
+/* @end button */
+
+/* @group form elements */
+form label {vertical-align: baseline;}
+form input[type="radio"], form input[type="checkbox"] {
+	margin: 0 3px 0 0;
+	height: 16px;
+	vertical-align: middle;
+}
+form input[type="radio"] + label, input[type="checkbox"] + label { vertical-align: middle;}
+form h6 {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 18px;
+}
+form dl {
+	display: block;
+	margin: 0 0 22px;
+}
+form dt {
+	display: block;
+	margin: 0 0 6px;
+}
+form dd {
+	display: block;
+	margin: 0;
+}
+form dd span.option {
+	display: block;
+	margin: 10px 0;
+}
+form dd span.option input[type="radio"] {
+	margin-left: 9px;
+}
+input[type="text"] {
+	vertical-align: middle;
+	background-color: #fff;
+}
+input[type="text"].search {
+	border: 1px solid #c1c1c1;
+	height: 18px;
+	width: 132px;
+	background: #fff url(../../../platform/images/search.png) no-repeat 4px 2px;
+	padding-left: 18px;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	-moz-box-shadow: 0px -1px 1px #9b9b9b;
+	-webkit-box-shadow: 0px -1px 1px #9b9b9b;
+	box-shadow: 0px -1px 1px #9b9b9b;
+	border-radius: 12px;
+}
+input[type="text"]:focus, textarea:focus {background-color: #fffde0;}
+
+/*
+ * These are some edge case stylings that we haven't really discussed.
+ * Chatting with the design team, they felt we can have them here, but Apps owns them.
+ */
+samp {display: inline; font: normal 85% "Helvetica Neue", Helvetica, Arial, sans-serif;}
+
+fieldset {vertical-align: middle; display: block; margin: 0; padding: 0;}
+
+input[type="text"].lookup, input[type="text"].filter {
+	height: 18px;
+	border: 1px solid #c1c1c1;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-shadow: 0px -1px 1px #9b9b9b;
+	-webkit-box-shadow: 0px -1px 1px #9b9b9b;
+	box-shadow: 0px -1px 1px #9b9b9b;
+	padding: 4px 10px;
+}
+/* @end form elements */
+
+/* @group print */
+@media print {
+	/* Basic print styles. Can be modified as needed in content.css or apps.css */
+	body,
+	a,
+	#platform-canvas,
+	#platform-canvas-content,
+	#content,
+	#content > * {
+		background: #fff none;
+		color: #000 !important;
+		text-decoration: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	#platform-header,
+	#platform-footer {display: none !important;}
+}
+/* @end print */
+
+.offscreen {
+	position:absolute;
+	left:-9998em;
+}
+
+/*********
+.lds- prefixed styles
+*********/
+.lds-table th.icon {width: 16px;}
+.lds-table th.etc { /* takes up whatever is left*/
+	width:100%;
+}
+
+
+.lds-table { margin-bottom:20px; width:100%; }
+.lds-table td,
+.lds-table th {
+	padding: 7px 10px;
+	border: 1px solid #e5e5e5;
+	border-color:#e5e5e5 #CCC;
+	border-right: none;
+	background:none;
+}
+.lds-table td:first-child,
+.lds-table th:first-child {
+	border-left: none;
+	text-align: left;
+}
+.lds-table th {
+	font: 13px "Lucida Sans", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+	color: $lds__color__stone;
+	text-transform: uppercase;
+	text-align: left;
+	border-top:0;
+	vertical-align:bottom;
+}
+.lds-table td {
+	vertical-align: middle;
+	text-align: left;
+	color: #434444;
+/*	line-height:110%;*/
+}
+
+.lds-table .title1 td {
+	background-color:$lds__color__cloud;
+}
+.lds-table .title1 h2 {
+	color:#514E45;
+	margin:0;
+}
+.lds-table .title2 td {
+	background-color:$lds__color__cement;
+	border-top:1px solid #faf5ed;
+}
+.lds-table .title2 h3 {
+	color:#524d45;
+	margin:0;
+}
+/*
+zebra striped
+	IE 7,8 - get borders
+	all others get stripes
+*/
+.lds-table.zebra td:nth-child(1n) {
+	border:0;
+}
+.lds-table.zebra th {
+	border-left:0;
+}
+.lds-table.zebra .alt-row {
+
+}
+.lds-table.zebra tbody tr:nth-child(2n)
+ {
+	border:0;
+	background:$lds__color__cloud;
+}
+
+
+/* Stacked Form (Labels on the top)
+------------------------------------------------------------------ */
+.lds-form dl {
+	padding: 5px 0;
+	display: inherit;
+	margin:0;
+}
+
+.lds-form dd,
+.lds-form dt {
+	float:none;
+	text-align: left;
+	width: auto;
+	position: relative;
+}
+
+.lds-form dt {
+	font-weight: normal;
+	margin-bottom:6px;
+	color: #000;
+	line-height: inherit;
+}
+
+.lds-form dd {
+	margin:0 0 6px 0;
+}
+
+.lds-form.flowing .error-indicator,
+.lds-form dl .error-indicator {
+	background: transparent url(../../templates/images/ico-sprite-16-v2.png) no-repeat -52px -1484px;
+	float: left;
+	margin-right: 4px;
+}
+
+
+
+/* Table-style form (side-by-side)
+------------------------------------------------------------------ */
+.lds-form .table {
+	display: table;
+	table-layout:fixed;
+	width:auto;
+}
+
+.lds-form .table dl {
+	display: table-row;
+	padding: 5px 0;
+}
+
+.lds-form .table dt,
+.lds-form .table dd {
+	display: table-cell;
+	margin:0;
+	float:none;
+}
+
+.lds-form .table dt {
+	padding:2px 10px 10px 0;
+	vertical-align: top;
+	text-align: right;
+}
+.lds-form .table dt {
+	text-align:left;
+}
+
+.lds-form .table dd {
+	padding: 0 0 14px 0;
+}
+
+.lds-form .table .options-vertical {
+	padding-top: 4px;
+}
+
+.lds-form .readonly dd {
+	padding-top: 2px;
+	white-space: normal;
+}
+
+
+/* Adjustments for stretchy table form - no select because it doesn't play nice with the fixSelect script
+------------------------------------------------------------------ */
+/*.lds-form .table.stretchy { width:100%;}*/
+.lds-form .stretchy input[type="text"],
+.lds-form .stretchy input[type="password"],
+.lds-form .stretchy textarea{
+	width:100%;
+	max-width:100%;
+}
+
+
+/* Flowing Form (Labels on the top)
+------------------------------------------------------------------ */
+.lds-form .flowing dl {
+	display: inherit;
+	padding: 5px 20px 5px 0;
+	float: left;
+	clear:none;
+/*	overflow: hidden;*/
+}
+
+.lds-form .flowing dd,
+.lds-form .flowing dt {
+	float: none;
+	text-align: left;
+	display: block;
+}
+
+.lds-form .flowing dt {
+	padding: 0 0 2px 0;
+}
+
+.lds-form .flowing .options-vertical {
+	margin-top: 0;
+}
+
+
+
+/* Form elements
+------------------------------------------------------------------ */
+.lds-form samp {
+	font-size: 85%;
+	color: #666;
+}
+
+/* select */
+.lds-form .select {
+	color: #46433c;
+	display: inline-block;
+	font: 13px/15px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Arial, Helvetica, sans-serif;
+	padding: 5px 40px 0px 17px;
+	margin: 0 0 3px 0;
+	text-decoration: none;
+	vertical-align: middle;
+	text-shadow: #fff 0 1px 1px;
+	text-shadow: rgba(255,255,255,0.7) 0 1px 1px;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 0 1px 3px rgba(64,63,61,0.7);
+	-webkit-box-shadow: 0 1px 3px rgba(64,63,61,0.7);
+	box-shadow: 0 1px 3px rgba(64,63,57,0.7);
+	background: #e8e5de;
+	background-image: -moz-linear-gradient(top, #f6f4ed, #d8d6d1);
+	background-image: -ms-linear-gradient(top, #f6f4ed, #d8d6d1);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f4ed), to(#d8d6d1));
+	filter: 'progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#f6f4ed, endColorstr=#d8d6d1) progid:DXImageTransform.Microsoft.Shadow(color=#403f3d,direction=120, strength=1)';
+	overflow: hidden;
+	border: 1px solid #bfbdb7\9;
+	border-top-color: #d8d6d0\9;
+	border-bottom-color: #a5a39d\9;
+	position: relative;
+}
+*+html .lds-form .select {
+	width: 1;
+	overflow: visible;
+}
+.lds-form .select:focus,
+.lds-form .select.focus,
+.lds-form .select:hover {
+	background-color: #f0ede5;
+	background-image: -moz-linear-gradient(top, #fffcf5, #e1dfda);
+	background-image: -ms-linear-gradient(top, #fffcf5, #e1dfda);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fffcf5), to(#e1dfda));
+	filter: 'progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#fffcf5, endColorstr=#e1dfda)		progid:DXImageTransform.Microsoft.Shadow(color=#403f3d,direction=120,strength=1)';
+}
+.lds-form .select:active {
+	background-color: #e8e5e0;
+	background-image: -moz-linear-gradient(top, #d9d6d2, #f4f2eb);
+	background-image: -ms-linear-gradient(top, #d9d6d2, #f4f2eb);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#d9d6d2), to(#f4f2eb));
+	filter: 'progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#d9d6d2, endColorstr=#f4f2eb)			progid:DXImageTransform.Microsoft.Shadow(color=#403f3d,direction=120,strength=1)';
+	padding:5px 40px 0 17px; /*need to trump content.css*/
+}
+.ie9 .lds-form .select,
+.ie9 .lds-form .select:focus,
+.ie9 .lds-form .select:hover,
+.ie9 .lds-form .select:active {
+	/* ie9 can't do filter based gradient and rounded corners, so drop gradient */
+	filter:none;
+}
+
+.lds-form .select .text {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-bottom:6px;
+}
+.lds-form .select .arrow {
+	background: url(../../../platform/images/button-list.png) no-repeat 0 center;
+	display: block;
+	height: 23px;
+	width: 15px;
+	position: absolute;
+	right: 17px;
+	top: 0;
+}
+.lds-form .select select {
+	display: block;
+	font: 13px/15px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Arial, Helvetica, sans-serif;
+	border: none;
+	cursor:pointer;
+	height:26px;
+}
+.lds-form .select option {
+	background:#FBF9F3;
+	color:#2F393A;
+}
+/* /select */
+
+.lds-form .error-indicator {
+	background: transparent url(../../../platform/images/ico-sprite-16-v2.png) no-repeat -52px -1484px;
+	width: 16px;
+	height: 0;
+	padding-top: 16px;
+	overflow: hidden;
+	display: inline-block;
+	float: none;
+	margin: 0;
+	position: relative;
+	top: 2px;
+	right: -4px;
+}
+
+.lds-form dl.error dt{color:#bc0000;}
+
+/* text/textarea */
+.lds-form input,
+.lds-form textarea {
+	border-top: 1px solid #b2b2b1;
+	border-left: 1px solid #c4c4c3;
+	border-right: 1px solid #c4c4c3;
+	border-bottom: 1px solid #d6d6d5;
+	-webkit-border-radius: .3em;
+	-moz-border-radius: .3em;
+	border-radius: .3em;
+	background:#FFF;
+	-webkit-box-shadow: 0px 1px 3px #ddd inset;
+	-moz-box-shadow: 0px 1px 3px #ddd inset;
+	box-shadow: 0px 1px 3px #ddd inset;
+	padding: 4px 5px;
+	font-size: 15px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #535353;
+	height:28px;
+	max-width:200px;
+	width:100%;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+.lds-form input:focus,
+.lds-form textarea:focus{
+	border-top: 1px solid #848D9B;
+	border-left: 1px solid #99A4B6;
+	border-right: 1px solid #99A4B6;
+	border-bottom: 1px solid #AFB9C7;
+}
+
+.lds-form input[disabled],
+.lds-form textarea[disabled],
+.lds-form .select.disabled{
+	opacity:.6;
+}
+/* http://blog.ajcw.com/2011/02/styling-the-html5-placeholder/ You have to use two rules, because user agents are required to ignore a rule with an unknown selector. */
+.lds-form input::-webkit-input-placeholder {
+	color: #9E9E9E;
+	font:italic 14px Georgia,"Times New Roman",Times,serif !important;
+}
+.lds-form :-moz-placeholder {
+	color: #9E9E9E !important; /*normal input color was trumping without important*/
+	font:italic 14px Georgia,"Times New Roman",Times,serif !important;
+}
+/* @group watermark */
+.lds-form .ui-watermark-container { position: relative; /*overflow: hidden;*/ display: inline-block; }
+.lds-form .stretchy .ui-watermark-container { display:block;}
+.lds-form .ui-watermark-label { position: absolute; cursor: text;  white-space: nowrap; color: #9E9E9E;
+font:italic 14px Georgia,"Times New Roman",Times,serif !important; line-height:19px; }
+.lds-form .ui-watermark-textarea .ui-watermark-label { white-space: normal; }
+
+/* @end */
+
+/*Input Sizes - using because you apparently want to trump any existing sizes*/
+.lds-form input.xxxl, .lds-form select.xxxl { width:100%; max-width:600px; }
+.lds-form input.xxl, .lds-form select.xxl { width:100%; max-width:300px; }
+.lds-form input.xl, .lds-form select.xl { width:100%; max-width:200px; }
+.lds-form input.lg, .lds-form select.lg { width:100%; max-width:150px; }
+.lds-form input.md, .lds-form select.md { width:100%; max-width:100px; }
+.lds-form input.sm, .lds-form select.sm { width:100%; max-width:50px; }
+.lds-form input.xs, .lds-form select.xs { width:100%; max-width:20px; }
+
+.lds-form textarea { height:auto;} /* compensate for the 18px height set above, that isn't needed on textareas*/
+.lds-form textarea.xxxl { width:100%; max-width:600px;height:300px; }
+.lds-form textarea.xxl { width:100%; max-width:300px;height:150px; }
+.lds-form textarea.xl { width:100%; max-width:200px;height:100px; }
+.lds-form textarea.lg { width:100%; max-width:150px;height:75px; }
+.lds-form textarea.md { width:100%; max-width:100px;height:50px; }
+.lds-form textarea.sm { width:100%; max-width:50px;height:25px; }
+.lds-form textarea.xs { width:100%; max-width:20px;height:20px; }
+/* /text/textarea */
+
+/* file */
+/* try to make something out of the input type="file" */
+.lds-file-fixer {
+	position:relative;
+}
+.lds-file-fixer .lds-file {
+	opacity:.001;
+	position:absolute;
+	left:0;
+	filter:Alpha(Opacity=.001);
+}
+.lds-fakefile { margin-right:7px;}
+/* /file */
+
+
+
+/* checkbox/radio */
+.lds-option {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	padding-bottom:5px;
+}
+.options-horizontal .lds-option { display:inline-block; margin:0 10px 2px 0; }
+
+label + .lds-option,
+input + .lds-option {
+	margin-right: 20px;
+}
+
+.lds-option > input {
+	padding: 0;
+	margin: 0;
+	border:0;
+	height: 17px;
+	width: 17px;
+	float: left;
+	position: absolute;
+	opacity: .001; /* hack for testing tools like selenium. They require opacity to not be 0. This meets that, but doesn't appear to be displayed at all. No color shift even. */
+}
+.lds-option > input[disabled]{
+	opacity:0;
+}
+
+.lds-option > label {
+	display:block;
+	line-height: 18px;
+	padding: 0 0 0 23px;
+}
+/* CSS Only radio/checkbox.  All of the :not(x) is to prevent ie8 from applying styles */
+/* normalize the styling of the checkbox/radio so it can match the CSS version */
+.lds-option > input[type=checkbox]:not(x),
+.lds-option > input[type=radio]:not(x){
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /*clear out some extra space*/
+  margin:0;
+  /*position it so it will match up with the CSS based version*/
+  position: absolute;
+  left: 0;
+  top:0;
+  height: 13px;
+  width: 13px;
+  opacity: 0.001;
+  float: left;
+  z-index: 1;
+}
+.lds-option > input[type=checkbox]:not(x) + label,
+.lds-option > input[type=radio]:not(x) + label{
+  position:relative;
+  display:inline-block;
+  text-indent:0px;
+  color:#666;
+  padding-left:20px;
+}
+/*the "box" or background of checkbox and radio, UNCHECKED */
+.lds-option > input[type=checkbox]:not(x) + label:before,
+.lds-option > input[type=radio]:not(x) + label:before{
+  content:"";
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+  border: 1px solid #939393;
+  border-radius: 4px;
+  margin:0;
+  position:absolute;
+  top:1px;
+  left:0;
+  margin-right:10px;
+
+  background: #e6e6e6; /* Old browsers */
+  background: -moz-linear-gradient(top,  #e6e6e6 0%, #b8b8b8 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  #e6e6e6 0%,#b8b8b8 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #e6e6e6 0%,#b8b8b8 100%); /* Opera 11.10+ */
+  background: linear-gradient(to bottom,  #e6e6e6 0%,#b8b8b8 100%); /* W3C */
+}
+/*mousedown/active when UNCHECKED*/
+.lds-option > input[type=checkbox]:not(x):active + label:before,
+.lds-option > input[type=radio]:not(x):active + label:before{
+	background: #b8b8b8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #b8b8b8 0%, #e6e6e6 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top,  #b8b8b8 0%,#e6e6e6 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #b8b8b8 0%,#e6e6e6 100%); /* Opera 11.10+ */
+	background: linear-gradient(to bottom,  #b8b8b8 0%,#e6e6e6 100%); /* W3C */
+}
+/* make the radio round */
+.lds-option > input[type=radio]:not(x) + label:before {
+  border-radius:500px;
+}
+/*the active indicator styling (checkmark or circle) */
+.lds-option > input[type=checkbox]:not(x) + label:after,
+.lds-option > input[type=radio]:not(x) + label:after{
+  position:absolute;
+  top:0px;
+  left:4px;
+  text-indent: 0;
+  content: "";
+  line-height:15px;
+  font-size:13px;
+  color:#fff;
+  text-shadow: 1px -1px 1px rgba(0,0,0,.4);
+}
+/* radio doesn't use an icon, just a rounded pseudo element, so use box-shadow instead of text-shadow */
+.lds-option > input[type=radio]:not(x) + label:after{
+	box-shadow: 0px -1px 1px rgba(0,0,0,.4);
+}
+
+/* active indicator for a checkbox */
+.lds-option > input[type=checkbox]:not(x):checked + label:after {
+  font-family:ldsicon;
+  font-size:70%;
+  display:inline-block;
+  left:3px;
+  top:1px;
+  content: "\e004";
+}
+/* active indicator for a radio */
+.lds-option > input[type=radio]:not(x):checked + label:after {
+  /*or use your icon font checkmark of choice*/
+  content: "";
+  background:white;
+  border-radius:500px;
+  height:5px;
+  width:5px;
+  top:6px;
+  left:5px;
+}
+/*CHECKED*/
+.lds-option > input[type=checkbox]:not(x):checked + label:before,
+.lds-option > input[type=radio]:not(x):checked + label:before{
+  border-color:#5d687a;
+  background: #bec8d8; /* Old browsers */
+  background: -moz-linear-gradient(top,  #bec8d8 0%, #9aa5b6 13%, #59667b 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  #bec8d8 0%,#9aa5b6 13%,#59667b 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #bec8d8 0%,#9aa5b6 13%,#59667b 100%); /* Opera 11.10+ */
+  background: linear-gradient(to bottom,  #bec8d8 0%,#9aa5b6 13%,#59667b 100%); /* W3C */
+}
+/*mousedown/active when CHECKED, inverse of*/
+.lds-option > input[type=checkbox]:not(x):active:checked + label:before,
+.lds-option > input[type=radio]:not(x):active:checked + label:before{
+	background: #59667b; /* Old browsers */
+	background: -moz-linear-gradient(top,  #59667b 0%, #9aa5b6 87%, #bec8d8 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top,  #59667b 0%,#9aa5b6 87%,#bec8d8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #59667b 0%,#9aa5b6 87%,#bec8d8 100%); /* Opera 11.10+ */
+	background: linear-gradient(to bottom,  #59667b 0%,#9aa5b6 87%,#bec8d8 100%); /* W3C */
+}
+
+/*hover effect for all states (except disabled)*/
+.lds-option > input[type=checkbox]:not(x) + label:hover:before,
+.lds-option > input[type=checkbox]:not(x):focus + label:before,
+.lds-option > input[type=checkbox]:not(x):hover + label:before,
+.lds-option > input[type=radio]:not(x) + label:hover:before,
+.lds-option > input[type=radio]:not(x):focus + label:before,
+.lds-option > input[type=radio]:not(x):hover + label:before{
+  box-shadow: 0 0 4px rgba(0,0,0,.5);
+}
+
+
+/* DISABLED and UNCHECKED */
+.lds-option > input[type=checkbox]:not(x):disabled + label:before,
+.lds-option > input[type=checkbox]:not(x):disabled + label:hover:before,
+.lds-option > input[type=checkbox]:not(x):disabled:focus + label:before,
+.lds-option > input[type=checkbox]:not(x):disabled:hover + label:before,
+.lds-option > input[type=radio]:not(x):disabled + label:before,
+.lds-option > input[type=radio]:not(x):disabled + label:hover:before,
+.lds-option > input[type=radio]:not(x):disabled:focus + label:before,
+.lds-option > input[type=radio]:not(x):disabled:hover + label:before{
+	background: #f1f1f1; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f1f1f1 0%, #dfdfdf 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top,  #f1f1f1 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f1f1f1 0%,#dfdfdf 100%); /* Opera 11.10+ */
+	background: linear-gradient(to bottom,  #f1f1f1 0%,#dfdfdf 100%); /* W3C */
+	box-shadow:none;
+	border-color:#ccc;
+}
+/* DISABLED and CHECKED */
+.lds-option > input[type=checkbox]:not(x):disabled:checked + label:after,
+.lds-option > input[type=radio]:not(x):disabled:checked + label:after{
+  color:#fff;
+  text-shadow:0 -1px #707988;
+}
+.lds-option > input[type=checkbox]:not(x):disabled:checked + label:before,
+.lds-option > input[type=checkbox]:not(x):disabled:checked + label:hover:before,
+.lds-option > input[type=radio]:not(x):disabled:checked + label:before,
+.lds-option > input[type=radio]:not(x):disabled:checked + label:hover:before{
+	border-color:#999;
+	background: #d3d3d3; /* Old browsers */
+	background: -moz-linear-gradient(top,  #d3d3d3 0%, #bfbfbf 13%, #999999 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top,  #d3d3d3 0%,#bfbfbf 13%,#999999 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #d3d3d3 0%,#bfbfbf 13%,#999999 100%); /* Opera 11.10+ */
+	background: linear-gradient(to bottom,  #d3d3d3 0%,#bfbfbf 13%,#999999 100%); /* W3C */
+}
+.box-only:not(x) > input + label{
+  /* yes, the mega indent makes a big box, but can't find another way to hide it without doing overflow:hidden, which crops box-shadow */
+  text-indent:-99em;
+  width:15px;
+  padding-left:0;
+}
+/* end CSS Only radio/checkbox.
+/* end basic form elements */
+
+
+
+/* @group lds-button */
+input[type="submit"].lds-button,
+input[type="submit"].lds-button.disabled,
+.lds-button,
+.lds-button:link,
+.lds-button:visited,
+.lds-button.disabled,
+.lds-button.disabled:hover,
+.lds-button.disabled:active,
+.lds-button.disabled:focus {
+	color: #46433c;
+	display: inline-block;
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Arial, Helvetica, sans-serif;
+	border: none;
+	padding: 4px 17px;
+	margin: 0 5px 0 0;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	text-shadow: #fff 0 1px 1px;
+	text-shadow: rgba(255,255,255,0.7) 0 1px 1px;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 0 1px 3px rgba(64,63,61,0.7);
+	-webkit-box-shadow: 0 1px 3px rgba(64,63,61,0.7);
+	box-shadow: 0 1px 3px rgba(64,63,57,0.7);
+	background: #e8e5de;
+	background-image: -moz-linear-gradient(top, #f6f4ed, #d8d6d1);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f4ed), to(#d8d6d1));
+	filter: 	'progid:DXImageTransform.Microsoft.Shadow(color=#403f3d, direction=120, strength=1)';
+/*	progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#f6f4ed, endColorstr=#d8d6d1) */
+
+}
+
+/* Fix for https://bugzilla.mozilla.org/show_bug.cgi?id=349259 compensate for line-height with reduction in padding */
+.mozilla button.lds-button { padding: 1.3px 8px 2px }
+.mozilla input.lds-button { padding: 1.3px 8px 2px }
+
+.webkit button.lds-button { margin:0;}
+
+input[type="submit"].lds-button:hover,
+input[type="submit"].lds-button:focus,
+.lds-button:hover,
+.lds-button:focus {
+/*	color: #000;*/
+	background-color: #f0ede5;
+	background-image: -moz-linear-gradient(top, #fffcf5, #e1dfda);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fffcf5), to(#e1dfda));
+	filter: 'progid:DXImageTransform.Microsoft.Shadow(color=#403f3d,direction=120,strength=1)';
+	/*progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#fffcf5, endColorstr=#e1dfda) */
+	filter:none;
+}
+
+.lds-button:focus {
+	color: #000;
+	-webkit-box-shadow: 0 1px 4px rgba(0,0,0,.5);
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,.5);
+	box-shadow: 0 1px 4px rgba(0,0,0,.5);
+}
+
+.lds-button:active{
+	background-color: #e8e5e0;
+	background-image: -moz-linear-gradient(top, #d9d6d2, #f4f2eb);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#d9d6d2), to(#f4f2eb));
+	filter: 'progid:DXImageTransform.Microsoft.Shadow(color=#403f3d,direction=120,strength=1)';
+	/*progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorstr=#d9d6d2, endColorstr=#f4f2eb) */
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.2);
+	-moz-box-shadow: 0 1px 0 #fff;
+	box-shadow: 0 1px 0 #fff;
+	border-bottom: 1px solid #adadad;
+	border-top: 1px solid #818181;
+}
+
+.lds-button.disabled,
+.lds-button.disabled:hover,
+.lds-button.disabled:active,
+.lds-button.disabled:focus {
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	cursor: default;
+	color:inherit;
+	background-color:inherit;
+}
+
+.lds-button.disabled:focus {
+	text-shadow:inherit;
+}
+
+input[type="submit"].lds-button.primary,
+input[type="submit"].lds-button.disabled.primary:hover,
+.lds-button.primary,
+.lds-button.primary:link,
+.lds-button.primary:visited,
+.lds-button.disabled.primary:hover,
+.lds-button.disabled.primary:active,
+.lds-button.disabled.primary:focus {
+	color: #fff;
+	background: #A9B76B;
+	background: -webkit-gradient(linear, left top, left bottom, from(#c7d397), to(#6c7a2f), color-stop(0.04, #abba6d) );
+	background: -moz-linear-gradient(top, #c7d397 0pt, #abba6d 4%, #6c7a2f 100%);
+	background: -ms-linear-gradient(top, #c7d397 0pt, #abba6d 4%, #6c7a2f 100%);
+	background: linear-gradient(top, #c7d397 0pt, #abba6d 4%, #6c7a2f 100%);
+/*	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#abba6d', endColorstr='#6c7a2f');*/
+	text-shadow: #303e53 0 -1px 0;
+	border-top: 1px solid #929b5a;
+	border-left: 1px solid #808f43;
+	border-right: 1px solid #808f43;
+	border-bottom: 1px solid #586524;
+}
+
+input[type="submit"].lds-button.primary:hover,
+input[type="submit"].lds-button.primary:focus,
+.lds-button.primary:hover,
+.lds-button.primary:focus {
+	color: #fff;
+	background: #9FA960;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#b7c080), to(#5c6626), color-stop(0.04, #9fa960) );
+	background-image: -moz-linear-gradient(top, #b7c080 0pt, #9fa960 4%, #5c6626 100%);
+	background-image: -ms-linear-gradient(top, #b7c080 0pt, #9fa960 4%, #5c6626 100%);
+	background-image: linear-gradient(top, #b7c080 0pt, #9fa960 4%, #5c6626 100%);
+/*	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#b7c080', endColorstr='#5c6626');*/
+	text-shadow: #303e53 0 -1px 0;
+	border-top: 1px solid #757e3f;
+	border-left: 1px solid #707a37;
+	border-right: 1px solid #707a37;
+	border-bottom: 1px solid #484f1b;
+}
+input[type="submit"].lds-button.primary:active,
+.lds-button.primary:active {
+	color: #fff;
+	background: #848B52;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#949c59), to(#abba6d) );
+	background-image: -moz-linear-gradient(top, #949c59, #abba6d);
+	background-image: -ms-linear-gradient(top, #949c59, #abba6d);
+	background-image: linear-gradient(top, #949c59, #abba6d);
+/*	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#949c59', endColorstr='#abba6d');*/
+	text-shadow: #303e53 0 -1px 0;
+	border-top: 1px solid #586524;
+	border-bottom: 1px solid #929b5a;
+}
+
+input[type="submit"].lds-button.secondary,
+.lds-button.secondary,
+.lds-button.secondary:link,
+.lds-button.secondary:visited,
+.lds-button.disabled.secondary:hover,
+.lds-button.disabled.secondary:active,
+.lds-button.disabled.secondary:focus {
+	color: #fff;
+	background: #98A3B4;
+	background: -webkit-gradient(linear, left top, left bottom, from(#bec6d2), to(#5c697e), color-stop(0.04, #9aa5b6) );
+	background: -moz-linear-gradient(top, #bec6d2 0pt, #9aa5b6 4%, #5c697e 100%);
+	background: -ms-linear-gradient(top, #bec6d2 0pt, #9aa5b6 4%, #5c697e 100%);
+	background: linear-gradient(top, #bec6d2 0pt, #9aa5b6 4%, #5c697e 100%);
+/*	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9aa5b6', endColorstr='#5c697e');*/
+	text-shadow: #303e53 0 -1px 0;
+	border-top: 1px solid #848d9b;
+	border-left: 1px solid #5c6779;
+	border-right: 1px solid #5c6779;
+	border-bottom: 1px solid #313f54;
+}
+
+input[type="submit"].lds-button.secondary:focus,
+.lds-button.secondary:hover,
+.lds-button.secondary:focus {
+	background: #758195;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8b1bf), to(#525e71), color-stop(0.04, #909bac) );
+	background: -moz-linear-gradient(top, #a8b1bf 0pt, #909bac 4%, #525e71 100%);
+	background: -ms-linear-gradient(top, #a8b1bf 0pt, #909bac 4%, #525e71 100%);
+	background: linear-gradient(top, #a8b1bf 0pt, #909bac 4%, #525e71 100%);
+/*	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#909bac', endColorstr='#525e71');*/
+	border-top: 1px solid #79818f;
+	border-left: 1px solid #505a6b;
+	border-right: 1px solid #505a6b;
+	border-bottom: 1px solid #283446;
+	text-shadow: #303e53 0 -1px 0;
+}
+
+.lds-button.secondary:active{
+	color: #fff;
+	background: #5D6A7E;
+	background: -webkit-gradient(linear, left top, left bottom, from(#5f6a7d), to(#808b9c) );
+	background: -moz-linear-gradient(top, #5f6a7d, #808b9c);
+	background: -ms-linear-gradient(top, #5f6a7d, #808b9c);
+	background: linear-gradient(top, #5f6a7d, #808b9c);
+/*	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5f6a7d', endColorstr='#808b9c');*/
+	border-top: 1px solid #313f54;
+	border-bottom: 1px solid #5c6779;
+}
+input[type="submit"].lds-button.text,
+.lds-button.text,
+.lds-button.text:active,
+.lds-button.text:hover,
+.lds-button.text:link,
+.lds-button.text:visited,
+.lds-button.text.disabled:hover{
+	color:#6483b7;
+	background:none;
+	box-shadow:none;
+	text-decoration:none;
+	border:none;
+	filter:none;
+}
+.lds-button.text:hover {
+	color:#3B4B6D;
+	text-decoration:underline;
+}
+
+/* @end */
+/*********
+/ .lds- prefixed styles
+*********/
+
+/*http://snook.ca/archives/html_and_css/hiding-content-for-accessibility*/
+.invisible {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/* Warning banner for unsupported IE browsers */
+.browser-alert {
+	background-color: #FFF;
+	box-shadow: -3px 12px 18px rgba(42, 55, 83, 0.7);
+	padding: 8px;
+	margin: 0 auto 20px;
+	width: 960px;
+}
+.fluid .browser-alert {
+	width: 100%;
+}
+div#ldsgh {
+	z-index:1200;
+}
+@media screen and (max-width: 700px){
+	.pf-responsive #platform {
+		min-width:0;
+	}
+	.pf-responsive #platform-canvas-content {
+		width:100%;
+	}
+	.pf-responsive input[type="text"] {
+		/* max-width: 100%; */
+	}
+}
