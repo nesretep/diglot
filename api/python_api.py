@@ -9,9 +9,10 @@ import re
 
 CHUNK_REGEX = "([A-Z][A-Z]):[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
-book_dict = {"1 Nephi": 1, "2 Nephi": 2, "Jacob": 3, "Enos": 4, "Jarom": 5,
-             "Omni": 6, "Words of Mormon": 7, "Mosiah": 8, "Alma": 9, "Helaman": 10,
-             "3 Nephi": 11, "4 Nephi": 12, "Mormon": 13, "Ether": 14, "Moroni": 15}
+books = {"1-Nephi": "01", "2-Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
+             "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
+             "3-Nephi": "11", "4-Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
+
 
 @bottle.route('/<book>/<chapter>')
 def get_chapter(book, chapter):
@@ -25,7 +26,7 @@ def get_chapter(book, chapter):
     # TODO: Should this also return the corresponding info for the secondary language?
     pass
 
-
+# No route since it is a helper function
 def get_flipped_words():
     """
     Get list of all the words for the chapter that have already been flipped.
@@ -39,7 +40,7 @@ def get_flipped_words():
 @bottle.route('/chunk/<uid>')
 def get_one_chunk(uid):
     """
-    Get one Chunk from the database.
+    Get one Chunk from the database and return it to the function caller.
 
     :param uid: (str) the uid for the Chunk requested.
     :return chunk: (Chunk) The Chunk with the uid specified in the function call.
@@ -47,7 +48,7 @@ def get_one_chunk(uid):
     pass
 
 
-@bottle.route('')
+@bottle.route('/flip/<uid>')
 def flip_one_chunk(uid):
     """
     Sets one Chunk as flipped in the database.
@@ -60,7 +61,7 @@ def flip_one_chunk(uid):
     pass
 
 
-@bottle.route('')
+@bottle.route('/update')
 def set_flipped_list(chunks):
     """
     Updates the database with Chunks that were flipped in that session
@@ -73,7 +74,7 @@ def set_flipped_list(chunks):
     pass
 
 
-@bottle.route('')
+# @bottle.route('')
 def past_critical_point():
     """
     Checks if user is past critical point
@@ -83,8 +84,8 @@ def past_critical_point():
     pass
 
 
-@bottle.route('')
-def set_user_level(level):
+@bottle.route('/prefs/<uid>/<level>')
+def set_user_level(uid, level):
     """
     Sets the user's level in their user preferences.
 
@@ -96,8 +97,8 @@ def set_user_level(level):
     pass
 
 
-@bottle.route('')
-def set_user_language(p_lang, s_lang):
+@bottle.route('/prefs/<uid>/<p_lang>-<s_lang>')  # Not sure if this url format will work
+def set_user_language(uid, p_lang, s_lang):
     """
     Sets the user's language preferences.
 
@@ -108,3 +109,21 @@ def set_user_language(p_lang, s_lang):
             Error message if there was an error, None if no error
     """
     pass
+
+
+def convert_url_to_uid(url):
+    """
+    Convert uids from the URL format to the normal format and verifies the uid is in the proper format
+
+    :param url: The uid in URL format with the colons as %3A
+    :return uid: Valid uid as long as url matches a proper uid once converted
+    :return: None is returned if url isn't formatted properly once converted
+    """
+    mylist = url.split("%3A")
+    uid = "{lang}:{book}:{chap}:{verse}:{pos}".format(lang=mylist[0], book=mylist[1], chap=mylist[2],
+                                                      verse=mylist[4], pos=mylist[5])
+    pattern = re.complie(CHUNK_REGEX)
+    if pattern.match(uid) is True:
+        return uid
+    else:
+        return None
