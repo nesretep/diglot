@@ -5,13 +5,14 @@
 
 import bottle
 import re
+import json
 # import mysql.connector as mariadb
 
 CHUNK_REGEX = "([A-Z][A-Z]):[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 books = {"1-Nephi": "01", "2-Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
-             "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
-             "3-Nephi": "11", "4-Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
+         "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
+         "3-Nephi": "11", "4-Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 
 @bottle.route('/<book>/<chapter>')
@@ -24,7 +25,19 @@ def get_chapter(book, chapter):
     :return chapter_chunks: list of Chunks for the chapter requested
     """
     # TODO: Should this also return the corresponding info for the secondary language?
+    # retrieve language needed from database
+    uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
+    chapter_list = []
+    # Query database for all chunks for the given book and chapter
+    # Create a Chunk object for each, append Chunk to chapter_list
+    for item in query_result:
+        chapter_list.append(Chunk())  # fill in required attributes for a Chunk
+    # sort chapter_list and then convert it to JSON format
+    chapter_list = sort(chapter_list)
+    # return JSON-ified version of chapter_list
+    return json.dumps(chapter_list)
     pass
+
 
 # No route since it is a helper function
 def get_flipped_words():
@@ -115,15 +128,32 @@ def convert_url_to_uid(url):
     """
     Convert uids from the URL format to the normal format and verifies the uid is in the proper format
 
-    :param url: The uid in URL format with the colons as %3A
-    :return uid: Valid uid as long as url matches a proper uid once converted
+    :param url: (str) The uid in URL format with the colons as %3A
+    :return uid: (str) Valid uid as long as url matches a proper uid once converted
     :return: None is returned if url isn't formatted properly once converted
     """
     mylist = url.split("%3A")
     uid = "{lang}:{book}:{chap}:{verse}:{pos}".format(lang=mylist[0], book=mylist[1], chap=mylist[2],
                                                       verse=mylist[4], pos=mylist[5])
-    pattern = re.complie(CHUNK_REGEX)
-    if pattern.match(uid) is True:
+    if is_valid_uid(uid) is True:
         return uid
+    else:
+        return None
+
+
+def is_valid_uid(uid, type):
+    """
+    Validator function to make sure uids are in the proper format
+
+    :param uid: (str) the uid to validate
+    :param type: type of uid pattern to check against
+    :return: result of the regex pattern checking (True/False) against the pattern specified by 'type'
+    """
+    chunk_pattern = re.compile(CHUNK_REGEX)
+    mp_pattern = re.compile(MP_REGEX)
+    if type.lower() == "chunk":
+        return bool(chunk_pattern.match(uid))
+    elif type.lower() == "mp":
+        return bool(mp_pattern.match(uid))
     else:
         return None
