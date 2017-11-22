@@ -48,3 +48,6 @@ class Chunk(object):
             return -1
         else:
             return 0
+
+    def to_dict(self):
+        return self.__dict__

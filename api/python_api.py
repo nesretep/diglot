@@ -15,8 +15,8 @@ books = {"1-Nephi": "01", "2-Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom":
          "3-Nephi": "11", "4-Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 
-@bottle.route('/<book>/<chapter>')
-def get_chapter(book, chapter):
+@bottle.route('/<lang>/<book>/<chapter>')
+def get_chapter(lang, book, chapter):
     """
     To return all chunks for the given chapter in JSON format
 
@@ -25,10 +25,12 @@ def get_chapter(book, chapter):
     :return chapter_chunks: list of Chunks for the chapter requested
     """
     # TODO: Should this also return the corresponding info for the secondary language?
-    # retrieve language needed from database
+
     uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
     chapter_list = []
-    # Query database for all chunks for the given book and chapter
+    # Connect to database
+    # Construct query
+    # Execute Query to database to retrieve all chunks for the given book and chapter
     # Create a Chunk object for each, append Chunk to chapter_list
     for item in query_result:
         chapter_list.append(Chunk())  # fill in required attributes for a Chunk
@@ -36,7 +38,6 @@ def get_chapter(book, chapter):
     chapter_list = sort(chapter_list)
     # return JSON-ified version of chapter_list
     return json.dumps(chapter_list)
-    pass
 
 
 # No route since it is a helper function
@@ -47,7 +48,8 @@ def get_flipped_words():
 
     :return words: (list) Chunk uids to flip
     """
-    pass
+    # Query database for uids of words already flipped
+    return json.dumps(query_results)
 
 
 @bottle.route('/chunk/<uid>')
@@ -58,7 +60,9 @@ def get_one_chunk(uid):
     :param uid: (str) the uid for the Chunk requested.
     :return chunk: (Chunk) The Chunk with the uid specified in the function call.
     """
-    pass
+    # Query database for chunk
+    # Create Chunk object
+    return json.dumps(chunk.__dict__)
 
 
 @bottle.route('/flip/<uid>')
@@ -71,7 +75,8 @@ def flip_one_chunk(uid):
             True to confirm it was flipped, False to indicate an error
             Error message if there was an error, None if no error
     """
-    pass
+    # Update record for chunk with matching uid to set
+    return confirm_flip
 
 
 @bottle.route('/update')
@@ -107,7 +112,8 @@ def set_user_level(uid, level):
             True to indicate update was successful, False if error
             Error message if there was an error, None if no error
     """
-    pass
+    # run update query to database for given uid to set level to level given.
+    return confirm_level_set
 
 
 @bottle.route('/prefs/<uid>/<p_lang>-<s_lang>')  # Not sure if this url format will work
