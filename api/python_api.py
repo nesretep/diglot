@@ -27,9 +27,8 @@ def get_chapter(lang, book, chapter):
 
     chap_uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
     chapter_list = []
-    # Connect to database
-    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
 
+    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
     # Construct query: use SQL Alchemy functions to do it if possible
     query = ""
 
@@ -39,7 +38,7 @@ def get_chapter(lang, book, chapter):
     try:
         query_result = connection.execute(query)
         trans.commit()
-    except:
+    except BaseException:
         trans.rollback()
         raise
 
@@ -65,7 +64,20 @@ def get_flipped_words():
     :return words: (list) Chunk uids to flip
     """
     # Query database for uids of words already flipped
-    return json.dumps(query_results)
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+    except BaseException:
+        trans.rollback()
+        raise
+    # TODO: Check format of results, they probably need reformatting!
+    connection.close()
+    return json.dumps(list(query_result))
 
 
 @bottle.route('/chunk/<uid>')
@@ -77,8 +89,22 @@ def get_one_chunk(uid):
     :return chunk: (Chunk) The Chunk with the uid specified in the function call.
     """
     # Query database for chunk
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+    except BaseException:
+        trans.rollback()
+        raise
     # Create Chunk object
-    return json.dumps(chunk.__dict__)
+    chunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'], query_result['rank'],
+                        query_result['flipped'], query_result['tag'], query_result['suggested'])
+    connection.close()
+    return json.dumps(chunk.to_dict())
 
 
 @bottle.route('/flip/<uid>')
@@ -92,6 +118,20 @@ def flip_one_chunk(uid):
             Error message if there was an error, None if no error
     """
     # Update record for chunk with matching uid to set
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+        confirm_flip = True
+    except Exception:
+        trans.rollback()
+        confirm_flip = False
+        raise
+    connection.close()
     return confirm_flip
 
 
