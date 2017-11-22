@@ -28,7 +28,7 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
     chapter_list = []
     # Connect to database
-    engine = helper.connect_to_db("sqlalchemy")
+    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
 
     # Construct query: use SQL Alchemy functions to do it if possible
     query = ""
@@ -49,9 +49,9 @@ def get_chapter(lang, book, chapter):
         chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'],
                                         item['flipped'], item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
-    chapter_list = sort(chapter_list)
+    chapter_list = sorted(chapter_list)
     # Close database connection
-    query_result.close()
+    connection.close()
     # return JSON-ified version of chapter_list
     return json.dumps(chapter_list)
 
