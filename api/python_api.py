@@ -4,14 +4,11 @@
 # trying out writing a basic API
 
 import bottle
-import re
 import json
 import chunk
 import helper
 import sqlalchemy
 
-CHUNK_REGEX = "([A-Z][A-Z]):[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
-MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
@@ -28,12 +25,12 @@ def get_chapter(lang, book, chapter):
     """
     # TODO: Should this also return the corresponding info for the secondary language?
 
-    uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
+    chap_uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
     chapter_list = []
     # Connect to database
     engine = helper.connect_to_db("sqlalchemy")
 
-    # Construct query
+    # Construct query: use SQL Alchemy functions to do it if possible
     query = ""
 
     # Execute Query to database to retrieve all chunks for the given book and chapter
@@ -135,7 +132,8 @@ def set_user_level(uid, level):
     return confirm_level_set
 
 
-@bottle.route('/prefs/<uid>/<p_lang>-<s_lang>')  # Not sure if this url format will work
+# TODO: Verify whether or not this URL format will work the way we intend it to
+@bottle.route('/prefs/<uid>/<p_lang>-<s_lang>')
 def set_user_language(uid, p_lang, s_lang):
     """
     Sets the user's language preferences.
@@ -147,4 +145,3 @@ def set_user_language(uid, p_lang, s_lang):
             Error message if there was an error, None if no error
     """
     pass
-

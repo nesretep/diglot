@@ -4,7 +4,11 @@
 import ConfigParser
 import pymysql as mariadb
 import sqlalchemy
+import re
 import logging
+
+CHUNK_REGEX = "([A-Z][A-Z]):[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
+MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
 
 def connect_to_db(connect_type, config_path):
