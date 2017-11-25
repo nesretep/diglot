@@ -13,6 +13,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
+# TODO: Check all route decorators with Daniel
 @bottle.post('/login')
 def do_login():
     """
@@ -84,32 +85,6 @@ def get_chapter(lang, book, chapter):
     return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
-# No route since it is a helper function
-def get_flipped_words():
-    """
-    Get list of all the words for the chapter that have already been flipped.
-    Helper function for use in get_chapter()
-
-    :return words: (list) Chunk uids to flip
-    """
-    # Query database for uids of words already flipped
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.BoundMetaData(engine)
-    connection = engine.connect()
-    trans = connection.begin()
-    query = ""
-
-    try:
-        query_result = connection.execute(query)
-        trans.commit()
-    except BaseException:
-        trans.rollback()
-        raise
-    # TODO: Check format of results, they probably need reformatting!
-    connection.close()
-    return json.dumps(list(query_result))
-
-
 @bottle.route('/chunk/<uid>')
 def get_one_chunk(uid):
     """
@@ -146,7 +121,7 @@ def get_one_chunk(uid):
         return None
 
 
-@bottle.route('/flip/<uid>')
+@bottle.post('/flip/<uid>')
 def flip_one_chunk(uid):
     """
     Sets one Chunk as flipped in the database.

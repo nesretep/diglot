@@ -78,3 +78,29 @@ def check_login(username, password):
     :return: boolean indicating the success or failure of the login attempt
     """
     return True
+
+
+def get_flipped_words():
+    """
+    Get list of all the words for the chapter that have already been flipped.
+    Helper function for use in get_chapter()
+
+    :return words: (list) Chunk uids to flip
+    """
+    # Query database for uids of words already flipped
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    metadata = sqlalchemy.BoundMetaData(engine)
+    connection = engine.connect()
+    trans = connection.begin()
+    # TODO: Write the query to get flipped words
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+    except BaseException:
+        trans.rollback()
+        raise
+    # TODO: Check format of results, they probably need reformatting!
+    connection.close()
+    return json.dumps(list(query_result))
