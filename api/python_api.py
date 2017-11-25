@@ -13,8 +13,32 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
+@bottle.post('/login')
+def do_login():
+    """
+    Gets the username and password that was sent in the form ans performs authentication
 
-@bottle.route('/<lang>/<book>/<chapter>')
+    :return: boolean
+    """
+    username = bottle.request.forms.get('username')
+    password = bottle.request.forms.get('password')
+    return helper.check_login(username, password)
+
+
+@bottle.get('/static/<filename>')
+def get_static(filename):
+    """
+    This function facilitates the retrieval of static files as needed.
+
+    :param filename: name of static file requested
+    :return: the file that was requested
+    """
+    static_webroot = "/var/www/html/static/"
+    path = "{}{}".format(static_webroot, filename)
+    return bottle.static_file(filename, root=static_webroot)
+
+
+@bottle.get('/<lang>/<book>/<chapter>')
 def get_chapter(lang, book, chapter):
     """
     To return all chunks for the given chapter in JSON format
@@ -26,13 +50,16 @@ def get_chapter(lang, book, chapter):
     # TODO: Should this also return the corresponding info for the secondary language?
 
     chap_uid = "{}:{}:{}:{}:{}".format(lang, books[book], chapter, "00", "00")
-    chapter_list = []
+    chapter_list = []  # list to hold Chunk objects
 
+    # Query prep work
     engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
-    # Construct query: use SQL Alchemy functions to do it if possible
-    query = ""
+    metadata = sqlalchemy.BoundMetaData(engine)
+    table = sqlalchemy.Table(lang, metadata, autoload=True)
+    # TODO: Check the syntax of the substr function call
+    query = table.select(func.substr(table.c.uid, 0, 8))
 
-    # Execute Query to database to retrieve all chunks for the given book and chapter
+    # Connect to database and perform the query
     connection = engine.connect()
     trans = connection.begin()
     try:
@@ -42,17 +69,19 @@ def get_chapter(lang, book, chapter):
         trans.rollback()
         raise
 
-    # Create a Chunk object for each, append Chunk to chapter_list
+    # Create a Chunk object for each chunk in query results, append Chunk to list
     for item in query_result:
         # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this
         chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'],
                                         item['flipped'], item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
+    flipped_words = sorted(get_flipped_words())
     # Close database connection
     connection.close()
-    # return JSON-ified version of chapter_list
-    return json.dumps(chapter_list)
+
+    # return JSON-ified version of chapter_list and flipped words in a json of jsons
+    return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
 # No route since it is a helper function
@@ -65,6 +94,7 @@ def get_flipped_words():
     """
     # Query database for uids of words already flipped
     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
     query = ""
@@ -86,15 +116,18 @@ def get_one_chunk(uid):
     Get one Chunk from the database and return it to the function caller.
 
     :param uid: (str) the uid for the Chunk requested.
-    :return chunk: (Chunk) The Chunk with the uid specified in the function call.
+    :return: (Chunk) The Chunk with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
     if helper.is_valid_uid(uid, "chunk"):
         # Query database for chunk
         engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        metadata = sqlalchemy.BoundMetaData(engine)
         connection = engine.connect()
         trans = connection.begin()
-        query = ""
+        lang = uid.split(":")[0]
+        table = sqlalchemy.Table(lang, metadata, autoload=True)
+        query = table.select(table.c.uid == uid)
 
         try:
             query_result = connection.execute(query)
@@ -103,9 +136,11 @@ def get_one_chunk(uid):
             trans.rollback()
             raise
         # Create Chunk object
-        mychunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'], query_result['rank'],
-                            query_result['flipped'], query_result['tag'], query_result['suggested'])
+        mychunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'],
+                              query_result['rank'], query_result['flipped'], query_result['tag'],
+                              query_result['suggested'])
         connection.close()
+
         return json.dumps(mychunk.to_dict())
     else:
         return None
@@ -124,6 +159,7 @@ def flip_one_chunk(uid):
     if helper.is_valid_uid(uid, "chunk"):
         # Update record for chunk with matching uid to set
         engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        metadata = sqlalchemy.BoundMetaData(engine)
         connection = engine.connect()
         trans = connection.begin()
         query = ""
@@ -153,6 +189,7 @@ def set_flipped_list(chunks):
             Error message if there was an error, None if invalid uid
     """
     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
     chunks = json.loads(chunks)
@@ -178,6 +215,7 @@ def past_critical_point():
     :return critical: (boolean) True if past critical point, False if not
     """
     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
     query = ""
@@ -200,6 +238,7 @@ def set_user_level(uid, level):
     """
     # run update query to database for given uid to set level to level given.
     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
     query = ""
@@ -230,6 +269,7 @@ def set_user_language(uid, p_lang, s_lang):
     """
     if helper.is_valid_uid(uid, "chunk"):
         engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        metadata = sqlalchemy.BoundMetaData(engine)
         connection = engine.connect()
         trans = connection.begin()
         query = ""
