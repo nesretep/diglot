@@ -67,3 +67,14 @@ def is_valid_uid(uid, type):
         return bool(mp_pattern.match(uid))
     else:
         return None
+
+
+def check_login(username, password):
+    """
+    This is a placerholder function for some sort af actual authentication setup.
+
+    :param username: username of user being authenticated
+    :param password: the user's password
+    :return: boolean indicating the success or failure of the login attempt
+    """
+    return True
