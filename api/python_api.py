@@ -87,24 +87,28 @@ def get_one_chunk(uid):
 
     :param uid: (str) the uid for the Chunk requested.
     :return chunk: (Chunk) The Chunk with the uid specified in the function call.
+    :return None: returns None if uid is not valid
     """
-    # Query database for chunk
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    connection = engine.connect()
-    trans = connection.begin()
-    query = ""
+    if helper.is_valid_uid(uid, "chunk"):
+        # Query database for chunk
+        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        connection = engine.connect()
+        trans = connection.begin()
+        query = ""
 
-    try:
-        query_result = connection.execute(query)
-        trans.commit()
-    except BaseException:
-        trans.rollback()
-        raise
-    # Create Chunk object
-    chunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'], query_result['rank'],
-                        query_result['flipped'], query_result['tag'], query_result['suggested'])
-    connection.close()
-    return json.dumps(chunk.to_dict())
+        try:
+            query_result = connection.execute(query)
+            trans.commit()
+        except BaseException:
+            trans.rollback()
+            raise
+        # Create Chunk object
+        mychunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'], query_result['rank'],
+                            query_result['flipped'], query_result['tag'], query_result['suggested'])
+        connection.close()
+        return json.dumps(mychunk.to_dict())
+    else:
+        return None
 
 
 @bottle.route('/flip/<uid>')
@@ -115,24 +119,27 @@ def flip_one_chunk(uid):
     :param uid: (str) The Chunk uid that needs to be set as flipped.
     :return confirm_flip: (tuple) (boolean, str/None)
             True to confirm it was flipped, False to indicate an error
-            Error message if there was an error, None if no error
+            Error message if there was an error, None if invalid uid
     """
-    # Update record for chunk with matching uid to set
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    connection = engine.connect()
-    trans = connection.begin()
-    query = ""
+    if helper.is_valid_uid(uid, "chunk"):
+        # Update record for chunk with matching uid to set
+        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        connection = engine.connect()
+        trans = connection.begin()
+        query = ""
 
-    try:
-        query_result = connection.execute(query)
-        trans.commit()
-        confirm_flip = True
-    except Exception:
-        trans.rollback()
-        confirm_flip = False
-        raise
-    connection.close()
-    return confirm_flip
+        try:
+            query_result = connection.execute(query)
+            trans.commit()
+            confirm_flip = True
+        except Exception:
+            trans.rollback()
+            confirm_flip = False
+            raise
+        connection.close()
+        return confirm_flip
+    else:
+        return None
 
 
 @bottle.route('/update')
@@ -143,9 +150,24 @@ def set_flipped_list(chunks):
     :param chunks: (list) Chunks to be set as flipped in the database
     :return confirm_list_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
-            Error message if there was an error, None if no error
+            Error message if there was an error, None if invalid uid
     """
-    pass
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    chunks = json.loads(chunks)
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+        confirm_list_set = True
+    except Exception:
+        trans.rollback()
+        confirm_list_set = False
+        raise
+    connection.close()
+    return confirm_list_set
 
 
 # @bottle.route('')
@@ -155,7 +177,15 @@ def past_critical_point():
 
     :return critical: (boolean) True if past critical point, False if not
     """
-    pass
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    query = ""
+    """
+        Something goes here...
+    """
+
+    return critical
 
 
 @bottle.route('/prefs/<uid>/<level>')
@@ -166,9 +196,23 @@ def set_user_level(uid, level):
     :param level: (int) Indicates the difficulty the user is comfortable with
     :return confirm_level_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
-            Error message if there was an error, None if no error
+            Error message if there was an error, None if invalid uid
     """
     # run update query to database for given uid to set level to level given.
+    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+    connection = engine.connect()
+    trans = connection.begin()
+    query = ""
+
+    try:
+        query_result = connection.execute(query)
+        trans.commit()
+        confirm_level_set = True
+    except Exception:
+        trans.rollback()
+        confirm_level_set = False
+        raise
+    connection.close()
     return confirm_level_set
 
 
@@ -182,6 +226,23 @@ def set_user_language(uid, p_lang, s_lang):
     :param s_lang: (str) 2 character ISO 639-1 designation for the user's secondary language.
     :return confirm_lang_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
-            Error message if there was an error, None if no error
+            Error message if there was an error, None if invalid uid
     """
-    pass
+    if helper.is_valid_uid(uid, "chunk"):
+        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
+        connection = engine.connect()
+        trans = connection.begin()
+        query = ""
+
+        try:
+            query_result = connection.execute(query)
+            trans.commit()
+            confirm_lang_set = True
+        except Exception:
+            trans.rollback()
+            confirm_lang_set = False
+            raise
+        connection.close()
+        return confirm_lang_set
+    else:
+        return None
