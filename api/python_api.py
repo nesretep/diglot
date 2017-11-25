@@ -13,7 +13,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
-# TODO: Check all route decorators with Daniel
+# TODO: Check all route decorators with Daniel to make sure they make sense
 @bottle.post('/login')
 def do_login():
     """
@@ -121,7 +121,7 @@ def get_one_chunk(uid):
         return None
 
 
-@bottle.post('/flip/<uid>')
+@bottle.patch('/flip/<uid>')
 def flip_one_chunk(uid):
     """
     Sets one Chunk as flipped in the database.
@@ -137,7 +137,8 @@ def flip_one_chunk(uid):
         metadata = sqlalchemy.BoundMetaData(engine)
         connection = engine.connect()
         trans = connection.begin()
-        query = ""
+        # TODO: Write this query for flipping one chunk
+        query =
 
         try:
             query_result = connection.execute(query)
@@ -153,7 +154,7 @@ def flip_one_chunk(uid):
         return None
 
 
-@bottle.route('/update')
+@bottle.patch('/update')
 def set_flipped_list(chunks):
     """
     Updates the database with Chunks that were flipped in that session
@@ -168,6 +169,9 @@ def set_flipped_list(chunks):
     connection = engine.connect()
     trans = connection.begin()
     chunks = json.loads(chunks)
+    # TODO: Figure out how to best structure this data and then process it.
+    for uid in chunks:
+
     query = ""
 
     try:
@@ -201,7 +205,7 @@ def past_critical_point():
     return critical
 
 
-@bottle.route('/prefs/<uid>/<level>')
+@bottle.patch('/prefs/<uid>/<level>')
 def set_user_level(uid, level):
     """
     Sets the user's level in their user preferences.
@@ -216,6 +220,7 @@ def set_user_level(uid, level):
     metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
+    # TODO: Write query to set user's level
     query = ""
 
     try:
@@ -247,6 +252,7 @@ def set_user_language(uid, p_lang, s_lang):
         metadata = sqlalchemy.BoundMetaData(engine)
         connection = engine.connect()
         trans = connection.begin()
+        # TODO: Write query to set a user's primary and secondary language
         query = ""
 
         try:
