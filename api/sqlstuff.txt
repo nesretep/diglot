@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS "language here" (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, master_position CHAR(12) NOT NULL UNIQUE KEY, natural_position CHAR(16) NOT NULL UNIQUE KEY, chunk_value TEXT NOT NULL, rank SMALLINT UNSIGNED);
+
+CREATE TABLE IF NOT EXISTS spa (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, master_position CHAR(12) NOT NULL UNIQUE KEY, natural_position CHAR(16) NOT NULL UNIQUE KEY, chunk_value TEXT NOT NULL, rank SMALLINT UNSIGNED);
+
+CREATE TABLE IF NOT EXISTS "language here"_media (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, natural_position CHAR(16) NOT NULL, CONSTRAINT `natural_pos_const` FOREIGN KEY (natural_position) REFERENCES "language here" (natural_position) ON DELETE CASCADE ON UPDATE RESTRICT, audio_path TEXT, definition MEDIUMTEXT, tag LONGTEXT) engine=innodb;
+
+CREATE TABLE IF NOT EXISTS spa_media (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, natural_position CHAR(15) NOT NULL, CONSTRAINT `natural_pos_const` FOREIGN KEY (natural_position) REFERENCES eng (natural_position) ON DELETE CASCADE ON UPDATE RESTRICT, audio_path TEXT, definition MEDIUMTEXT, tag LONGTEXT) engine=innodb;
+
+CREATE TABLE IF NOT EXISTS user_settings (user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, origin_lang CHAR(3), current_target_lang CHAR(3));
+
+CREATE TABLE IF NOT EXISTS user_lm (user_id INT UNSIGNED NOT NULL, CONSTRAINT `user_id_const` FOREIGN KEY (user_id) REFERENCES user_settings (user_id) ON DELETE CASCADE ON UPDATE RESTRICT, target_language CHAR(3), rank SMALLINT UNSIGNED, current_position CHAR(16), is_flipped LONGTEXT, suggested_list LONGTEXT) engine=innodb;
+
+CREATE TABLE IF NOT EXISTS languages (iso_code CHAR(3) NOT NULL PRIMARY KEY, lang_name TEXT NOT NULL);
+
+
+diglotadmin - CYn8%T`qZ6%.8!@2
+
+diglotapi - >EAj!mwzY(g39c"Q
