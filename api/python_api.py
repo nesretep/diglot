@@ -13,6 +13,16 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
+# TODO: This will be removed before going into production
+@bottle.route('/')
+def testme():
+    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
+    metadata = sqlalchemy.MetaData(engine)
+    table = sqlalchemy.Table("ENG", metadata, autoload=True)
+    query = table.select()
+
+
+
 # TODO: Check all route decorators with Daniel to make sure they make sense
 @bottle.post('/login')
 def do_login():
@@ -24,7 +34,6 @@ def do_login():
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     return json.dumps(helper.check_login(username, password))
-    # return "you logged in"
     # return json.dumps(chunk.Chunk("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
 
 @bottle.get('/static/<filename>')
@@ -61,7 +70,7 @@ def get_chapter(lang, book, chapter):
     # table2 = sqlalchemy.Table("user_lm", metadata, autoload=True)
     # TODO: Check the syntax of the substr function call; finish join query
     # join1 = sqlalchemy.join(table1, table2, )
-    query1 = table.select(sqlalchemy.func.substr(table.c.uid, 1, 8) == chap_uid)
+    query1 = table1.select(sqlalchemy.func.substr(table.c.uid, 1, 8) == chap_uid)
 
 
     # Connect to database and perform the query
@@ -290,8 +299,8 @@ def get_suggestions(lang, level):
     trans = connection.begin()
     table = sqlalchemy.Table(lang, metadata, autoload=True)
     # TODO: Write query to get the next (3?) suggested chunks from the database based on the chapter they are in
-    query = table.select(and_(sqlalchemy.func.substr(table.c.uid, 1, 8), table.c.rank == level,
-                              table.c.suggested == False))
+    query = table.select(sqlalchemy.and_(sqlalchemy.func.substr(table.c.uid, 1, 8), table.c.rank == level,
+                         table.c.suggested == False))
 
     try:
         query_result = connection.execute(query)
@@ -307,4 +316,7 @@ def get_suggestions(lang, level):
 
 
 # TODO: Be sure to turn off debug before this goes into production
-bottle.run(host='localhost', port=8000, debug=True, reloader=True)
+if __name__ == '__main__':
+    bottle.run(host='localhost', port=8000, debug=True, reloader=True)
+else:
+    app = application = bottle.default_app()
