@@ -34,7 +34,7 @@ def testme():
 
 
 # TODO: Check all route decorators with Daniel to make sure they make sense
-@bottle.post('/login')
+@bottle.route('/login')
 def do_login():
     """
     Gets the username and password that was sent in the form ans performs authentication
