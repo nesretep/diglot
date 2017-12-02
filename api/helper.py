@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import ConfigParser
+import configparser
 import pymysql as mariadb
 import sqlalchemy
 import re
@@ -19,16 +19,19 @@ def connect_to_db(connect_type, config_path):
     :param config_path: (str) the path to the configuration file
     :return: connection object for the connection type specified in connect_type
     """
-    config = ConfigParser.SafeConfigParser()
+    config = configparser.ConfigParser()
     config.read(config_path)  # do we want to just hard code the file path rather than passing it in?
-    username = config.get('database', 'username')
-    password = config.get('database', 'password')
-    database = config.get('database', 'database')
-    hostname = config.get('database', 'hostname')
+    username = config['database']['username']
+    password = config['database'][ 'password']
+    database = config['database'][ 'database']
+    hostname = config['database']['hostname']
 
     if connect_type == "mariadb":
-        dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
-        return dbconnect
+        try:
+            dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
+            return dbconnect
+        except Exception as dberror:
+            raise
     elif connect_type == "sqlalchemy":
         engine = sqlalchemy.create_engine('mysql+pymysql://{}:{}@{}/{}'.format(username, password, hostname, database))
         return engine

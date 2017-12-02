@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!usr/bin/env python2
 # -*- coding: utf-8 -*-
 # filename: python_api.py
 # trying out writing a basic API
@@ -7,7 +7,8 @@ import bottle
 import json
 import chunk
 import helper
-import sqlalchemy
+# import pymysql 
+# import sqlalchemy
 
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
@@ -15,23 +16,20 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
-@bottle.route('/')
+@bottle.get('/')
 def testme():
-    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
-    metadata = sqlalchemy.MetaData(engine)
-    table = sqlalchemy.Table("ENG", metadata, autoload=True)
-    query = table.select()
-    connection = engine.connect()
-    trans = connection.begin()
+    uid = "eng:01:01:01:001"
     try:
-        query_result = connection.execute(query)
-        trans.commit()
-    except BaseException:
-        trans.rollback()
+        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        cursor = db.cursor()
+        # query = "SELECT uid, text FROM eng WHERE uid=%s"
+        query = "SHOW tables"
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return "result: {}".format(result)
+    except Exception as error:
         raise
-    for item in query_result:
-        print item
-
 
 # TODO: Check all route decorators with Daniel to make sure they make sense
 @bottle.route('/login')
@@ -327,6 +325,7 @@ def get_suggestions(lang, level):
 
 # TODO: Be sure to turn off debug before this goes into production
 if __name__ == '__main__':
-    bottle.run(host='192.168.80.0', port=8000, debug=True, reloader=True)
+    bottle.run(host='localhost', port=8000, debug=True, reloader=True)
 else:
     app = application = bottle.default_app()
+
