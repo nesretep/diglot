@@ -13,7 +13,8 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
-# TODO: This will be removed before going into production
+
+# TODO: This will be removed before going into production and probably replaced with another function
 @bottle.route('/')
 def testme():
     engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
@@ -30,7 +31,6 @@ def testme():
         raise
     for item in query_result:
         print item
-
 
 
 # TODO: Check all route decorators with Daniel to make sure they make sense
@@ -80,7 +80,7 @@ def get_chapter(lang, book, chapter):
     # table2 = sqlalchemy.Table("user_lm", metadata, autoload=True)
     # TODO: Check the syntax of the substr function call; finish join query
     # join1 = sqlalchemy.join(table1, table2, )
-    query1 = table1.select(sqlalchemy.func.substr(table.c.uid, 1, 8) == chap_uid)
+    query1 = table1.select(sqlalchemy.func.substr(table1.c.uid, 1, 8) == chap_uid)
 
 
     # Connect to database and perform the query
