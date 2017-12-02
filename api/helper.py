@@ -92,7 +92,7 @@ def get_flipped_words():
     """
     # Query database for uids of words already flipped
     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.MetaData(engine)
+    metadata = sqlalchemy.BoundMetaData(engine)
     connection = engine.connect()
     trans = connection.begin()
     # TODO: Write the query to get flipped words
