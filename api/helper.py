@@ -91,18 +91,15 @@ def get_flipped_words():
     :return words: (list) Chunk uids to flip
     """
     # Query database for uids of words already flipped
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.BoundMetaData(engine)
-    connection = engine.connect()
-    trans = connection.begin()
-    # TODO: Write the query to get flipped words
-    query = ""
-
     try:
-        query_result = connection.execute(query)
-        trans.commit()
-    except BaseException:
-        trans.rollback()
+        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        cursor = db.cursor()
+        # query = "SELECT uid, text FROM eng WHERE uid=%s"
+        query = "SHOW tables"
+        cursor.execute(query)
+        query_result = cursor.fetchall()
+        cursor.close()
+    except Exception as error:
         raise
     # TODO: Check format of results, they probably need reformatting!
     connection.close()

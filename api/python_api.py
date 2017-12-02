@@ -72,35 +72,28 @@ def get_chapter(lang, book, chapter):
     chapter_list = []  # list to hold Chunk objects
 
     # Query prep work
-    engine = helper.connect_to_db("sqlalchemy", "conf/diglot.conf")
-    metadata = sqlalchemy.MetaData(engine)
-    table1 = sqlalchemy.Table(lang, metadata, autoload=True)
-    # table2 = sqlalchemy.Table("user_lm", metadata, autoload=True)
-    # TODO: Check the syntax of the substr function call; finish join query
-    # join1 = sqlalchemy.join(table1, table2, )
-    query1 = table1.select(sqlalchemy.func.substr(table1.c.uid, 1, 8) == chap_uid)
-
-
-    # Connect to database and perform the query
-    connection = engine.connect()
-    trans = connection.begin()
     try:
-        query_result = connection.execute(query1)
-        trans.commit()
-    except BaseException:
-        trans.rollback()
-        raise
+        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        cursor = db.cursor()
+    except Exception as db_connect_error:
+        return db_connect_error
+        # query = "SELECT uid, text FROM eng WHERE uid=%s"
+        query = "SHOW tables"
+    try:
+        cursor.execute(query)
+        query_result = cursor.fetchall()
+        cursor.close()
+    except Exception as query_error:
+        return query_error
 
     # Create a Chunk object for each chunk in query results, append Chunk to list
     for item in query_result:
-        # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this
+        # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this!
         chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'],
                                         item['flipped'], item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
     flipped_words = sorted(helper.get_flipped_words())
-    # Close database connection
-    connection.close()
 
     # return JSON-ified version of chapter_list and flipped words in a json of jsons
     return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
@@ -117,19 +110,15 @@ def get_one_chunk(uid):
     """
     if helper.is_valid_uid(uid, "chunk"):
         # Query database for chunk
-        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-        metadata = sqlalchemy.MetaData(engine)
-        connection = engine.connect()
-        trans = connection.begin()
-        lang = uid.split(":")[0]
-        table = sqlalchemy.Table(lang, metadata, autoload=True)
-        query = table.select(table.c.uid == uid)
-
         try:
-            query_result = connection.execute(query)
-            trans.commit()
-        except BaseException:
-            trans.rollback()
+            db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+            cursor = db.cursor()
+            # query = "SELECT uid, text FROM eng WHERE uid=%s"
+            query = "SHOW tables"
+            cursor.execute(query)
+            query_result = cursor.fetchall()
+            cursor.close()
+        except Exception as error:
             raise
         # Create Chunk object
         # TODO: Fix creation of chunk object.  Not all data will be provided by current query!
