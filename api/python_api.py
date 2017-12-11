@@ -7,7 +7,6 @@ import bottle
 import json
 import chunk
 import helper
-# import pymysql 
 # import sqlalchemy
 
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
@@ -313,8 +312,9 @@ def get_suggestions(lang, level):
 
 
 # TODO: Be sure to turn off debug before this goes into production
-if __name__ == '__main__':
-    bottle.run(host='localhost', port=8000, debug=True, reloader=True)
-else:
-    app = application = bottle.default_app()
+# if __name__ == '__main__':
+#     bottle.run(host='192.168.80.0', port=8000, debug=True, reloader=True)
+# else:
+#     app = application = bottle.default_app()
 
+bottle.run(host='localhost', port=8000, debug=True, reloader=True)
