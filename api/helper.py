@@ -11,20 +11,25 @@ CHUNK_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
 
-def connect_to_db(connect_type, config_path):
+def connect_to_db(config_path, adminuser=False):
     """
     Connects to the database defined in the configuration file given
 
     :param connect_type: (str) tells which connection method to use to connect to the db (either mariadb or sqlalchemy)
     :param config_path: (str) the path to the configuration file
+    :param adminuser: (boolean) indicates whether to connect to the database with the admin user or not
     :return: connection object for the connection type specified in connect_type
     """
     config = configparser.ConfigParser()
     config.read(config_path)  # do we want to just hard code the file path rather than passing it in?
-    username = config['database']['username']
-    password = config['database'][ 'password']
     database = config['database'][ 'database']
     hostname = config['database']['hostname']
+    if adminuser is True:
+        username = config['admin']['username']
+        password = config['admin']['password']
+    else:
+        username = config['api']['username']
+        password = config['api']['password']
 
     if connect_type == "mariadb":
         try:
@@ -32,9 +37,6 @@ def connect_to_db(connect_type, config_path):
             return dbconnect
         except Exception as dberror:
             raise
-    elif connect_type == "sqlalchemy":
-        engine = sqlalchemy.create_engine('mysql+pymysql://{}:{}@{}/{}'.format(username, password, hostname, database))
-        return engine
 
 
 def convert_url_to_uid(url):

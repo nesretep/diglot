@@ -19,7 +19,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        db = helper.connect_to_db("conf/diglot.conf")
         cursor = db.cursor()
         # query = "SELECT uid, text FROM eng WHERE uid=%s"
         query = "SHOW tables"
