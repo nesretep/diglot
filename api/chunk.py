@@ -6,7 +6,7 @@ class Chunk(object):
         Class object for a chunk of text
 
         Attributes:
-            uid (str)         : the unique ID of the chunk in the format LANG:#:#:#:#
+            uid (str)         : the unique ID of the chunk in the format LANG:##:##:##:###
             text (str)        : the actual Book of Mormon text of the chunk
             masterpos (str)   : master position this Chunk is connected to
             flipped (bool)    : False represents not flipped, True represents flipped

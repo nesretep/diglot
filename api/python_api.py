@@ -77,21 +77,23 @@ def get_chapter(lang, book, chapter):
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor()
     except Exception as db_connect_error:
-        return db_connect_error
-        # query = "SELECT uid, text FROM eng WHERE uid=%s"
-        query = "SHOW tables"
+        return "Database connection error: {}".format(db_connect_error)
+
+    # query = "SELECT uid, text FROM eng WHERE uid=%s"
+    query = "SHOW tables"
+
     try:
         cursor.execute(query)
         query_result = cursor.fetchall()
         cursor.close()
     except Exception as query_error:
-        return query_error
+        return "Database query failed: {}".format(query_error)
 
     # Create a Chunk object for each chunk in query results, append Chunk to list
     for item in query_result:
         # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this!
-        chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'],
-                                        item['flipped'], item['tag'], item['suggested']))
+        chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
+                                        item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
     flipped_words = sorted(helper.get_flipped_words())
