@@ -29,7 +29,7 @@ def testme():
         cursor.close()
         return "result: {}".format(result)
     except Exception as error:
-        raise
+        return "Exception occurred: {}".format(error)
 
 # TODO: Check all route decorators with Daniel to make sure they make sense
 @bottle.route('/login')
@@ -43,6 +43,7 @@ def do_login():
     password = bottle.request.forms.get('password')
     return json.dumps(helper.check_login(username, password))
     # return json.dumps(chunk.Chunk("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
+
 
 @bottle.get('/static/<filename>')
 def get_static(filename):
@@ -61,8 +62,8 @@ def get_chapter(lang, book, chapter):
     """
     To return all chunks for the given chapter in JSON format
 
-    :param lang: (str) 2 character ISO 639-1 designation for the language
-    :param book: (str) the book requested
+    :param lang: (str) 3 character ISO 639-3 designation for the language
+    :param book: (str) the book requested in the format described by the dict 'books'
     :param chapter: (str) the chapter in the book requested
     :return chapter_chunks: list of Chunks for the chapter requested
     """
@@ -73,7 +74,7 @@ def get_chapter(lang, book, chapter):
 
     # Query prep work
     try:
-        db = helper.connect_to_db("mariadb", dbconf)
+        db = helper.connect_to_db(dbconf)
         cursor = db.cursor()
     except Exception as db_connect_error:
         return db_connect_error
@@ -111,7 +112,7 @@ def get_one_chunk(uid):
     if helper.is_valid_uid(uid, "chunk"):
         # Query database for chunk
         try:
-            db = helper.connect_to_db("mariadb", dbconf)
+            db = helper.connect_to_db(dbconf)
             cursor = db.cursor()
             # query = "SELECT uid, text FROM eng WHERE uid=%s"
             query = "SHOW tables"
@@ -144,23 +145,24 @@ def flip_one_chunk(uid):
     """
     if helper.is_valid_uid(uid, "chunk"):
         # Update record for chunk with matching uid to set
-        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-        metadata = sqlalchemy.MetaData(engine)
-        connection = engine.connect()
-        trans = connection.begin()
-
-        # TODO: Write this query for flipping one chunk
-        query = ""
-
         try:
-            query_result = connection.execute(query)
-            trans.commit()
+            db = helper.connect_to_db(dbconf)
+            cursor = db.cursor()
+            # query = "SELECT uid, text FROM eng WHERE uid=%s"
+            query = "SHOW tables"
+            cursor.execute(query)
+            query_result = cursor.fetchall()
+            cursor.close()
+        # TODO: Write this query for flipping one chunk
+        except Exception as error:
+            raise
+        try:
+
             confirm_flip = True
         except Exception:
-            trans.rollback()
             confirm_flip = False
             raise
-        connection.close()
+        cursor.close()
         return confirm_flip
     else:
         return None

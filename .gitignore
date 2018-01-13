@@ -2,3 +2,5 @@
 \.idea/
 
 *.xml
+
+api/__pycache__/

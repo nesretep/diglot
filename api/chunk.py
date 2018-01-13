@@ -39,7 +39,7 @@ class Chunk(object):
         """
         Comparison function for the class; compares based on in-verse position
 
-        :param other (int): position value from other object
+        :param other: (Chunk Object) other chunk object being compared
         :return (int)     : number that indicates which is greater
         """
         if self.verse > other.verse:
