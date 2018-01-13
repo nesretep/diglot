@@ -3,7 +3,6 @@
 
 import configparser
 import pymysql as mariadb
-import sqlalchemy
 import re
 import logging
 
@@ -31,12 +30,11 @@ def connect_to_db(config_path, adminuser=False):
         username = config['api']['username']
         password = config['api']['password']
 
-    if connect_type == "mariadb":
-        try:
-            dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
-            return dbconnect
-        except Exception as dberror:
-            raise
+    try:
+        dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
+        return dbconnect
+    except Exception as dberror:
+        raise
 
 
 def convert_url_to_uid(url):

@@ -1,4 +1,4 @@
-#!usr/bin/env python2
+#!usr/bin/env python3
 # -*- coding: utf-8 -*-
 # filename: python_api.py
 # trying out writing a basic API
@@ -7,11 +7,12 @@ import bottle
 import json
 import chunk
 import helper
-# import sqlalchemy
+# import requests
 
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
+dbconf = "conf/diglot.conf"
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
@@ -19,9 +20,9 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        db = helper.connect_to_db("conf/diglot.conf")
+        db = helper.connect_to_db(dbconf)
         cursor = db.cursor()
-        # query = "SELECT uid, text FROM eng WHERE uid=%s"
+        # query = "SELECT * FROM eng_test"
         query = "SHOW tables"
         cursor.execute(query)
         result = cursor.fetchone()
@@ -72,7 +73,7 @@ def get_chapter(lang, book, chapter):
 
     # Query prep work
     try:
-        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        db = helper.connect_to_db("mariadb", dbconf)
         cursor = db.cursor()
     except Exception as db_connect_error:
         return db_connect_error
@@ -110,7 +111,7 @@ def get_one_chunk(uid):
     if helper.is_valid_uid(uid, "chunk"):
         # Query database for chunk
         try:
-            db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+            db = helper.connect_to_db("mariadb", dbconf)
             cursor = db.cursor()
             # query = "SELECT uid, text FROM eng WHERE uid=%s"
             query = "SHOW tables"
@@ -312,9 +313,9 @@ def get_suggestions(lang, level):
 
 
 # TODO: Be sure to turn off debug before this goes into production
-# if __name__ == '__main__':
-#     bottle.run(host='192.168.80.0', port=8000, debug=True, reloader=True)
-# else:
-#     app = application = bottle.default_app()
+if __name__ == '__main__':
+    bottle.run(host='localhost', port=8000, debug=True, reloader=True)
+else:
+    app = application = bottle.default_app()
 
-bottle.run(host='localhost', port=8000, debug=True, reloader=True)
+# bottle.run(host='localhost', port=8000, debug=True, reloader=True)
