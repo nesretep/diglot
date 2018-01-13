@@ -1,3 +1,10 @@
+++++++++++++++++++++++++++++++++++++++++++DATABASE CREATION+++++++++++++++++++++++++++++++++++++++++++++++++
+
+CREATE DATABASE IF NOT EXISITS diglot 
+  CHARACTER SET = 'utf8'
+  COLLATE = 'utf32_general_ci';
+++++++++++++++++++++++++++++++++++++++++++TABLE CREATION++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 CREATE TABLE IF NOT EXISTS "language here" (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, master_position CHAR(12) NOT NULL UNIQUE KEY, natural_position CHAR(16) NOT NULL UNIQUE KEY, chunk_value TEXT NOT NULL, rank SMALLINT UNSIGNED);
 
 CREATE TABLE IF NOT EXISTS spa (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, master_position CHAR(12) NOT NULL UNIQUE KEY, natural_position CHAR(16) NOT NULL UNIQUE KEY, chunk_value TEXT NOT NULL, rank SMALLINT UNSIGNED);
@@ -12,7 +19,17 @@ CREATE TABLE IF NOT EXISTS user_lm (user_id INT UNSIGNED NOT NULL, CONSTRAINT `u
 
 CREATE TABLE IF NOT EXISTS languages (iso_code CHAR(3) NOT NULL PRIMARY KEY, lang_name TEXT NOT NULL);
 
-CREATE TABLE IF NOT EXISTS chapter_list (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, chapter_id CHAR(9))
+CREATE TABLE IF NOT EXISTS "language here"_chapter_list (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, chapter_id CHAR(9))
+
+++++++++++++++++++++++++++++++++++++++++++USER CREATION+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CREATE USER IF NOT EXISTS 'diglotadmin'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON  diglot.* to 'diglotadmin'@'localhost' WITH GRANT OPTION;
+
+CREATE USER IF NOT EXISTS 'diglotapi'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT on diglot.* to 'diglotapi'@'localhost';
+GRANT UPDATE ON diglot.user_lm to 'diglotapi'@'localhost';
+GRANT UPDATE ON diglot.user_settings to 'diglotapi'@'localhost';
 
 diglotadmin - CYn8-T#qZ6-.8!@2
 
