@@ -16,11 +16,11 @@ dbconf = "conf/diglot.conf"
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
-@bottle.get('/test')
+@bottle.get('/')
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        db = helper.connect_to_db(dbconf)
+        db = helper.connect_to_db(dbconf, adminuser=True)
         cursor = db.cursor()
         # query = "SELECT * FROM eng_test"
         query = "SHOW tables"
