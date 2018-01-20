@@ -17,7 +17,7 @@ class Chunk(object):
             chapter (int)     : the chapter the Chunk is in
             book (int)        : a numeric representation of the book the Chunk is in with 1 Nephi being 1 and so on
             lang (str)        : the two-letter ISO designation for the language the Chunk is in
-            suggested (?)     : Not sure what we're doing with this yet
+            suggested (int)   : 0- not suggested, 1- suggested, 2- suggested, but not flipped
     """
     def __init__(self, uid, text, masterpos, rank, flipped=False, tag={}, suggested=False):
         self.uid = uid
@@ -27,6 +27,7 @@ class Chunk(object):
         self.flipped = flipped
         self.tag = tag
         self.suggested = suggested
+        # self.cf_id = cf_id
 
         self.pos = int(self.uid.split(":")[4])
         self.verse = int(self.uid.split(":")[3])

@@ -16,7 +16,7 @@ dbconf = "conf/diglot.conf"
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
-@bottle.get('/')
+@bottle.get('/test')
 def testme():
     uid = "eng:01:01:01:001"
     try:
