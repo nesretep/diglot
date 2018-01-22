@@ -83,24 +83,4 @@ def check_login(username, password):
     return True
 
 
-def get_flipped_words():
-    """
-    Get list of all the words for the chapter that have already been flipped.
-    Helper function for use in get_chapter()
 
-    :return words: (list) Chunk uids to flip
-    """
-    # Query database for uids of words already flipped
-    try:
-        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
-        cursor = db.cursor()
-        # query = "SELECT uid, text FROM eng WHERE uid=%s"
-        query = "SHOW tables"
-        cursor.execute(query)
-        query_result = cursor.fetchall()
-        cursor.close()
-    except Exception as error:
-        raise
-    # TODO: Check format of results, they probably need reformatting!
-    connection.close()
-    return json.dumps(list(query_result))

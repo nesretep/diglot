@@ -1,17 +1,20 @@
 #!usr/bin/env python3
 # -*- coding: utf-8 -*-
 # filename: python_api.py
-# trying out writing a basic API
+# Python REST API for the Diglot Book of Mormon web app
 
 import bottle
 import json
-import chunk
+import chunks
 import helper
-# import requests
+import sys
+
+sys.path.extend(['/git/diglot/api'])
 
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
+
 dbconf = "conf/diglot.conf"
 
 
@@ -22,8 +25,8 @@ def testme():
     try:
         db = helper.connect_to_db(dbconf, adminuser=True)
         cursor = db.cursor()
-        # query = "SELECT * FROM eng_test"
-        query = "SHOW tables"
+        query = "SELECT * FROM eng_test"
+        # query = "SHOW tables"
         cursor.execute(query)
         result = cursor.fetchone()
         cursor.close()
@@ -79,11 +82,11 @@ def get_chapter(lang, book, chapter):
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
 
-    # query = "SELECT uid, text FROM eng WHERE uid=%s"
-    query = "SHOW tables"
+    query = "SELECT * FROM ? WHERE uid LIKE ?"
+    # query = "SHOW tables"
 
     try:
-        cursor.execute(query)
+        cursor.execute(query, (lang, chap_uid+"%"))
         query_result = cursor.fetchall()
         cursor.close()
     except Exception as query_error:
@@ -92,7 +95,7 @@ def get_chapter(lang, book, chapter):
     # Create a Chunk object for each chunk in query results, append Chunk to list
     for item in query_result:
         # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this!
-        chapter_list.append(chunk.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
+        chapter_list.append(chunks.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
                                         item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
@@ -119,16 +122,15 @@ def get_one_chunk(uid):
             # query = "SELECT uid, text FROM eng WHERE uid=%s"
             query = "SHOW tables"
             cursor.execute(query)
-            query_result = cursor.fetchall()
+            query_result = cursor.fetch()
             cursor.close()
         except Exception as error:
             raise
         # Create Chunk object
         # TODO: Fix creation of chunk object.  Not all data will be provided by current query!
-        mychunk = chunk.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'],
-                              query_result['rank'], query_result['flipped'], query_result['tag'],
-                              query_result['suggested'])
-        connection.close()
+        mychunk = chunks.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'],
+                               query_result['rank'], query_result['flipped'], query_result['tag'],
+                               query_result['suggested'])
 
         return json.dumps(mychunk.to_dict())
     else:
@@ -170,6 +172,29 @@ def flip_one_chunk(uid):
         return None
 
 
+def get_flipped_words():
+    """
+    Get list of all the words for the chapter that have already been flipped.
+    Helper function for use in get_chapter()
+
+    :return words: (list) Chunk uids to flip
+    """
+    # Query database for uids of words already flipped
+    try:
+        db = helper.connect_to_db("mariadb", "conf/diglot.conf")
+        cursor = db.cursor()
+        # query = "SELECT uid, text FROM eng WHERE uid=%s"
+        query = "SHOW tables"
+        cursor.execute(query)
+        query_result = cursor.fetchall()
+        cursor.close()
+    except Exception as error:
+        raise
+    # TODO: Check format of results, they probably need reformatting!
+    connection.close()
+    return json.dumps(list(query_result))
+
+
 # @bottle.put('/update')
 # def set_flipped_list(chunks):
 #     """
@@ -209,10 +234,7 @@ def past_critical_point():
 
     :return critical: (boolean) True if past critical point, False if not
     """
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.MetaData(engine)
-    connection = engine.connect()
-    trans = connection.begin()
+
     query = ""
     """
         Something goes here...
@@ -232,22 +254,11 @@ def set_user_level(uid, level):
             Error message if there was an error, None if invalid uid
     """
     # run update query to database for given uid to set level to level given.
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.MetaData(engine)
-    connection = engine.connect()
-    trans = connection.begin()
+
     # TODO: Write query to set user's level
     query = ""
 
-    try:
-        query_result = connection.execute(query)
-        trans.commit()
-        confirm_level_set = True
-    except Exception:
-        trans.rollback()
-        confirm_level_set = False
-        raise
-    connection.close()
+
     return confirm_level_set
 
 
