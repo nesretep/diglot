@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+# Chunk object class definition
 
 class Chunk(object):
     """
@@ -19,7 +20,7 @@ class Chunk(object):
             lang (str)        : the two-letter ISO designation for the language the Chunk is in
             suggested (int)   : 0- not suggested, 1- suggested, 2- suggested, but not flipped
     """
-    def __init__(self, uid, text, masterpos, rank, flipped=False, tag={}, suggested=False):
+    def __init__(self, uid, text, masterpos, rank, flipped, tag, suggested):
         self.uid = uid
         self.text = text
         self.masterpos = masterpos
