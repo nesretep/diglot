@@ -30,10 +30,11 @@ def add_to_db(data):
 
     # need to connect to the db
     try:
-        db = mariadb.connect(user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot')
+        db = mariadb.connect(user='root', password='diglotbom2017', database='diglot')
         cursor = db.cursor()
         try:
             for item in data:
+                pprint.pprint(item)
                 # need to read through the data
                 mp = item['master_position']
                 np = item['natural_position']
@@ -42,7 +43,7 @@ def add_to_db(data):
                 table = get_language(np)
                 # need to write to the db
                 cursor.execute(
-                    "INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) "
+                    "INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
                                              "VALUES (%s, %s, %s, %s)", (mp, np, text, rank))
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
