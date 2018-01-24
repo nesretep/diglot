@@ -46,7 +46,7 @@ def add_to_db(data):
                 # need to write to the db
                 pprint.pprint(item)
                 data = (mp, np, text, rank)
-                cursor.execute(insert_statement, data)
+                # cursor.execute(insert_statement, data)
                 pprint.pprint(item)
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
