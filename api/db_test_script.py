@@ -19,37 +19,38 @@ def csv_dict_list(variables_file):
 
 
 def get_language(natual_position):
-	#iterate through the natural position id and get the language
+    # iterate through the natural position id and get the language
 
-	#return the language to indiciate where to insert the data.
-	return "eng_test"
+    # return the language to indiciate where to insert the data.
+    return "eng_test"
 
 
 def add_to_db(data):
-	#Takes the data read in from csv file and adds it to the database
+    # Takes the data read in from csv file and adds it to the database
 
-	#need to connect to the db
-	try:
-		db = mariadb.connect(user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot')
-		cursor = db.cursor()
-		try:
-			for item in data:
-				#need to read through the data
-				mp = item['master_position']
-				np = item['natural_position']
-				text = item['text']
-				rank = item['rank']
-				table = get_language(np)
-				#need to write to the db
-				cursor.execute("INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) VALUES (%s, %s, %s, %i)", (mp, np, text, rank))
-				result = cursor.fetchone()
-			return "result: {}."format(result)
-		except maradb.Error as error:
-			return "Exception occured: {}".format(error)
-		return "Success"
-	except mariadb.Error as error1:
-		return "Exception.occured: {}".format(error1)
-	connection.close()
+    # need to connect to the db
+    try:
+        db = mariadb.connect(user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot')
+        cursor = db.cursor()
+        try:
+            for item in data:
+                # need to read through the data
+                mp = item['master_position']
+                np = item['natural_position']
+                text = item['text']
+                rank = item['rank']
+                table = get_language(np)
+                # need to write to the db
+                cursor.execute(
+                    "INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) "
+                                             "VALUES (%s, %s, %s, %i)", (mp, np, text, rank))
+        except maradb.Error as error:
+            return "Exception occurred: {}".format(error)
+        connection.close()
+        return "Success"
+    except mariadb.Error as error1:
+        return "Exception.occurred: {}".format(error1)
+
 
 # Calls the csv_dict_list function, passing the named csv
 device_values = csv_dict_list("diglot_test_data.csv")
