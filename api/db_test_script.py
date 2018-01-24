@@ -43,7 +43,7 @@ def add_to_db(data):
                 # need to write to the db
                 cursor.execute(
                     "INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) "
-                                             "VALUES (%s, %s, %s, %i)", (mp, np, text, rank))
+                                             "VALUES (%s, %s, %s, %s)", (mp, np, text, rank))
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
         connection.close()
