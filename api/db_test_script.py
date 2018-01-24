@@ -32,8 +32,10 @@ def add_to_db(data):
     try:
         db = mariadb.connect(user='root', password='diglotbom2017', database='diglot')
         cursor = db.cursor()
+        pprint.pprint("Successfully Connected")
         try:
             for item in data:
+                pprint.pprint("I am in for loop")
                 # need to read through the data
                 mp = item['master_position']
                 np = item['natural_position']
@@ -41,9 +43,9 @@ def add_to_db(data):
                 rank = item['rank']
                 table = get_language(np)
                 # need to write to the db
-                cursor.execute(
-                    "INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                                             "VALUES (%s, %s, %s, %s)", (mp, np, text, rank))
+                pprint.pprint(item)
+                cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
+                               "VALUES (%s, %s, %s, %s)", (mp, np, text, rank))
                 pprint.pprint(item)
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
@@ -63,4 +65,3 @@ device_values = csv_dict_list("diglot_test_data.csv")
 
 add_to_db(device_values)
 
-pprint.pprint("Successfully added the data")
