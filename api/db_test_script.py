@@ -3,7 +3,7 @@
 import csv
 import sys
 import pprint
-import mysql.connector as mariadb
+import pymysql as mariadb
 
 
 # Function to convert a csv file to a list of dictionaries.  Takes in one variable called "variables_file"
