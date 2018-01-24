@@ -42,10 +42,13 @@ def add_to_db(data):
 				table = get_language(np)
 				#need to write to the db
 				cursor.execute("INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) VALUES (%s, %s, %s, %i)", (mp, np, text, rank))
-				query_result = cursor.fetchall()
+				result = cursor.fetchone()
+			return "result: {}."format(result)
 		except maradb.Error as error:
+			return "Exception occured: {}".format(error)
+		return "Success"
 	except mariadb.Error as error1:
-
+		return "Exception.occured: {}".format(error1)
 	connection.close()
 
 # Calls the csv_dict_list function, passing the named csv
