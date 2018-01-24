@@ -59,7 +59,7 @@ device_values = csv_dict_list("diglot_test_data.csv")
 
 # Prints the results nice and pretty like
 
-pprint.pprint(device_values)
+# pprint.pprint(device_values)
 
 add_to_db(device_values)
 
