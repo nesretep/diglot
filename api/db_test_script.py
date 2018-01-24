@@ -43,8 +43,6 @@ def add_to_db(data):
 				#need to write to the db
 				cursor.execute("INSERT INTO " + table + " (master_position, natural_position, chunk_value, rank) VALUES (%s, %s, %s, %i)", (mp, np, text, rank))
 				query_result = cursor.fetchall()
-        		
-    		cursor.close()
 		except maradb.Error as error:
 	except mariadb.Error as error1:
 
