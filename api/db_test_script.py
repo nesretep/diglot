@@ -34,8 +34,9 @@ def add_to_db(data):
         cursor = db.cursor()
         pprint.pprint("Successfully Connected")
         try:
+            insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
+                                "VALUES (%s, %s, %s, %s)")
             for item in data:
-                pprint.pprint("I am in for loop")
                 # need to read through the data
                 mp = item['master_position']
                 np = item['natural_position']
@@ -44,8 +45,8 @@ def add_to_db(data):
                 table = get_language(np)
                 # need to write to the db
                 pprint.pprint(item)
-                cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                               "VALUES (%s, %s, %s, %s)", (mp, np, text, rank))
+                data = (mp, np, text, rank)
+                cursor.execute(insert_statement, data)
                 pprint.pprint(item)
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
