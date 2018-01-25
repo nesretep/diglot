@@ -5,7 +5,6 @@ import configparser
 import pymysql as mariadb
 import re
 import logging
-
 CHUNK_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
@@ -14,7 +13,6 @@ def connect_to_db(config_path, adminuser=False):
     """
     Connects to the database defined in the configuration file given
 
-    :param connect_type: (str) tells which connection method to use to connect to the db (either mariadb or sqlalchemy)
     :param config_path: (str) the path to the configuration file
     :param adminuser: (boolean) indicates whether to connect to the database with the admin user or not
     :return: connection object for the connection type specified in connect_type

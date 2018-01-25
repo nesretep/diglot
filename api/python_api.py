@@ -82,7 +82,7 @@ def get_chapter(lang, book, chapter):
         cursor = db.cursor()
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
-
+    #TODO: Do we need a semicolon at the end of queries or not?
     query = "SELECT * FROM ? WHERE uid LIKE ?"
 
     try:
@@ -127,10 +127,11 @@ def get_one_chunk(uid):
         except Exception as db_connect_error:
             return "Database connection error: {}".format(db_connect_error)
 
+        table = uid[:3]
         query = "SELECT * FROM ? WHERE uid = ?"
 
         try:
-            cursor.execute(query, (lang, chap_uid))
+            cursor.execute(query, (table, uid))
             db.commit()
             query_result = cursor.fetch_all()
         except mariadb.Error as query_error:
@@ -165,14 +166,10 @@ def flip_one_chunk(uid):
         try:
             db = helper.connect_to_db(dbconf)
             cursor = db.cursor()
-            # query = "SELECT uid, text FROM eng WHERE uid=%s"
-            query = "SHOW tables"
-            cursor.execute(query)
-            query_result = cursor.fetchall()
-            cursor.close()
         # TODO: Write this query for flipping one chunk
         except Exception as error:
             raise
+
         try:
 
             confirm_flip = True
@@ -185,7 +182,7 @@ def flip_one_chunk(uid):
         return None
 
 
-def get_flipped_words(userid):
+def get_flipped_words():
     """
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
@@ -296,22 +293,17 @@ def set_user_language(uid, p_lang, s_lang):
             Error message if there was an error, None if invalid uid
     """
     if helper.is_valid_uid(uid, "chunk"):
-        engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-        metadata = sqlalchemy.MetaData(engine)
-        connection = engine.connect()
-        trans = connection.begin()
         # TODO: Write query to set a user's primary and secondary language
         query = ""
 
         try:
-            query_result = connection.execute(query)
-            trans.commit()
+
             confirm_lang_set = True
         except Exception:
-            trans.rollback()
+
             confirm_lang_set = False
             raise
-        connection.close()
+
         return confirm_lang_set
     else:
         return None
