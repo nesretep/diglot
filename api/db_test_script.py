@@ -33,31 +33,28 @@ def add_to_db(data):
         conn = pymysql.connect(host="localhost", user="root", password="diglotbom2017", database="diglot")
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
-        try:
-            insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
-                                "VALUES (%s, %s, %s, %s)")
-            mp = "03:01:01:001"
-            np = "eng:01:01:01:006"
-            text = "I, Nephi"
-            rank = 1
-            # for item in data:
-                # need to read through the data
-                # mp = item['master_position']
-                # np = item['natural_position']
-                # text = item['text']
-                # rank = item['rank']
-                # table = get_language(np)
-                # need to write to the db
-                #pprint.pprint(item)
-            values = (mp, np, text, rank)
-            pprint.pprint(values)
-                #cursor.execute(insert_statement, data)
-            cursor.execute(insert_statement, values)
-            conn.commit()
-            pprint.pprint(item)
-            conn.close()
-        except pymysql.Error as error:
-            return "Exception occurred: {}".format(error)
+        insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
+                            "VALUES (%s, %s, %s, %s)")
+        mp = "03:01:01:001"
+        np = "eng:01:01:01:006"
+        text = "I, Nephi"
+        rank = 1
+        # for item in data:
+            # need to read through the data
+            # mp = item['master_position']
+            # np = item['natural_position']
+            # text = item['text']
+            # rank = item['rank']
+            # table = get_language(np)
+            # need to write to the db
+            #pprint.pprint(item)
+        values = (mp, np, text, rank)
+        pprint.pprint(values)
+            #cursor.execute(insert_statement, data)
+        cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
+                            "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1)")
+        conn.commit()
+        pprint.pprint(item)
         conn.close()
         return "Success"
     except pymysql.Error as error1:
