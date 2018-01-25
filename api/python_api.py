@@ -12,6 +12,8 @@ import pymysql as mariadb
 
 sys.path.extend(['/git/diglot/api'])
 
+#TODO: Should we implement logging?
+
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
@@ -69,7 +71,7 @@ def get_chapter(lang, book, chapter):
     :param lang: (str) 3 character ISO 639-3 designation for the language
     :param book: (str) the book requested in the format described by the dict 'books'
     :param chapter: (str) the chapter in the book requested
-    :return chapter_chunks: list of Chunks for the chapter requested
+    :return chapter_chunks: list of Chunks for the chapter requested and words flipped already
     """
     chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
     chapter_list = []  # list to hold Chunk objects
@@ -81,12 +83,12 @@ def get_chapter(lang, book, chapter):
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
 
-
     query = "SELECT * FROM ? WHERE uid LIKE ?"
 
     try:
         cursor.execute(query, (lang, chap_uid + "%"))
         db.commit()
+        query_result = cursor.fetch_all()
     except mariadb.Error as query_error:
         db.rollback()
         return "Database query failed: {}".format(query_error)
@@ -102,7 +104,7 @@ def get_chapter(lang, book, chapter):
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
     # TODO: implement this function to get the already flipped words
-    # flipped_words = sorted(get_flipped_words())
+    flipped_words = sorted(get_flipped_words())
 
     # return JSON-ified version of chapter_list and flipped words in a json of jsons
     return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
@@ -122,14 +124,21 @@ def get_one_chunk(uid):
         try:
             db = helper.connect_to_db(dbconf)
             cursor = db.cursor()
-            table = uid[:3]
-            query = "SELECT * FROM ? WHERE uid=?"
-            # query = "SHOW tables"
-            cursor.execute(query, (table, uid))
-            query_result = cursor.fetchone()
+        except Exception as db_connect_error:
+            return "Database connection error: {}".format(db_connect_error)
+
+        query = "SELECT * FROM ? WHERE uid = ?"
+
+        try:
+            cursor.execute(query, (lang, chap_uid))
+            db.commit()
+            query_result = cursor.fetch_all()
+        except mariadb.Error as query_error:
+            db.rollback()
+            return "Database query failed: {}".format(query_error)
+        finally:
             cursor.close()
-        except Exception as database_error:
-            sys.stderr.write("Database Error: {}".format(database_error))
+            db.close()
         # Create Chunk object
         # TODO: Fix creation of chunk object.  Not all data will be provided by current query!
         mychunk = chunks.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'],
@@ -176,7 +185,7 @@ def flip_one_chunk(uid):
         return None
 
 
-def get_flipped_words():
+def get_flipped_words(userid):
     """
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
@@ -187,16 +196,24 @@ def get_flipped_words():
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor()
-        # query = "SELECT uid, text FROM eng WHERE uid=%s"
-        query = "SHOW tables"
-        cursor.execute(query)
-        query_result = cursor.fetchall()
+    except Exception as db_connect_error:
+        return "Database connection error: {}".format(db_connect_error)
+
+    query = "SELECT * FROM user_lm WHERE userid = ? AND flipped = True"
+
+    try:
+        cursor.execute(query, (userid,)
+        db.commit()
+        # TODO: Check format of query result to make sure it is OK for coverting to JSON!
+        query_result = cursor.fetch_all()
+    except mariadb.Error as query_error:
+        db.rollback()
+        return "Database query failed: {}".format(query_error)
+    finally:
         cursor.close()
-    except Exception as error:
-        raise
-    # TODO: Check format of results, they probably need reformatting!
-    connection.close()
-    return json.dumps(list(query_result))
+        db.close()
+
+    return query_result
 
 
 # @bottle.put('/update')
@@ -309,25 +326,17 @@ def get_suggestions(lang, level):
     :param level: (int) the user's level of comfort with the language
     :return: JSON of suggested words from database
     """
-    engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-    metadata = sqlalchemy.MetaData(engine)
-    connection = engine.connect()
-    trans = connection.begin()
-    table = sqlalchemy.Table(lang, metadata, autoload=True)
+
     # TODO: Write query to get the next (3?) suggested chunks from the database based on the chapter they are in
-    query = table.select(sqlalchemy.and_(sqlalchemy.func.substr(table.c.uid, 1, 8), table.c.rank == level,
-                         table.c.suggested == False))
+    query = ""
 
     try:
-        query_result = connection.execute(query)
-        trans.commit()
+
         confirm_lang_set = True
     except Exception:
-        trans.rollback()
+
         confirm_lang_set = False
         raise
-
-    connection.close()
     return json.dumps(query_result)
 
 
