@@ -51,6 +51,7 @@ def add_to_db(data):
         values = (mp, np, text, rank)
         pprint.pprint(values)
             #cursor.execute(insert_statement, data)
+        # cursor.execute(insert_statement, values)
         result = cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
                             "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1)")
         conn.commit()
