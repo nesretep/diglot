@@ -51,10 +51,10 @@ def add_to_db(data):
         values = (mp, np, text, rank)
         pprint.pprint(values)
             #cursor.execute(insert_statement, data)
-        cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
+        result = cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
                             "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1)")
         conn.commit()
-        pprint.pprint("Successfully added the data")
+        pprint.pprint(result)
         conn.close()
         return "Success"
     except pymysql.Error as error1:
