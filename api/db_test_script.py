@@ -36,8 +36,8 @@ def add_to_db(data):
         try:
             insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
                                 "VALUES (%s, %s, %s, %s)")
-            mp = ":01:01:01:001"
-            np = "eng:01:01:01:001"
+            mp = "3:01:01:001"
+            np = "eng:01:01:01:006"
             text = "I, Nephi"
             rank = 1
             # for item in data:
