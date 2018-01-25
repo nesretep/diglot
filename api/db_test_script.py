@@ -3,7 +3,7 @@
 import csv
 import sys
 import pprint
-import pymysql as mariadb
+import pymysql
 
 
 # Function to convert a csv file to a list of dictionaries.  Takes in one variable called "variables_file"
@@ -30,8 +30,8 @@ def add_to_db(data):
 
     # need to connect to the db
     try:
-        db = mariadb.connect(user='root', password='diglotbom2017', database='diglot')
-        cursor = db.cursor()
+        conn = pymysql.connect(user='root', password='diglotbom2017', database='diglot')
+        cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
         try:
             insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
@@ -50,16 +50,17 @@ def add_to_db(data):
                 # need to write to the db
                 #pprint.pprint(item)
             values = (mp, np, text, rank)
+            pprint.pprint(values)
                 #cursor.execute(insert_statement, data)
             cursor.execute(insert_statement, values)
-            db.commit()
+            conn.commit()
             pprint.pprint(item)
             cursor.close()
-        except mariadb.Error as error:
+        except pymysql.Error as error:
             return "Exception occurred: {}".format(error)
-        db.close()
+        conn.close()
         return "Success"
-    except mariadb.Error as error1:
+    except pymysql.Error as error1:
         return "Exception.occurred: {}".format(error1)
 
 
