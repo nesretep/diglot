@@ -52,12 +52,12 @@ def add_to_db(data):
             values = (mp, np, text, rank)
                 #cursor.execute(insert_statement, data)
             cursor.execute(insert_statement, values)
-            cursor.commit()
+            db.commit()
             pprint.pprint(item)
             cursor.close()
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
-        connection.close()
+        db.close()
         return "Success"
     except mariadb.Error as error1:
         return "Exception.occurred: {}".format(error1)
