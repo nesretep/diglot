@@ -36,18 +36,25 @@ def add_to_db(data):
         try:
             insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
                                 "VALUES (%s, %s, %s, %s)")
-            for item in data:
+            mp = data['master_position']
+            np = data['natural_position']
+            text = data['text']
+            rank = data['text']
+            # for item in data:
                 # need to read through the data
-                mp = item['master_position']
-                np = item['natural_position']
-                text = item['text']
-                rank = item['rank']
-                table = get_language(np)
+                # mp = item['master_position']
+                # np = item['natural_position']
+                # text = item['text']
+                # rank = item['rank']
+                # table = get_language(np)
                 # need to write to the db
-                pprint.pprint(item)
-                data = (mp, np, text, rank)
-                # cursor.execute(insert_statement, data)
-                pprint.pprint(item)
+                #pprint.pprint(item)
+            values = (mp, np, text, rank)
+                #cursor.execute(insert_statement, data)
+            cursor.execute(insert_statement, values)
+            cursor.commit()
+            pprint.pprint(item)
+            cursor.close()
         except mariadb.Error as error:
             return "Exception occurred: {}".format(error)
         connection.close()
