@@ -30,7 +30,7 @@ def add_to_db(data):
 
     # need to connect to the db
     try:
-        conn = pymysql.connect(username='root', password='diglotbom2017', database='diglot')
+        conn = pymysql.connect(user="root", password="diglotbom2017", database="diglot")
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
         try:
