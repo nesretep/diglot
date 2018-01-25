@@ -30,7 +30,7 @@ def add_to_db(data):
 
     # need to connect to the db
     try:
-        conn = pymysql.connect(user="root", password="diglotbom2017", database="diglot")
+        conn = pymysql.connect(host="localhost", user="root", password="diglotbom2017", database="diglot")
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
         try:
@@ -55,7 +55,7 @@ def add_to_db(data):
             cursor.execute(insert_statement, values)
             conn.commit()
             pprint.pprint(item)
-            cursor.close()
+            conn.close()
         except pymysql.Error as error:
             return "Exception occurred: {}".format(error)
         conn.close()
