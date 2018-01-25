@@ -34,7 +34,7 @@ def add_to_db(data):
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
         try:
-            insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
+            insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
                                 "VALUES (%s, %s, %s, %s)")
             mp = ":01:01:01:001"
             np = "eng:01:01:01:001"
