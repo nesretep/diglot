@@ -33,7 +33,7 @@ def add_to_db(data):
         conn = pymysql.connect(host='localhost', user='root', password='diglotbom2017', database='diglot', use_unicode=True, charset='utf8')
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
-        insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
+        insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
                             "VALUES (%s, %s, %s, %s);")
         mp = "03:01:01:001"
         np = "eng:01:01:01:006"
@@ -53,8 +53,8 @@ def add_to_db(data):
             #cursor.execute(insert_statement, data)
         # cursor.execute(insert_statement, values)
         try:
-            result = cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
-                            "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1)")
+            result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
+                            "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1;)")
             pprint.pprint("Successfully added the datd")
             return "Success"
         except pymysql.Error as error2:
