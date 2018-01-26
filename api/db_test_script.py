@@ -70,11 +70,4 @@ def add_to_db(data):
 # Calls the csv_dict_list function, passing the named csv
 data_values = csv_dict_list("eng_test.csv")
 # device_values = csv_dict_list(sys.argv[1])
-
-# Prints the results nice and pretty like
-
-pprint.pprint(data_values)
-
 add_to_db(data_values)
-
-pprint.pprint("Successfully added the data")
