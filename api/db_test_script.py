@@ -49,12 +49,14 @@ def add_to_db(data):
             # need to write to the db
             #pprint.pprint(item)
         values = (mp, np, text, rank)
-        pprint.pprint(values)
+        pprint.pprint('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3)
             #cursor.execute(insert_statement, data)
         # cursor.execute(insert_statement, values)
         try:
-            result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3);")
+            result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
+                                    " VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3);")
             pprint.pprint("Successfully added the data")
+            conn.commit()
             return "Success"
         except pymysql.Error as error2:
             pprint.pprint(error2)
@@ -64,6 +66,7 @@ def add_to_db(data):
         conn.close()
         return "Success"
     except pymysql.Error as error1:
+        pprint.pprint(error1)
         return "Exception.occurred: {}".format(error1)
 
 
