@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title></title>
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      <link rel="stylesheet" href="css\popup.css">
+      <link rel="stylesheet" href="css\style.css">
+      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+      <style type="text/css">
+        body{
+          font-size: 20px;
+          font-family: "Times New Roman", Georgia, Serif;
+        }
+        .popup:hover{
+          background: #D1D1D1;
+          border-radius: 2px;
+        }
+        .chunk{
+          display:inline-block;
+          word-wrap: break-word;
+          word-wrap: normal;
+        }
+        .punctuation{
+          display:inline-block;
+        }
+        .verse{
+          padding-bottom: 15px;
+        }
+      </style>
+   </head>
+   <body>
+      <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
+           <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="login.html">Login</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="index.html">Main</a></li>
+        </ul>
+      </div>
+      <div id="platform-canvas-content" role="main">
+         <div class="container">
+            <!--Book Title and Introduction-->
+            <div class="row">
+               <div class="col-xs-10 col-sm-10 col-md-10" style="text-align: center;">
+                  <h1>The First Book of Nephi</h1>
+                  <p class="subtitle" data-aid="128342696" id="subtitle1">His Reign and Ministry</p>
+               </div>
+               <div class="col-xs-2 col-sm-2 col-md-2"></div>
+               <div class="col-xs-10 col-sm-10 col-md-10"  style="text-align: justify;">
+                  <p class="intro" data-aid="128342697" id="intro1">An account of Lehi and his wife Sariah, and his four sons, being called, (beginning at the eldest) Laman, Lemuel, Sam, and Nephi. The Lord warns Lehi to depart out of the land of Jerusalem, because he prophesieth unto the people concerning their iniquity and they seek to destroy his life. He taketh three days' journey into the wilderness with his family. Nephi taketh his brethren and returneth to the land of Jerusalem after the record of the Jews. The account of their sufferings. They take the daughters of Ishmael to wife. They take their families and depart into the wilderness. Their sufferings and afflictions in the wilderness. The course of their travels. They come to the large waters. Nephi's brethren rebel against him. He confoundeth them, and buildeth a ship. They call the name of the place Bountiful. They cross the large waters into the promised land, and so forth. This is according to the account of Nephi; or in other words, I, Nephi, wrote this record.</p>
+               </div>
+               <div class="col-xs-2 col-sm-2 col-md-2"></div>
+            </div>
+            <!--Chapter and summary-->
+            <div class="row">
+               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
+                  <h2 class="title-number" data-aid="128342698" id="title_number1">Chapter 1</h2>
+               </div>
+               <div class="col-xs-2 col-sm-2 col-md-2"></div>
+            </div>
+            <div class="row">
+               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
+                  <p id="study_summary1">Nephi begins the record of his people-Lehi sees in vision a pillar of fire and reads from a book of prophecy- He praises God, foretells the coming of the Messiah, and prophesies the destruction of Jerusalem- He is persecuted by the Jews. About 600&nbsp;<small>B.C.</small></p>
+               </div>
+               <div class="col-xs-2 col-sm-2 col-md-2"></div>
+            </div>
+            <!--Verses-->
+            <div class="row">
+               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
+                  <div onclick="popupVue()" id="chapter" >
+                    <div v-for=" verseItem in verses" class="verse">
+                      <span><b>{{ verseItem }} </b></span>
+                      <span v-for="item in json.chunks">
+                        <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk" v-bind:id= "item.natural_position">
+                          &nbsp;{{ item.text }}
+                        </span>
+                        <span v-else-if="item.verse == verseItem && item.punctuation==true" class="punctuation">
+                            {{ item.text }}
+                        </span>
+                      </span>
+                    </div>
+               </div>
+               <div class="col-xs-2 col-sm-2 col-md-2" id="vs19side"></div>
+            </div>
+         </div>
+      </div>
+      <!-- end #content -->
+   <script src="js/production2.js" ></script>
+   </body>
+</html>
