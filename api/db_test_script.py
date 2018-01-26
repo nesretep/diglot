@@ -19,36 +19,39 @@ def csv_dict_list(variables_file):
 
 
 def get_language(natual_position):
-    #iterate through the natural position id and get the language
+    # iterate through the natural position id and get the language
 
-    #return the language to indicate where to insert the data.
+    # return the language to indicate where to insert the data.
     return "eng_test"
 
 
 def add_to_db(data):
-    #Takes the data read in from csv file and adds it to the database
+    # Takes the data read in from csv file and adds it to the database
 
-    #need to connect to the db
+    # need to connect to the db
     global insert_error
     try:
-        con = pymysql.connect(host='localhost', user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot', use_unicode=True, charset='utf8')
+        con = pymysql.connect(host='localhost', user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot',
+                              use_unicode=True, charset='utf8')
         cursor = con.cursor()
         try:
             for item in data:
-                #need to read through the data
+                # need to read through the data
                 mp = item['master_position']
                 np = item['natural_position']
                 text = item['text']
                 rank = item['rank']
                 table = get_language(np)
-                #need to write to the db
+                # need to write to the db
                 insert_statement = "INSERT INTO " + table + "(master_position, natural_position, chunk_value, rank) " \
                                                             "VALUES (%s, %s, %s, %s); "
                 values = (mp, np, text, rank)
                 try:
                     cursor.execute(insert_statement, values)
                     con.commit()
-                    print_statement = values + ": Was successfully added to the database."
+                    print_statement = "(" + mp + ", " + np + ", " + test + ", " + rank + ")" + ": Was successfully " \
+                                                                                               "added to the database. "
+                    # print_statement = "Was successfully added to the database."
                     pprint.pprint(print_statement)
                     return "Success"
                 except pymysql.Error as insert_error:
