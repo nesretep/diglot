@@ -54,7 +54,7 @@ def add_to_db(data):
         # cursor.execute(insert_statement, values)
         try:
             result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                            "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1);")
+                            "VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3);")
             pprint.pprint("Successfully added the datd")
             return "Success"
         except pymysql.Error as error2:
