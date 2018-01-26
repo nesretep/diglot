@@ -30,7 +30,7 @@ def add_to_db(data):
 
     # need to connect to the db
     try:
-        conn = pymysql.connect(host='localhost', user='root', password='diglotbom2017', database='diglot', 3306, use_unicode=True, charset='utf8')
+        conn = pymysql.connect(host='localhost', user='root', password='diglotbom2017', database='diglot', use_unicode=True, charset='utf8')
         cursor = conn.cursor()
         pprint.pprint("Successfully Connected")
         insert_statement = ("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
