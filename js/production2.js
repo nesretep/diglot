@@ -845,7 +845,8 @@ var vmprod = new Vue({
        }
 })
 
-function flip_the_phrase3(e){        
+function flip_the_phrase3(e){
+       //use id to query DB. print result to span        
        var span = $(e).parent().parent();
        var chunk = span.attr("id");
        //window.alert(chunk);
