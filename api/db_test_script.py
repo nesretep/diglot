@@ -49,7 +49,7 @@ def add_to_db(data):
                 try:
                     cursor.execute(insert_statement, values)
                     con.commit()
-                    print_statement = "(" + mp + ", " + np + ", " + test + ", " + rank + ")" + ": Was successfully " \
+                    print_statement = "(" + mp + ", " + np + ", " + text + ", " + rank + ")" + ": Was successfully " \
                                                                                                "added to the database. "
                     # print_statement = "Was successfully added to the database."
                     pprint.pprint(print_statement)
