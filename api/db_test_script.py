@@ -52,8 +52,14 @@ def add_to_db(data):
         pprint.pprint(values)
             #cursor.execute(insert_statement, data)
         # cursor.execute(insert_statement, values)
-        result = cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
+        try:
+            result = cursor.execute("INSERT INTO 'eng_test' ('master_position', 'natural_position', 'chunk_value', 'rank') "
                             "VALUES ('03:01:01:001', 'eng:01:02:01:001', 'I, Nephi', 1)")
+            pprint.pprint("Successfully added the datd")
+            return "Success"
+        except pymysql.Error as error2:
+            pprint.pprint(error2)
+            return "Exception.occurred: {}".format(error2)
         conn.commit()
         pprint.pprint(result)
         conn.close()
