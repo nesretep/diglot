@@ -36,9 +36,9 @@ def add_to_db(data):
         insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
                             "VALUES (%s, %s, %s, %s);")
         mp = "03:01:01:001"
-        np = "eng:01:01:01:006"
-        text = "I, Nephi"
-        rank = 1
+        np = "eng:01:02:02:001"
+        text = "Yo Yo"
+        rank = 3
         # for item in data:
             # need to read through the data
             # mp = item['master_position']
@@ -49,12 +49,12 @@ def add_to_db(data):
             # need to write to the db
             #pprint.pprint(item)
         values = (mp, np, text, rank)
-        pprint.pprint('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3)
+        pprint.pprint(values)
             #cursor.execute(insert_statement, data)
         # cursor.execute(insert_statement, values)
         try:
             result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                                    " VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo YO', 3);")
+                                    " VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo Yo', 3);")
             pprint.pprint("Successfully added the data")
             conn.commit()
             return "Success"
