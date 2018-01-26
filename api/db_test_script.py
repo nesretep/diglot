@@ -53,18 +53,18 @@ def add_to_db(data):
                                                                                                "added to the database. "
                     # print_statement = "Was successfully added to the database."
                     pprint.pprint(print_statement)
-                    return "Success"
+                    # return "Success"
                 except pymysql.Error as insert_error:
                     pprint.pprint(insert_error)
                     return "Exception.occurred: {}".format(insert_error)
             con.close()
             pprint.pprint("Successfully added the data from the csv file")
-            return "Success"
+            # return "Success"
         except pymysql.Error as forloop_error:
             pprint.pprint(forloop_error)
             return "Exception.occurred: {}".format(forloop_error)
         pprint.pprint("The script has finish adding data to the database")
-        return "Success"
+        # return "Success"
     except pymysql.Error as connection_error:
         pprint.pprint(connection_error)
         return "Exception.occurred: {}".format(connection_error)
