@@ -19,64 +19,62 @@ def csv_dict_list(variables_file):
 
 
 def get_language(natual_position):
-    # iterate through the natural position id and get the language
+    #iterate through the natural position id and get the language
 
-    # return the language to indiciate where to insert the data.
+    #return the language to indicate where to insert the data.
     return "eng_test"
 
 
 def add_to_db(data):
-    # Takes the data read in from csv file and adds it to the database
+    #Takes the data read in from csv file and adds it to the database
 
-    # need to connect to the db
+    #need to connect to the db
+    global insert_error
     try:
-        conn = pymysql.connect(host='localhost', user='root', password='diglotbom2017', database='diglot', use_unicode=True, charset='utf8')
-        cursor = conn.cursor()
-        pprint.pprint("Successfully Connected")
-        insert_statement = ("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                            "VALUES (%s, %s, %s, %s);")
-        mp = "03:01:01:001"
-        np = "eng:01:02:02:001"
-        text = "Yo Yo"
-        rank = 3
-        # for item in data:
-            # need to read through the data
-            # mp = item['master_position']
-            # np = item['natural_position']
-            # text = item['text']
-            # rank = item['rank']
-            # table = get_language(np)
-            # need to write to the db
-            #pprint.pprint(item)
-        values = (mp, np, text, rank)
-        pprint.pprint(values)
-            #cursor.execute(insert_statement, data)
-        # cursor.execute(insert_statement, values)
+        con = pymysql.connect(host='localhost', user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot', use_unicode=True, charset='utf8')
+        cursor = con.cursor()
         try:
-            result = cursor.execute("INSERT INTO eng_test (master_position, natural_position, chunk_value, rank) "
-                                    " VALUES ('03:01:01:001', 'eng:01:02:02:001', 'Yo Yo', 3);")
-            pprint.pprint("Successfully added the data")
-            conn.commit()
+            for item in data:
+                #need to read through the data
+                mp = item['master_position']
+                np = item['natural_position']
+                text = item['text']
+                rank = item['rank']
+                table = get_language(np)
+                #need to write to the db
+                insert_statement = "INSERT INTO " + table + "(master_position, natural_position, chunk_value, rank) " \
+                                                            "VALUES (%s, %s, %s, %s); "
+                values = (mp, np, text, rank)
+                try:
+                    cursor.execute(insert_statement, values)
+                    con.commit()
+                    print_statement = values + ": Was successfully added to the database."
+                    pprint.pprint(print_statement)
+                    return "Success"
+                except pymysql.Error as insert_error:
+                    pprint.pprint(insert_error)
+                    return "Exception.occurred: {}".format(insert_error)
+            con.close()
+            pprint.pprint("Successfully added the data from the csv file")
             return "Success"
-        except pymysql.Error as error2:
-            pprint.pprint(error2)
-            return "Exception.occurred: {}".format(error2)
-        conn.commit()
-        pprint.pprint(result)
-        conn.close()
+        except pymysql.Error as forloop_error:
+            pprint.pprint(forloop_error)
+            return "Exception.occurred: {}".format(forloop_error)
+        pprint.pprint("The script has finish adding data to the database")
         return "Success"
-    except pymysql.Error as error1:
-        pprint.pprint(error1)
-        return "Exception.occurred: {}".format(error1)
+    except pymysql.Error as connection_error:
+        pprint.pprint(connection_error)
+        return "Exception.occurred: {}".format(connection_error)
 
 
 # Calls the csv_dict_list function, passing the named csv
-device_values = csv_dict_list("diglot_test_data.csv")
+data_values = csv_dict_list("eng_test.csv")
 # device_values = csv_dict_list(sys.argv[1])
 
 # Prints the results nice and pretty like
 
-# pprint.pprint(device_values)
+pprint.pprint(data_values)
 
-add_to_db(device_values)
+add_to_db(data_values)
 
+pprint.pprint("Successfully added the data")
