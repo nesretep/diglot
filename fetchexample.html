@@ -1,0 +1,21 @@
+<div id="app">
+  <p>
+    {{ json.server }}
+  </p>
+</div>
+<script>
+new Vue({
+  el: '#app',
+  data: () => ({
+    json: {},
+  }),
+  created: function() {
+    fetch('https://s.natalian.org/2017-06-22/stat.json').then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json)
+        this.json = json
+      })
+    })
+  }
+})
+</script>
