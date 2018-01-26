@@ -13,7 +13,7 @@ class Instance(object):
             masterpos (str)   : master position this Chunk is connected to
             concept_id (str)  : the id of the corresponding concept this Instance is a part of
             suggested (int)   : 0- not suggested, 1- suggested, 2- suggested, but not flipped
-            
+
             pos (int)         : the in-verse natural position of the Chunk
             verse (int)       : the verse the Chunk is in
             chapter (int)     : the chapter the Chunk is in

@@ -5,7 +5,7 @@ import configparser
 import pymysql as mariadb
 import re
 import logging
-CHUNK_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
+INSTANCE_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
 
@@ -32,7 +32,7 @@ def connect_to_db(config_path, adminuser=False):
         dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
         return dbconnect
     except Exception as dberror:
-        raise
+        return "Unable to connect to database: {}".format(dberror)
 
 
 def convert_url_to_uid(url):
@@ -57,13 +57,13 @@ def is_valid_uid(uid, type):
     Validator function to make sure uids are in the proper format
 
     :param uid: (str) the uid to validate
-    :param type: type of uid pattern to check against
+    :param type: type of uid pattern to check against - instance or master position (mp)
     :return: result of the regex pattern checking (True/False) against the pattern specified by 'type'
     """
-    chunk_pattern = re.compile(CHUNK_REGEX)
+    instance_pattern = re.compile(INSTANCE_REGEX)
     mp_pattern = re.compile(MP_REGEX)
-    if type.lower() == "chunk":
-        return bool(chunk_pattern.match(uid))
+    if type.lower() == "instance":
+        return bool(instance_pattern.match(uid))
     elif type.lower() == "mp":
         return bool(mp_pattern.match(uid))
     else:

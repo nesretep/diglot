@@ -5,7 +5,7 @@
 
 import bottle
 import json
-import chunks
+import instance
 import helper
 import sys
 import pymysql as mariadb
@@ -31,7 +31,7 @@ def testme():
         query = "SELECT * FROM eng_test"
         # query = "SHOW tables"
         cursor.execute(query)
-        result = cursor.fetchone()
+        result = cursor.fetchall()
         cursor.close()
         return "result: {}".format(result)
     except Exception as error:
@@ -48,7 +48,7 @@ def do_login():
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     return json.dumps(helper.check_login(username, password))
-    # return json.dumps(chunk.Chunk("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
+    # return json.dumps(chunk.Instance("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
 
 
 @bottle.get('/static/<filename>')
@@ -71,10 +71,10 @@ def get_chapter(lang, book, chapter):
     :param lang: (str) 3 character ISO 639-3 designation for the language
     :param book: (str) the book requested in the format described by the dict 'books'
     :param chapter: (str) the chapter in the book requested
-    :return chapter_chunks: list of Chunks for the chapter requested and words flipped already
+    :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
     chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
-    chapter_list = []  # list to hold Chunk objects
+    chapter_list = []  # list to hold Instance objects
 
     # Query prep work
     try:
@@ -96,10 +96,10 @@ def get_chapter(lang, book, chapter):
         cursor.close()
         db.close()
 
-    # Create a Chunk object for each chunk in query results, append Chunk to list
+    # Create a Instance object for each instance in query results, append Instance to list
     for item in query_result:
-        # TODO: Verify what 'item' contains to make sure it is in the proper format for making a Chunk like this!
-        chapter_list.append(chunks.Chunk(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
+        # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
+        chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
                                         item['tag'], item['suggested']))
     # sort chapter_list and then convert it to JSON format
     chapter_list = sorted(chapter_list)
@@ -113,13 +113,13 @@ def get_chapter(lang, book, chapter):
 @bottle.route('/chunk/<uid>')
 def get_one_chunk(uid):
     """
-    Get one Chunk from the database and return it to the function caller.
+    Get one Instance from the database and return it to the function caller.
 
-    :param uid: (str) the uid for the Chunk requested.
-    :return: (Chunk) The Chunk with the uid specified in the function call in JSON format.
+    :param uid: (str) the uid for the Instance requested.
+    :return: (Instance) The Instance with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
-    if helper.is_valid_uid(uid, "chunk"):
+    if helper.is_valid_uid(uid, "instance"):
         # Query database for chunk
         try:
             db = helper.connect_to_db(dbconf)
@@ -140,9 +140,9 @@ def get_one_chunk(uid):
         finally:
             cursor.close()
             db.close()
-        # Create Chunk object
+        # Create Instance object
         # TODO: Fix creation of chunk object.  Not all data will be provided by current query!
-        mychunk = chunks.Chunk(query_result['uid'], query_result['text'], query_result['masterpos'],
+        mychunk = instance.Instance(query_result['uid'], query_result['text'], query_result['masterpos'],
                                query_result['rank'], query_result['flipped'], query_result['tag'],
                                query_result['suggested'])
 
@@ -154,9 +154,9 @@ def get_one_chunk(uid):
 @bottle.put('/flip/<uid>')
 def flip_one_chunk(uid):
     """
-    Sets one Chunk as flipped in the database.
+    Sets one Instance as flipped in the database.
 
-    :param uid: (str) The Chunk uid that needs to be set as flipped.
+    :param uid: (str) The Instance uid that needs to be set as flipped.
     :return confirm_flip: (tuple) (boolean, str/None)
             True to confirm it was flipped, False to indicate an error
             Error message if there was an error, None if invalid uid
@@ -187,7 +187,7 @@ def get_flipped_words():
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
 
-    :return words: (list) Chunk uids to flip
+    :return words: (list) Instance uids to flip
     """
     # Query database for uids of words already flipped
     try:
@@ -216,9 +216,9 @@ def get_flipped_words():
 # @bottle.put('/update')
 # def set_flipped_list(chunks):
 #     """
-#     Updates the database with Chunks that were flipped in that session
+#     Updates the database with Instances that were flipped in that session
 #
-#     :param chunks: (list) Chunks to be set as flipped in the database
+#     :param chunks: (list) Instances to be set as flipped in the database
 #     :return confirm_list_set: (tuple) (boolean, str/None)
 #             True to indicate update was successful, False if error
 #             Error message if there was an error, None if invalid uid
@@ -337,5 +337,3 @@ if __name__ == '__main__':
     bottle.run(host='localhost', port=8000, debug=True, reloader=True)
 else:
     app = application = bottle.default_app()
-
-# bottle.run(host='localhost', port=8000, debug=True, reloader=True)
