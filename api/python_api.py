@@ -121,7 +121,7 @@ def get_one_instance(uid):
     :return: (Instance) The Instance with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
-    uid = convert_url_to_uid(uid)
+    uid = helper.convert_url_to_uid(uid)
     if helper.is_valid_uid(uid, "instance"):
         # Query database for chunk
         try:
