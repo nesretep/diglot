@@ -992,3 +992,12 @@ new Vue({
   }
 })
 
+
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.onreadystatechange = function() { 
+ if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+     callback(xmlHttp.responseText);
+}
+xmlHttp.open("GET", 'http://192.168.80.0:8080/eng/1Nephi/01', true); // true for asynchronous 
+xmlHttp.send(null);
+alert(xmlHttp.responseText);
