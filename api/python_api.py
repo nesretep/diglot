@@ -81,7 +81,7 @@ def get_chapter(lang, book, chapter):
     # Query prep work
     try:
         db = helper.connect_to_db(dbconf)
-        cursor = db.cursor()
+        cursor = db.cursor(mariadb.cursors.DictCursor)
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
     #TODO: Do we need a semicolon at the end of queries or not?
@@ -112,8 +112,8 @@ def get_chapter(lang, book, chapter):
     return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
-@bottle.route('/chunk/<uid>')
-def get_one_chunk(uid):
+@bottle.route('/instance/<uid>')
+def get_one_instance(uid):
     """
     Get one Instance from the database and return it to the function caller.
 
@@ -121,11 +121,12 @@ def get_one_chunk(uid):
     :return: (Instance) The Instance with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
+    uid = convert_url_to_uid(uid)
     if helper.is_valid_uid(uid, "instance"):
         # Query database for chunk
         try:
             db = helper.connect_to_db(dbconf)
-            cursor = db.cursor()
+            cursor = db.cursor(mariadb.cursors.DictCursor)
         except Exception as db_connect_error:
             return "Database connection error: {}".format(db_connect_error)
 
@@ -167,7 +168,7 @@ def flip_one_chunk(uid):
         # Update record for chunk with matching uid to set
         try:
             db = helper.connect_to_db(dbconf)
-            cursor = db.cursor()
+            cursor = db.cursor(mariadb.cursors.DictCursor)
         # TODO: Write this query for flipping one chunk
         except Exception as error:
             raise
@@ -194,7 +195,7 @@ def get_flipped_words():
     # Query database for uids of words already flipped
     try:
         db = helper.connect_to_db(dbconf)
-        cursor = db.cursor()
+        cursor = db.cursor(mariadb.cursors.DictCursor)
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
 

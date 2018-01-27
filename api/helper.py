@@ -49,7 +49,7 @@ def convert_url_to_uid(url):
     if is_valid_uid(uid) is True:
         return uid
     else:
-        return None
+        return "Huh?"
 
 
 def is_valid_uid(uid, type):
