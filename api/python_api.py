@@ -77,39 +77,39 @@ def get_chapter(lang, book, chapter):
     """
     chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
     chapter_list = []  # list to hold Instance objects
-
+    return chap_uid
     # Query prep work
-    try:
-        db = helper.connect_to_db(dbconf, adminuser=True)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-    #TODO: Do we need a semicolon at the end of queries or not?
-    query = "SELECT * FROM ? WHERE uid LIKE ?"
-
-    try:
-        cursor.execute(query, (lang, chap_uid + "%"))
-        db.commit()
-        query_result = cursor.fetch_all()
-    except mariadb.Error as query_error:
-        db.rollback()
-        return "Database query failed: {}".format(query_error)
-    finally:
-        cursor.close()
-        db.close()
-
-    # Create a Instance object for each instance in query results, append Instance to list
-    for item in query_result:
-        # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
-        chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['rank'], item['flipped'],
-                                        item['tag'], item['suggested']))
-    # sort chapter_list and then convert it to JSON format
-    chapter_list = sorted(chapter_list)
-    # TODO: implement this function to get the already flipped words
-    flipped_words = sorted(get_flipped_words())
-
-    # return JSON-ified version of chapter_list and flipped words in a json of jsons
-    return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
+    # try:
+    #     db = helper.connect_to_db(dbconf, adminuser=True)
+    #     cursor = db.cursor(mariadb.cursors.DictCursor)
+    # except Exception as db_connect_error:
+    #     return "Database connection error: {}".format(db_connect_error)
+    # #TODO: Do we need a semicolon at the end of queries or not?
+    # query = "SELECT * FROM ? WHERE uid LIKE ?"
+    #
+    # try:
+    #     cursor.execute(query, (lang, chap_uid + "%"))
+    #     db.commit()
+    #     query_result = cursor.fetch_all()
+    # except mariadb.Error as query_error:
+    #     db.rollback()
+    #     return "Database query failed: {}".format(query_error)
+    # finally:
+    #     cursor.close()
+    #     db.close()
+    #
+    # # Create a Instance object for each instance in query results, append Instance to list
+    # for item in query_result:
+    #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
+    #     chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['concept_id'],
+    #                                           item['suggested']))
+    # # sort chapter_list and then convert it to JSON format
+    # chapter_list = sorted(chapter_list)
+    # # TODO: implement this function to get the already flipped words
+    # flipped_words = sorted(get_flipped_words())
+    #
+    # # return JSON-ified version of chapter_list and flipped words in a json of jsons
+    # return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
 @bottle.route('/instance/<uid>')
