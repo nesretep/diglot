@@ -85,19 +85,19 @@ def get_chapter(lang, book, chapter):
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
     # #TODO: Do we need a semicolon at the end of queries or not?
-    # query = "SELECT * FROM ? WHERE uid LIKE ?"
-    #
-    # try:
-    #     cursor.execute(query, (lang, chap_uid + "%"))
-    #     db.commit()
-    #     query_result = cursor.fetch_all()
-    # except mariadb.Error as query_error:
-    #     db.rollback()
-    #     return "Database query failed: {}".format(query_error)
-    # finally:
-    #     cursor.close()
-    #     db.close()
-    #
+    query = "SELECT * FROM ? WHERE uid LIKE ?"
+
+    try:
+        cursor.execute(query, (lang, chap_uid + "%"))
+        db.commit()
+        query_result = cursor.fetch_all()
+    except mariadb.Error as query_error:
+        db.rollback()
+        return "Database query failed: {}".format(query_error)
+    finally:
+        cursor.close()
+        db.close()
+        return "Closed cursor."
     # # Create a Instance object for each instance in query results, append Instance to list
     # for item in query_result:
     #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
