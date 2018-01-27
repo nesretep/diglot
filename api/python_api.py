@@ -33,8 +33,6 @@ def testme():
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
-        # TODO: fix result so it is a dictionary-like JSON, not a list of lists type JSON!
-        # If we have to do this regularly, we may need to write a function for it.
         return json.dumps(result)
     except Exception as error:
         return "Exception occurred: {}".format(error)
@@ -88,7 +86,8 @@ def get_chapter(lang, book, chapter):
     query = "SELECT * FROM ? WHERE uid LIKE ?"
 
     try:
-        cursor.execute(query, (str(lang), str(chap_uid) + "%"))
+        # cursor.execute(query, (lang, chap_uid + "%"))
+        curson.execute("SELECT * FROM {} WHERE uid LIKE {}%".format(table, chap_uid))
         db.commit()
         query_result = cursor.fetch_all()
         cursor.close()
