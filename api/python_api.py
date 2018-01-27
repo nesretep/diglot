@@ -77,13 +77,13 @@ def get_chapter(lang, book, chapter):
     """
     chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
     chapter_list = []  # list to hold Instance objects
-    return chap_uid
+
     # Query prep work
-    # try:
-    #     db = helper.connect_to_db(dbconf, adminuser=True)
-    #     cursor = db.cursor(mariadb.cursors.DictCursor)
-    # except Exception as db_connect_error:
-    #     return "Database connection error: {}".format(db_connect_error)
+    try:
+        db = helper.connect_to_db(dbconf, adminuser=True)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except Exception as db_connect_error:
+        return "Database connection error: {}".format(db_connect_error)
     # #TODO: Do we need a semicolon at the end of queries or not?
     # query = "SELECT * FROM ? WHERE uid LIKE ?"
     #
