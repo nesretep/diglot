@@ -33,7 +33,7 @@ def testme():
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
-        return json.dumps("result: {}".format(result))
+        return json.dumps(result)
     except Exception as error:
         return "Exception occurred: {}".format(error)
 
