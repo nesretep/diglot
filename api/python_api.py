@@ -27,12 +27,14 @@ def testme():
     uid = "eng:01:01:01:001"
     try:
         db = helper.connect_to_db(dbconf, adminuser=True)
-        cursor = db.cursor()
+        cursor = db.cursor(mariadb.cursors.DictCursor)
         query = "SELECT * FROM eng_test"
         # query = "SHOW tables"
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
+        # TODO: fix result so it is a dictionary-like JSON, not a list of lists type JSON!
+        # If we have to do this regularly, we may need to write a function for it.
         return json.dumps(result)
     except Exception as error:
         return "Exception occurred: {}".format(error)
