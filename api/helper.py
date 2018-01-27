@@ -45,7 +45,7 @@ def convert_url_to_uid(url):
     """
     mylist = url.split("%3A")
     uid = "{lang}:{book}:{chap}:{verse}:{pos}".format(lang=mylist[0], book=mylist[1], chap=mylist[2],
-                                                      verse=mylist[4], pos=mylist[5])
+                                                      verse=mylist[3], pos=mylist[4])
     if is_valid_uid(uid) is True:
         return uid
     else:
