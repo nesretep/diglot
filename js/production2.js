@@ -976,7 +976,6 @@ function popupVue() {
               span.children().remove();
        }
 }
-
 /*Test JSON pull*/
 new Vue({
   el: '#app',
@@ -992,3 +991,4 @@ new Vue({
     })
   }
 })
+
