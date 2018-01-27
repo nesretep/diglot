@@ -91,13 +91,13 @@ def get_chapter(lang, book, chapter):
         cursor.execute(query, (lang, chap_uid + "%"))
         db.commit()
         query_result = cursor.fetch_all()
-    except mariadb.Error as query_error:
-        db.rollback()
-        return "Database query failed: {}".format(query_error)
-    finally:
         cursor.close()
         db.close()
         return query_result
+    except mariadb.Error as query_error:
+        db.rollback()
+        return "Database query failed: {}".format(query_error)
+
     # # Create a Instance object for each instance in query results, append Instance to list
     # for item in query_result:
     #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
