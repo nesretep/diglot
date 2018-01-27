@@ -976,7 +976,7 @@ function popupVue() {
               span.children().remove();
        }
 }
-/*Test JSON pull*/
+/*Test JSON pull
 new Vue({
   el: '#app',
   data: () => ({
@@ -991,13 +991,14 @@ new Vue({
     })
   }
 })
-
+*/
 
 var xmlHttp = new XMLHttpRequest();
 xmlHttp.onreadystatechange = function() { 
  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
      callback(xmlHttp.responseText);
 }
-xmlHttp.open("GET", 'http://192.168.80.0:8080/eng/1Nephi/01', true); // true for asynchronous 
+xmlHttp.open("GET", "http://192.168.80.0:8080/eng/1Nephi/01", true); // true for asynchronous 
 xmlHttp.send(null);
 alert(xmlHttp.responseText);
+document.getElementById("demo").innerHTML = xmlHttp.responseText;
