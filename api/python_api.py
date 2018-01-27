@@ -22,11 +22,11 @@ dbconf = "conf/diglot.conf"
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
-@bottle.get('/')
+@bottle.get('/test')
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        db = helper.connect_to_db(dbconf, adminuser=True)
+        db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
         query = "SELECT * FROM eng_test"
         # query = "SHOW tables"
@@ -73,7 +73,7 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
-    chap_uid = "{}:{}:{}".format(lang + '_test', books[book], chapter)
+    chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
     chapter_list = []  # list to hold Instance objects
 
     # Query prep work
@@ -83,16 +83,18 @@ def get_chapter(lang, book, chapter):
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
     # #TODO: Do we need a semicolon at the end of queries or not?
-    query = "SELECT * FROM %s WHERE natural_position LIKE %s"
+    query = "SELECT * FROM eng_test WHERE natural_position LIKE 'eng:01:01%'"
+    values = ('eng_test', 'eng:01:01%')
+    # query = "SELECT * FROM eng_test WHERE natural_position LIKE 'eng:01:01%';"
 
     try:
-        cursor.execute(query, (lang, "'" + chap_uid + "%"))
-        # cursor.execute("SELECT * FROM {} WHERE uid LIKE '{}%'".format(lang, chap_uid))
+        # cursor.execute("SELECT * FROM %(table)s WHERE natural_position LIKE %(id)s", {'table': "eng_test",
+        #                                                                               'id': chap_uid + "%"})
+        cursor.execute(query)
         db.commit()
-        query_result = cursor.fetch_all()
+        query_result = cursor.fetchall()
         cursor.close()
-        db.close()
-        return query_result
+        return json.dumps(query_result)
     except mariadb.Error as query_error:
         db.rollback()
         return "Database query failed: {}".format(query_error)
