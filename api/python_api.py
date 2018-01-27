@@ -86,7 +86,7 @@ def get_chapter(lang, book, chapter):
     query = "SELECT * FROM %s WHERE natural_position LIKE %s"
 
     try:
-        cursor.execute(query, (lang, chap_uid + "%"))
+        cursor.execute(query, (lang, "'" + chap_uid + "%"))
         # cursor.execute("SELECT * FROM {} WHERE uid LIKE '{}%'".format(lang, chap_uid))
         db.commit()
         query_result = cursor.fetch_all()
