@@ -975,4 +975,20 @@ function popupVue() {
               var span = $(event.target);
               span.children().remove();
        }
-}   
+}
+
+/*Test JSON pull*/
+new Vue({
+  el: '#app',
+  data: () => ({
+    json: {},
+  }),
+  created: function() {
+    fetch('http://192.168.80.0:8080/eng/1Nephi/01').then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json)
+        this.json = json
+      })
+    })
+  }
+})
