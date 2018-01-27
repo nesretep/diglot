@@ -80,7 +80,7 @@ def get_chapter(lang, book, chapter):
 
     # Query prep work
     try:
-        db = helper.connect_to_db(dbconf)
+        db = helper.connect_to_db(dbconf, adminuser=True)
         cursor = db.cursor(mariadb.cursors.DictCursor)
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
