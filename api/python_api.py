@@ -88,7 +88,7 @@ def get_chapter(lang, book, chapter):
     query = "SELECT * FROM ? WHERE uid LIKE ?"
 
     try:
-        cursor.execute(query, (lang, chap_uid + "%"))
+        cursor.execute(query, (str(lang), str(chap_uid) + "%"))
         db.commit()
         query_result = cursor.fetch_all()
         cursor.close()
