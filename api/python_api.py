@@ -199,7 +199,7 @@ def get_flipped_words():
     query = "SELECT * FROM user_lm WHERE userid = ? AND flipped = True"
 
     try:
-        cursor.execute(query, (userid,)
+        cursor.execute(query, (userid,))
         db.commit()
         # TODO: Check format of query result to make sure it is OK for coverting to JSON!
         query_result = cursor.fetch_all()
