@@ -4,3 +4,5 @@
 *.xml
 
 api/__pycache__/
+
+*.pyc
