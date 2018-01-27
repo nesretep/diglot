@@ -83,10 +83,10 @@ def get_chapter(lang, book, chapter):
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
     # #TODO: Do we need a semicolon at the end of queries or not?
-    query = "SELECT * FROM ? WHERE uid LIKE ?"
+    query = "SELECT * FROM %s WHERE uid LIKE '%s'"
 
     try:
-        cursor.execute(query, (lang, "'" + chap_uid + "%'"))
+        cursor.execute(query, (lang, chap_uid + "%"))
         # cursor.execute("SELECT * FROM {} WHERE uid LIKE '{}%'".format(lang, chap_uid))
         db.commit()
         query_result = cursor.fetch_all()
