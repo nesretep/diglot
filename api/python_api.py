@@ -97,7 +97,7 @@ def get_chapter(lang, book, chapter):
     finally:
         cursor.close()
         db.close()
-        return "Closed cursor."
+        return query_result
     # # Create a Instance object for each instance in query results, append Instance to list
     # for item in query_result:
     #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
