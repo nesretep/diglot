@@ -99,14 +99,14 @@ def get_chapter(lang, book, chapter):
         db.rollback()
         return "Database query failed: {}".format(query_error)
 
-    # # Create a Instance object for each instance in query results, append Instance to list
+    # Create a Instance object for each instance in query results, append Instance to list
     # for item in query_result:
     #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
     #     chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['concept_id'],
     #                                           item['suggested']))
-    # # sort chapter_list and then convert it to JSON format
+    # sort chapter_list and then convert it to JSON format
     # chapter_list = sorted(chapter_list)
-    # # TODO: implement this function to get the already flipped words
+    # TODO: implement this function to get the already flipped words
     # flipped_words = sorted(get_flipped_words())
     #
     # # return JSON-ified version of chapter_list and flipped words in a json of jsons
