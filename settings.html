@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <link rel="stylesheet" href="css\popup.css">
+    <link rel="stylesheet" href="css\slider.css">
     <link rel="stylesheet" href="css\style.css">
     <style type="text/css">
       .not-button{
@@ -53,10 +53,36 @@
         </div>
       </div>
     </div>
+    <br>
     <div class="container-fluid">
+      <div class="row">
+        <!--spacer-->
+        <div class="col-sm-1 col-md-1 col-lg-1"></div>
+        <!--sliders-->
+        <div class="col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2>Rank</h2>
+          <br>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+          </div>
+          <br>
+          <h2>Font Size</h2>
+          <br>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="0" class="slider" id="myRange2">
+          </div>
+        </div>
+        <!--spacer-->
+        <div class="col-sm-1 col-md-1 col-lg-1"></div>
+        <!--Language and Account-->
+        <div class="col-sm-6 col-md-6 col-lg-6 text-center">
+          
+        </div>
+      </div>
     </div>
     
     <script src="js/chapters.js" ></script>
+    <script src="js/slider.js" ></script>
   </body>
 </html>
 
