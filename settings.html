@@ -45,22 +45,17 @@
           <br><br><br>
           <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" >{{ book }}
           </button>
-          <!--<span>{{ Active_Chapter }}</span>-->
-
         </div>
         <div class= "col-sm-6 col-md-6 col-lg-6">
           <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Chapter</h2></div>
           <br><br><br>
           <div v-for='chapter in BOM[Active_Chapter]' class= "not-button col-sm-3 col-md-3 col-lg-3 text-center"> {{chapter}}</div>
-
-       
-      </div>
         </div>
       </div>
-      <!--Chapter-->
-      <div class="row">
-        
     </div>
+    <div class="container-fluid">
+    </div>
+    
     <script src="js/chapters.js" ></script>
   </body>
 </html>
