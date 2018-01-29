@@ -991,7 +991,7 @@ new Vue({
     })
   }
 })
-*/
+
 
 var xmlHttp = new XMLHttpRequest();
 xmlHttp.onreadystatechange = function() { 
@@ -1002,3 +1002,4 @@ xmlHttp.open("GET", "http://192.168.80.0:8080/eng/1Nephi/01", true); // true for
 xmlHttp.send(null);
 alert(xmlHttp.responseText);
 document.getElementById("demo").innerHTML = xmlHttp.responseText;
+*/
