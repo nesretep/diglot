@@ -1,4 +1,6 @@
-var json={
+var books = ["1 Nephi", "2 Nephi","Jacob","Enos","Jarom","Omni","Words of Mormon","Mosiah",	"Alma",	"Helaman",	"3 Nephi",	"4 Nephi",	"Mormon","Ether","Moroni"]; 
+var Helaman = ["Chapter1","Chapter2","Chapter3","Chapter4","Chapter5","Chapter6","Chapter7","Chapter8","Chapter9","Chapter10","Chapter11","Chapter12","Chapter13","Chapter14","Chapter15","Chapter16"];
+var BOM ={
 	"1 Nephi": ["Chapter1","Chapter2","Chapter3","Chapter4","Chapter5","Chapter6","Chapter7","Chapter8","Chapter9","Chapter10","Chapter11","Chapter12","Chapter13","Chapter14","Chapter15","Chapter16","Chapter17","Chapter18","Chapter19","Chapter20","Chapter21","Chapter22"],
 	"2 Nephi": ["Chapter1","Chapter2","Chapter3","Chapter4","Chapter5","Chapter6","Chapter7","Chapter8","Chapter9","Chapter10","Chapter11","Chapter12","Chapter13","Chapter14","Chapter15","Chapter16","Chapter17","Chapter18","Chapter19","Chapter20","Chapter21","Chapter22","Chapter23","Chapter24","Chapter25","Chapter26","Chapter27","Chapter28","Chapter29","Chapter30","Chapter31","Chapter32","Chapter33"],
 	"Jacob": ["Chapter1", "Chapter2", "Chapter3", "Chapter4", "Chapter5","Chapter6","Chapter7"],
@@ -15,9 +17,13 @@ var json={
 	"Ether": ["Chapter1","Chapter2","Chapter3","Chapter4","Chapter5","Chapter6","Chapter7","Chapter8","Chapter9","Chapter10","Chapter11","Chapter12","Chapter13","Chapter14","Chapter15"],
 	"Moroni": ["Chapter1", "Chapter2", "Chapter3", "Chapter4", "Chapter5","Chapter6","Chapter7","Chapter8","Chapter9","Chapter10"]
 }
+
 new Vue({
-       el: '#bookChapters',
+       el: '#BookOfMormon',
        data: {
-           json
+       	   books,
+           BOM,
+           "Active_Chapter" : ""
        }
 })
+

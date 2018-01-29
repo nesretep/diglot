@@ -1,75 +1,68 @@
 <!DOCTYPE html>
 <html>
-<title> Settings </title>
-	<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <link rel="stylesheet" href="css\popup.css">
-  <link rel="stylesheet" href="css\style.css">
-</head>
-<body>                                    
-  <div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
-       <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="login.html">Login</a></li>
-      <li><a href="settings.html">Settings</a></li>
-      <li><a href="index.html">Main</a></li>
-    </ul>
-  </div>
-<div class="container-fluid">
-  <div class="row text-center">
-    <h1>Settings</h1>
-  </div>
-
-
-  <div class="row">
-    <div class= "col-sm-6 col-md-6 col-lg-6">
-      <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Book</h2></div>
-      <br><br><br>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">1 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">2 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jacob</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Enos</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jarom</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Omni</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Words of Mormon</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mosiah</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Alma</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Helaman</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">3 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">4 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mormon</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Ether</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Moroni</div>
+  <title> Settings </title>
+  	<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="css\popup.css">
+    <link rel="stylesheet" href="css\style.css">
+    <style type="text/css">
+      .not-button{
+        padding: 0;
+        border: none;
+        background: none;
+      }
+    </style>
+  </head>
+  <body>                                    
+    <div class="dropdown">
+      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
+         <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="login.html">Login</a></li>
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="index.html">Main</a></li>
+      </ul>
     </div>
-    <div class= "col-sm-6 col-md-6 col-lg-6">
-      <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Chapter</h2></div>
-      <br><br><br>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">1 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">2 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jacob</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Enos</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jarom</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Omni</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Words of Mormon</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mosiah</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Alma</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Helaman</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">3 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">4 Nephi</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mormon</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Ether</div>
-      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Moroni</div>
+    <!--rest of body-->
+    <div class="container-fluid"  id="BookOfMormon">
+      <!--Title-->
+      <div class="row text-center">
+        <h1>Settings</h1>
+      </div>
+
+      <!--sections-->
+
+      <!--Book-->
+      <div class="row">
+        <div class= "col-sm-6 col-md-6 col-lg-6">
+          <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Book</h2></div>
+          <br><br><br>
+          <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" >{{ book }}
+          </button>
+          <!--<span>{{ Active_Chapter }}</span>-->
+
+        </div>
+        <div class= "col-sm-6 col-md-6 col-lg-6">
+          <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Chapter</h2></div>
+          <br><br><br>
+          <div v-for='chapter in BOM[Active_Chapter]' class= "not-button col-sm-3 col-md-3 col-lg-3 text-center"> {{chapter}}</div>
+
+       
+      </div>
+        </div>
+      </div>
+      <!--Chapter-->
+      <div class="row">
+        
     </div>
-  </div>
-  <div class="row"></div>
-</div>
+    <script src="js/chapters.js" ></script>
+  </body>
 </html>
 
 
