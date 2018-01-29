@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <link rel="stylesheet" href="css\popup.css">
+  <link rel="stylesheet" href="css\style.css">
 </head>
 <body>                                    
   <div class="dropdown">
@@ -19,55 +22,54 @@
       <li><a href="index.html">Main</a></li>
     </ul>
   </div>
+<div class="container-fluid">
+  <div class="row text-center">
+    <h1>Settings</h1>
+  </div>
+
+
+  <div class="row">
+    <div class= "col-sm-6 col-md-6 col-lg-6">
+      <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Book</h2></div>
+      <br><br><br>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">1 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">2 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jacob</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Enos</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jarom</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Omni</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Words of Mormon</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mosiah</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Alma</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Helaman</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">3 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">4 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mormon</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Ether</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Moroni</div>
+    </div>
+    <div class= "col-sm-6 col-md-6 col-lg-6">
+      <div class= "col-sm-12 col-md-12 col-lg-12 text-center"><h2>Chapter</h2></div>
+      <br><br><br>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">1 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">2 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jacob</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Enos</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Jarom</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Omni</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Words of Mormon</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mosiah</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Alma</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Helaman</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">3 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">4 Nephi</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Mormon</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Ether</div>
+      <div class= "col-sm-6 col-md-6 col-lg-6 text-center">Moroni</div>
+    </div>
+  </div>
+  <div class="row"></div>
 </div>
-<center>
-<h1>  <font face = "Times New Roman">Settings</font> </h1>
-<h3><font face = "Times New Roman">Chapter Select</font></h3>
-  <select>
-  <option value="1Nephi" margin-right = '20 px'>1 Nephi</option>
-  <option value="2Nephi" margin-right = '20 px'>2 Nephi</option>
-  <option value="Jacob" margin-right = '20 px'>Jacob</option>
-  <option value="Enos" margin-right = '20 px'>Enos</option>
-</select> 
- <select>
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-</select> 
-  <button onclick="window.location.href='index.html'">Go</button>
- <h3><font face = "Times New Roman">Rank</font></h3>
-  <select>
-  <option value="1" margin-right = '20 px'>1</option>
-  <option value="2" margin-right = '20 px'>2</option>
-  <option value="3" margin-right = '20 px'>3</option>
-  <option value="4" margin-right = '20 px'>4</option>
-  <option value="5" margin-right = '20 px'>5</option>
-</select> 
-<button onclick="window.location.href='index.html'">Go</button>
-<h3><font face = "Times New Roman">Profile</font></h3>
- <button onclick="window.location.href='https://ident.lds.org/sso/cdcservlet?goto=https%3A%2F%2Fldsaccount.lds.org%3A443%2F&RequestID=1516326098731&MajorVersion=1&MinorVersion=0&ProviderID=https%3A%2F%2Fsso.ldschurch.org%3A443%2Famagent&IssueInstant=2018-01-19T01%3A41%3A38Z'">LDS Account</button>
-</br>
-<h3><font face = "Times New Roman">Font Size</font></h3> 
- <select>
-  <option value="12" margin-right = '20 px'>12</option>
-  <option value="14" margin-right = '20 px'>14</option>
-  <option value="16" margin-right = '20 px'>16</option>
-  <option value="18" margin-right = '20 px'>18</option>
-</select> 
-<center>
- <form action="/action_page.php">
-<br>
-<h3><font face = "Times New Roman">Switch Language</font></h3>
-<button margin-right ='20 px'>English to Spanish</button>
-<button margin-right ='20 px'>English to Mandarin</button>
-<button margin-right ='20 px'>English to Czech</button>
-<button margin-right ='20 px'>English to Malay</button>
-</form> 
-<br>
-</center>
- <button onclick="window.location.href='index.html'">Save</button>
-</center>
 </html>
 
 
