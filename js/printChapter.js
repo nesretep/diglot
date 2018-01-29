@@ -976,7 +976,7 @@ function popupVue() {
               span.children().remove();
        }
 }
-/*Test JSON pull
+/*Test JSON pull*/
 new Vue({
   el: '#app',
   data: () => ({
@@ -1002,4 +1002,3 @@ xmlHttp.open("GET", "http://192.168.80.0:8080/eng/1Nephi/01", true); // true for
 xmlHttp.send(null);
 alert(xmlHttp.responseText);
 document.getElementById("demo").innerHTML = xmlHttp.responseText;
-*/
