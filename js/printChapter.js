@@ -976,14 +976,14 @@ function popupVue() {
               span.children().remove();
        }
 }
-/*Test JSON pull*/
+/*Test JSON pull
 new Vue({
   el: '#app',
   data: () => ({
     json: {},
   }),
   created: function() {
-    fetch('http://192.168.80.0:8080/eng/1Nephi/01').then((response) => {
+    fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
       return response.json().then((json) => {
         console.log("JSON", json)
         this.json = json
@@ -998,7 +998,8 @@ xmlHttp.onreadystatechange = function() {
  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
      callback(xmlHttp.responseText);
 }
-xmlHttp.open("GET", "http://192.168.80.0:8080/eng/1Nephi/01", true); // true for asynchronous 
+xmlHttp.open("GET", "http://diglot.it.et.byu.edu/eng/1Nephi/01", true); // true for asynchronous 
 xmlHttp.send(null);
 alert(xmlHttp.responseText);
 document.getElementById("demo").innerHTML = xmlHttp.responseText;
+*/

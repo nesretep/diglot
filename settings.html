@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <title> Settings </title>
+  <title> Chapter Select </title>
   	<head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -30,32 +30,10 @@
       </ul>
     </div>
     <!--rest of body-->
-    <div class="container-fluid"  id="BookOfMormon">
-      <!--Title-->
-      <div class="row text-center">
-        <h1>Settings</h1>
-      </div>
-
-      <!--sections-->
-
-      <!--Book-->
-      <div class="row">
-        <div class= "col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <div class= "col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"><h2>Book</h2></div>
-          <br><br><br>
-          <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" >{{ book }}
-          </button>
-        </div>
-        <div class= "col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <div class= " col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"><h2>Chapter</h2></div>
-          <br><br><br>
-          <div v-for='chapter in BOM[Active_Chapter]' class= "not-button col-sm-3 col-md-3 col-lg-3 text-center"> {{chapter}}</div>
-        </div>
-      </div>
-    </div>
-    <br>
     <div class="container-fluid">
       <div class="row">
+        <h1 class="text-center">Settings</h1>
+        <br>
         <!--spacer-->
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
         <!--sliders-->
