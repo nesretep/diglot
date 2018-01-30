@@ -1,4 +1,4 @@
-body{
+body {
   font-size: 20px;
   font-family: "Times New Roman", Georgia, Serif;
 }
@@ -16,4 +16,12 @@ body{
 }
 .verse{
   padding-bottom: 15px;
+}
+.not-button{
+  padding: 0;
+  border: none;
+  background: none;
+}
+.chapter{
+  padding-bottom: 10px;
 }

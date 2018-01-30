@@ -15,11 +15,14 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <!-- Optional theme -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+      
       <style type="text/css">
          body{
          font-size: 20px;
          font-family: "Times New Roman", Georgia, Serif;
          }
+         /*
          .popup:hover{
          background: #D1D1D1;
          border-radius: 2px;
@@ -39,8 +42,12 @@
             padding: 0;
             border: none;
             background: none;
-          }
+         }
+         .chapter{
+            padding-bottom: 10px;
+         }*/
       </style>
+      
    </head>
    <body>
       <nav aria-label="breadcrumb">
@@ -95,7 +102,7 @@
                         </button>
                      </div>
                      <div class="modal-body">
-                         <div v-for='chapter in BOM[Active_Chapter]' class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
+                         <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
                          &nbsp;&nbsp;&nbsp;&nbsp;
                      </div>
 
