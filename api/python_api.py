@@ -9,6 +9,8 @@ import instance
 import helper
 import sys
 import pymysql as mariadb
+import logging
+import datetime
 
 sys.path.extend(['/git/diglot/api'])
 
@@ -19,6 +21,57 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 dbconf = "conf/diglot.conf"
+
+
+@bottle.route('/')
+def start(filename="../index.html"):
+    """
+    Loads the page defined in the query string as "page"
+
+    :param filename: (str) filename set by default; may be overridden
+    :return content: (str) the contents of the html page specified
+    :return None: return value if IOError occurs
+    """
+    # if bottle.request.query.page is not None:
+    #     filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
+    # else:
+    #     pass
+
+    try:
+        file = open(filename, "r")
+        content = file.read()
+        file.close()
+        return content
+    except IOError as file_error:
+        msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
+        logging.error(msg)
+        return None
+
+
+@bottle.route('/settings')
+def load_settings(filename="../settings.html"):
+    try:
+        file = open(filename, "r")
+        content = file.read()
+        file.close()
+        return content
+    except IOError as file_error:
+        msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
+        logging.error(msg)
+        return None
+
+
+@bottle.route('/login')
+def load_login(filename="../login.html"):
+    try:
+        file = open(filename, "r")
+        content = file.read()
+        file.close()
+        return content
+    except IOError as file_error:
+        msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
+        logging.error(msg)
+        return None
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
@@ -36,19 +89,6 @@ def testme():
         return json.dumps(result)
     except Exception as error:
         return "Exception occurred: {}".format(error)
-
-
-@bottle.route('/login')
-def do_login():
-    """
-    Gets the username and password that was sent in the form ans performs authentication
-
-    :return: (bool) Value indicating login status
-    """
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
-    return json.dumps(helper.check_login(username, password))
-    # return json.dumps(chunk.Instance("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
 
 
 @bottle.get('/static/<filename>')
@@ -74,38 +114,34 @@ def get_chapter(lang, book, chapter):
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
     chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
-    chapter_list = []  # list to hold Instance objects
 
     # Query prep work
-    try:
-        db = helper.connect_to_db(dbconf)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-    # #TODO: Do we need a semicolon at the end of queries or not?
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
     query = "SELECT * FROM eng_test WHERE natural_position LIKE 'eng:01:01%'"
-    values = ('eng_test', 'eng:01:01%')
-    # query = "SELECT * FROM eng_test WHERE natural_position LIKE 'eng:01:01%';"
 
     try:
-        # cursor.execute("SELECT * FROM %(table)s WHERE natural_position LIKE %(id)s", {'table': "eng_test",
-        #                                                                               'id': chap_uid + "%"})
+        # cursor.execute("SELECT * FROM %(table)s WHERE natural_position LIKE %(id)s", {'table': "eng_test",'id': chap_uid + "%"})
         cursor.execute(query)
         db.commit()
         query_result = cursor.fetchall()
         cursor.close()
+        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
         return json.dumps(query_result)
     except mariadb.Error as query_error:
         db.rollback()
-        return "Database query failed: {}".format(query_error)
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        return msg
 
     # Create a Instance object for each instance in query results, append Instance to list
     # for item in query_result:
-    #     # TODO: Verify what 'item' contains to make sure it is in the proper format for making an Instance like this!
     #     chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['concept_id'],
     #                                           item['suggested']))
     # sort chapter_list and then convert it to JSON format
     # chapter_list = sorted(chapter_list)
+
     # TODO: implement this function to get the already flipped words
     # flipped_words = sorted(get_flipped_words())
     #
@@ -341,3 +377,5 @@ if __name__ == '__main__':
     bottle.run(host='localhost', port=8000, debug=True, reloader=True)
 else:
     app = application = bottle.default_app()
+    bottle.debug(True)
+    logging.basicConfig(filename='test.log', level=logging.DEBUG)
