@@ -23,7 +23,7 @@ new Vue({
        data: {
        	   books,
            BOM,
-           "Active_Chapter" : ""
+           "Active_Chapter" : "1 Nephi"
        }
 })
 

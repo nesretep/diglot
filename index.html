@@ -7,7 +7,7 @@
       <link rel="stylesheet" href="css\style.css">
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+         crossorigin="anonymous"></script>
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
       <!-- Latest compiled and minified JavaScript -->
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -15,92 +15,98 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <!-- Optional theme -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-
       <style type="text/css">
-        body{
-          font-size: 20px;
-          font-family: "Times New Roman", Georgia, Serif;
-        }
-        .popup:hover{
-          background: #D1D1D1;
-          border-radius: 2px;
-        }
-        .chunk{
-          display:inline-block;
-          word-wrap: break-word;
-          word-wrap: normal;
-        }
-        .punctuation{
-          display:inline-block;
-        }
-        .verse{
-          padding-bottom: 15px;
-        }
+         body{
+         font-size: 20px;
+         font-family: "Times New Roman", Georgia, Serif;
+         }
+         .popup:hover{
+         background: #D1D1D1;
+         border-radius: 2px;
+         }
+         .chunk{
+         display:inline-block;
+         word-wrap: break-word;
+         word-wrap: normal;
+         }
+         .punctuation{
+         display:inline-block;
+         }
+         .verse{
+         padding-bottom: 15px;
+         }
+         .not-button{
+            padding: 0;
+            border: none;
+            background: none;
+          }
       </style>
    </head>
    <body>
-      
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item dropdown">
-        
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
-                 <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="login.html" >Login</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="index.html">Main</a></li>
-              </ul>
-           
-         </li>
-          <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#BookModal">First Nephi</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#ChapterModal">Chapter 1</a></li>
-        </ol>
+         <ol class="breadcrumb">
+            <li class="breadcrumb-item dropdown">
+               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
+               <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu">
+                  <li><a href="login.html" >Login</a></li>
+                  <li><a href="settings.html">Settings</a></li>
+                  <li><a href="index.html">Main</a></li>
+               </ul>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#BookModal">First Nephi</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#ChapterModal">Chapter 1</a></li>
+         </ol>
       </nav>
       <div id="platform-canvas-content" role="main">
-        <!-- Book Modal -->
-        <div class="modal fade" id="BookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Chapter Modal -->
-        <div class="modal fade" id="ChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+         <div id="BookOfMormon">
+            <!-- Book Modal -->
+            <div class="modal fade" id="BookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Book Select</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                     <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" >{{ book }}
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+            <!-- Chapter Modal -->
+            <div class="modal fade" id="ChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chapter Select</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                         <div v-for='chapter in BOM[Active_Chapter]' class= "not-button col-sm-3 col-md-3 col-lg-3 text-center"> {{chapter}}</div>
+                         &nbsp;&nbsp;&nbsp;&nbsp;
+                     </div>
+
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
 
          <div class="container">
             <!--Book Title and Introduction-->
@@ -132,26 +138,26 @@
             <div class="row">
                <div class="col-xs-10 col-sm-10 col-md-10 wrap">
                   <div onclick="popupVue()" id="chapter" >
-                    <div v-for=" verseItem in verses" class="verse">
-                      <span><b>{{ verseItem }} </b></span>
-                      <span v-for="item in json.chunks">
+                     <div v-for=" verseItem in verses" class="verse">
+                        <span><b>{{ verseItem }} </b></span>
+                        <span v-for="item in json.chunks">
                         <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk" v-bind:id= "item.natural_position">
-                          &nbsp;{{ item.text }}
+                        &nbsp;{{ item.text }}
                         </span>
                         <span v-else-if="item.verse == verseItem && item.punctuation==true" class="punctuation">
-                            {{ item.text }}
+                        {{ item.text }}
                         </span>
-                      </span>
-                    </div>
+                        </span>
+                     </div>
                   </div>
                </div>
                <div class="col-xs-2 col-sm-2 col-md-2" id="vs19side"></div>
             </div>
-            
          </div>
          <div id='demo'></div>
       </div>
       <!-- end #content -->
-   <script src="js/printChapter.js" ></script>
+      <script src="js/printChapter.js" ></script>
+      <script src="js/chapters.js" ></script>
    </body>
 </html>
