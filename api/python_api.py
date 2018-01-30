@@ -25,6 +25,16 @@ dbconf = "conf/diglot.conf"
 
 @bottle.route('/')
 def start(filename="../index.html"):
+    """
+    Loads the page defined in the query string as "page"
+
+    :param filename: (str) filename set by default; may be overridden
+    :return content: (str) the contents of the html page specified
+    :return None: return value if IOError occurs
+    """
+    if bottle.request.query.page is not None:
+        filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
+
     try:
         file = open(filename, "r")
         content = file.read()
@@ -51,19 +61,6 @@ def testme():
         return json.dumps(result)
     except Exception as error:
         return "Exception occurred: {}".format(error)
-
-
-@bottle.route('/login')
-def do_login():
-    """
-    Gets the username and password that was sent in the form ans performs authentication
-
-    :return: (bool) Value indicating login status
-    """
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
-    return json.dumps(helper.check_login(username, password))
-    # return json.dumps(chunk.Instance("ENG:01:01:01:001", "my text", "01:01:01:001", 7).to_dict())
 
 
 @bottle.get('/static/<filename>')
