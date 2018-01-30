@@ -32,7 +32,7 @@ def start(filename="../index.html"):
     :return content: (str) the contents of the html page specified
     :return None: return value if IOError occurs
     """
-    if bottle.request.query.page is not None:
+    if bottle.request.query.page is not None or ! = "":
         filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
 
     try:
