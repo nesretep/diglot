@@ -71,47 +71,46 @@
       <div id="platform-canvas-content" role="main">
          <div id="BookOfMormon">
             <!--Side Modal-->
-            <div class="container demo">
-				<!-- Book Left Modal -->
-				<div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
+			<!-- Book Left Modal -->
+			<div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
 
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="myModalLabel">Book</h4>
-							</div>
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Book</h4>
+						</div>
 
-							<div class="modal-body">
-								<button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
-		                        </button>
-		                        &nbsp;&nbsp;&nbsp;&nbsp;
-							</div>
+						<div class="modal-body">
+							<button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
+	                        </button>
+	                        &nbsp;&nbsp;&nbsp;&nbsp;
+						</div>
 
-						</div><!-- modal-content -->
-					</div><!-- modal-dialog -->
-				</div><!-- modal -->
-				
+					</div><!-- modal-content -->
+				</div><!-- modal-dialog -->
+			</div><!-- modal -->
+			
 
-				<!--Left Chapter from Book-->
-				<div class="modal left fade" id="sideModalLeftChapter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
+			<!--Left Chapter from Book-->
+			<div class="modal left fade" id="sideModalLeftChapter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
 
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
-							</div>
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
+						</div>
 
-							<div class="modal-body">
-								<div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
-	                        	&nbsp;&nbsp;&nbsp;&nbsp;
-							</div>
+						<div class="modal-body">
+							<div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
+                        	&nbsp;&nbsp;&nbsp;&nbsp;
+						</div>
 
-						</div><!-- modal-content -->
-					</div><!-- modal-dialog -->
-				</div><!-- modal -->
-			</div><!-- container -->
+					</div><!-- modal-content -->
+				</div><!-- modal-dialog -->
+			</div><!-- modal -->
+		
          </div><!--BOM object-->
 
          <div class="container">
