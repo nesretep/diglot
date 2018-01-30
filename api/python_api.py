@@ -32,9 +32,37 @@ def start(filename="../index.html"):
     :return content: (str) the contents of the html page specified
     :return None: return value if IOError occurs
     """
-    if bottle.request.query.page is not None or bottle.request.query.page != "":
-        # filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
-        return bottle.request.query.page
+    # if bottle.request.query.page is not None:
+    #     filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
+    # else:
+    #     pass
+
+    try:
+        file = open(filename, "r")
+        content = file.read()
+        file.close()
+        return content
+    except IOError as file_error:
+        msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
+        logging.error(msg)
+        return None
+
+
+@bottle.route('/settings')
+def load_settings(filename="../settings.html"):
+    try:
+        file = open(filename, "r")
+        content = file.read()
+        file.close()
+        return content
+    except IOError as file_error:
+        msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
+        logging.error(msg)
+        return None
+
+
+@bottle.route('/login')
+def load_login(filename="../login.html"):
     try:
         file = open(filename, "r")
         content = file.read()
