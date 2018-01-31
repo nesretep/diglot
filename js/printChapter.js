@@ -976,7 +976,24 @@ function popupVue() {
               span.children().remove();
        }
 }
-/*Test JSON pull
+/*Test JSON pull*/
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://diglot.it.et.byu.edu/eng/1Nephi/01",
+  "method": "GET",
+  "headers": {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "cache-control": "no-cache",
+    "postman-token": "358adb71-556a-a6c9-046b-c2dda6336398"
+  }
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+/*
 new Vue({
   el: '#app',
   data: () => ({
