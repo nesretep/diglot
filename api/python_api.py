@@ -378,4 +378,4 @@ if __name__ == '__main__':
 else:
     app = application = bottle.default_app()
     bottle.debug(True)
-    logging.basicConfig(filename='test.log', level=logging.DEBUG)
+    logging.basicConfig(filename='/tmp/test.log', level=logging.DEBUG)
