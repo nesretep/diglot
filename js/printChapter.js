@@ -993,7 +993,7 @@ var settings = {
 $.ajax(settings).done(function (response) {
   console.log(response);
 });
-
+*/
 new Vue({
   el: '#app',
   data: () => ({
@@ -1009,7 +1009,7 @@ new Vue({
   }
 })
 
-
+/*
 var xmlHttp = new XMLHttpRequest();
 xmlHttp.onreadystatechange = function() { 
  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
