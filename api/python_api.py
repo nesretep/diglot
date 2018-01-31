@@ -41,7 +41,7 @@ def start(filename="../index.html"):
         file = open(filename, "r")
         content = file.read()
         file.close()
-        return content
+        return bottle.static_file(index.html, root=/var/www/html, mimetype='text/html')
     except IOError as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
