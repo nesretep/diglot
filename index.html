@@ -145,12 +145,12 @@
                   <div onclick="popupVue()" id="chapter" >
                      <div v-for=" verseItem in verses" class="verse">
                         <span><b>{{ verseItem }} </b></span>
-                        <span v-for="item in json.chunks">
+                        <span v-for="item in json">
                         <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk" v-bind:id= "item.natural_position">
-                        &nbsp;{{ item.text }}
+                        &nbsp;{{ item.chunk_value }}
                         </span>
                         <span v-else-if="item.verse == verseItem && item.punctuation==true" class="punctuation">
-                        {{ item.text }}
+                        {{ item.chunk_value }}
                         </span>
                         </span>
                      </div>
