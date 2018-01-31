@@ -9,7 +9,7 @@ INSTANCE_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
 
-def connect_to_db(unicode(config_path), adminuser=False):
+def connect_to_db(config_path, adminuser=False):
     """
     Connects to the database defined in the configuration file given
 
