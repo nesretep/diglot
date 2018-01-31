@@ -5,6 +5,7 @@
       <meta http-equiv="content-type" content="text/html;charset=utf-8" />
       <link rel="stylesheet" href="css\popup.css">
       <link rel="stylesheet" href="css\style.css">
+      <link rel="stylesheet" href="css\sideModal.css">
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
          crossorigin="anonymous"></script>
@@ -63,83 +64,54 @@
                   <li><a href="index.html">Main</a></li>
                </ul>
             </li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#BookModal">First Nephi</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#ChapterModal">Chapter 1</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">First Nephi</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">Chapter 1</a></li>
          </ol>
       </nav>
       <div id="platform-canvas-content" role="main">
          <div id="BookOfMormon">
-            <!-- Book Modal -->
-            <div class="modal fade" id="BookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <!--Side Modal-->
+         <!-- Book Left Modal -->
+         <div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Book Select</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Book</h4>
                   </div>
+
                   <div class="modal-body">
-                     <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#BookChapterModal">{{ book }}</a>
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
+                     <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
+                           </button>
+                           &nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+
+               </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+         </div><!-- modal -->
+         
+
+         <!--Left Chapter from Book-->
+         <div class="modal left fade" id="sideModalLeftChapter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
                   </div>
-                </div>
-              </div>
-            </div>
-            
-            <!--Book's Chapter Modal-->
-            <div class="modal fade" id="BookChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chapter Select</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                     </div>
-                     <div class="modal-body">
-                         <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
-                         &nbsp;&nbsp;&nbsp;&nbsp;
-                     </div>
 
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                     </div>
+                  <div class="modal-body">
+                     <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
+                           &nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
-               </div>
-            </div>
 
-            <!-- Chapter Modal -->
-            <div class="modal fade" id="ChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chapter Select</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                     </div>
-                     <div class="modal-body">
-                         <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
-                         &nbsp;&nbsp;&nbsp;&nbsp;
-                     </div>
-
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-
-         </div>
+               </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+         </div><!-- modal -->
+      
+         </div><!--BOM object-->
 
          <div class="container">
             <!--Book Title and Introduction-->
