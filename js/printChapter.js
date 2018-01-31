@@ -976,7 +976,7 @@ function popupVue() {
               span.children().remove();
        }
 }
-/*Test JSON pull*/
+/*Test JSON pull
 var settings = {
   "async": true,
   "crossDomain": true,
@@ -993,7 +993,7 @@ var settings = {
 $.ajax(settings).done(function (response) {
   console.log(response);
 });
-/*
+
 new Vue({
   el: '#app',
   data: () => ({
