@@ -113,16 +113,15 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
-    chap_uid = "{}:{}:{}".format(lang, books[book], chapter)
-
+    chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
+    table = "eng_test"  # TODO: change this to lang rather than "eng_test"
     # Query prep work
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM eng_test WHERE natural_position LIKE 'eng:01:01%'"
+    query = "SELECT * FROM {} WHERE natural_position LIKE %s".format(table)
 
     try:
-        # cursor.execute("SELECT * FROM %(table)s WHERE natural_position LIKE %(id)s", {'table': "eng_test",'id': chap_uid + "%"})
-        cursor.execute(query)
+        cursor.execute(query, (chap_uid,))
         db.commit()
         query_result = cursor.fetchall()
         cursor.close()
@@ -134,19 +133,6 @@ def get_chapter(lang, book, chapter):
         msg = "Database query failed: {}".format(query_error)
         logging.error(msg)
         return msg
-
-    # Create a Instance object for each instance in query results, append Instance to list
-    # for item in query_result:
-    #     chapter_list.append(instance.Instance(item['uid'], item['text'], item['masterpos'], item['concept_id'],
-    #                                           item['suggested']))
-    # sort chapter_list and then convert it to JSON format
-    # chapter_list = sorted(chapter_list)
-
-    # TODO: implement this function to get the already flipped words
-    # flipped_words = sorted(get_flipped_words())
-    #
-    # # return JSON-ified version of chapter_list and flipped words in a json of jsons
-    # return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
 @bottle.route('/instance')
