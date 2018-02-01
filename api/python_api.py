@@ -149,8 +149,8 @@ def get_chapter(lang, book, chapter):
     # return json.dumps({"chapter": chapter_list, "flipped": flipped_words})
 
 
-@bottle.route('/instance/<uid>')
-def get_one_instance(uid):
+@bottle.route('/instance')
+def get_one_instance():
     """
     Get one Instance from the database and return it to the function caller.
 
@@ -158,6 +158,7 @@ def get_one_instance(uid):
     :return: (Instance) The Instance with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
+    uid = str(bottle.request.query.uid)
     uid = helper.convert_url_to_uid(uid)
     if helper.is_valid_uid(uid, "instance"):
         # Query database for chunk
