@@ -90,17 +90,33 @@ def testme():
     except Exception as error:
         return "Exception occurred: {}".format(error)
 
-
-@bottle.get('/static/<filename>')
-def get_static(filename):
+# TODO: flesh out this function!
+@bottle.route('/header')
+def get_chapter_header(request):
     """
-    This function facilitates the retrieval of static files as needed.
+    Gets chapter heading text from the database and returns it
 
-    :param filename: name of static file requested
-    :return: the file that was requested
+    :param request: the chapter you are requesting the header for
+    :return: ????
     """
-    static_webroot = "/var/www/html/static/"
-    return bottle.static_file(filename, root=static_webroot)
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+    # TODO: write query for retrieving the chapter header text
+    query = "Select the stuff from the place when it looks right."
+
+    try:
+        cursor.execute(query)
+        db.commit()
+        query_result = cursor.fetchone()
+        cursor.close()
+        msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query)
+        logging.info(msg)
+        return json.dumps(query_result)
+    except mariadb.Error as query_error:
+        db.rollback()
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        return msg
 
 
 @bottle.get('/<lang>/<book>/<chapter>')
@@ -113,12 +129,11 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
+    table = "eng_test"
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
-    table = "eng_test"  # TODO: change this to lang rather than "eng_test"
-    # Query prep work
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE natural_position LIKE %s".format(table)
+    query = "SELECT * FROM {} WHERE `natural_position` LIKE %s".format(table)
 
     try:
         cursor.execute(query, (chap_uid,))
@@ -144,9 +159,15 @@ def get_one_instance():
     :return: (Instance) The Instance with the uid specified in the function call in JSON format.
     :return None: returns None if uid is not valid
     """
-    uid = str(bottle.request.query.uid)
-    uid = helper.convert_url_to_uid(uid)
-    if helper.is_valid_uid(uid, "instance"):
+    lang = bottle.request.query.lang
+    book = books[bottle.request.query.book]
+    chapter = bottle.request.query.chapter
+    verse = bottle.request.query.verse
+    pos = bottle.request.query.pos
+
+    uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
+
+    if helper.is_valid_uid(uid, "instance") is True:
         # Query database for chunk
         try:
             db = helper.connect_to_db(dbconf)
@@ -154,28 +175,23 @@ def get_one_instance():
         except Exception as db_connect_error:
             return "Database connection error: {}".format(db_connect_error)
 
-        table = uid[:3]
-        query = "SELECT * FROM ? WHERE uid = ?"
+        # table = uid[:3]
+        table = "eng_test"
+        query = "SELECT * FROM {} WHERE natural_position=%s".format(table)
 
         try:
-            cursor.execute(query, (table, uid))
+            cursor.execute(query, (uid,))
             db.commit()
-            query_result = cursor.fetch_all()
+            query_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+            logging.info(msg)
+            return json.dumps(query_result)
         except mariadb.Error as query_error:
             db.rollback()
+            msg = "Database query failed: {}".format(query_error)
+            logging.error()
             return "Database query failed: {}".format(query_error)
-        finally:
-            cursor.close()
-            db.close()
-        # Create Instance object
-        # TODO: Fix creation of chunk object.  Not all data will be provided by current query!
-        mychunk = instance.Instance(query_result['uid'], query_result['text'], query_result['masterpos'],
-                               query_result['rank'], query_result['flipped'], query_result['tag'],
-                               query_result['suggested'])
 
-        return json.dumps(mychunk.to_dict())
-    else:
-        return None
 
 
 @bottle.put('/flip/<uid>')
