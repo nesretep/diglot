@@ -5,7 +5,7 @@ import configparser
 import pymysql as mariadb
 import re
 import logging
-INSTANCE_REGEX = "[A-Z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
+INSTANCE_REGEX = "[a-z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
 
@@ -18,7 +18,7 @@ def connect_to_db(config_path, adminuser=False):
     :return: connection object for the connection type specified in connect_type
     """
     config = configparser.ConfigParser()
-    config.read(config_path)  # do we want to just hard code the file path rather than passing it in?
+    config.read(config_path.decode())
     database = config['database'][ 'database']
     hostname = config['database']['hostname']
     if adminuser is True:
@@ -58,8 +58,8 @@ def is_valid_uid(uid, type):
     Validator function to make sure uids are in the proper format
 
     :param uid: (str) the uid to validate
-    :param type: type of uid pattern to check against - instance or master position (mp)
-    :return: result of the regex pattern checking (True/False) against the pattern specified by 'type'
+    :param type: (str) type of uid pattern to check against - instance or master position (mp)
+    :return: (bool) result of the regex pattern checking against the pattern specified by 'type'
     """
     instance_pattern = re.compile(INSTANCE_REGEX)
     mp_pattern = re.compile(MP_REGEX)
