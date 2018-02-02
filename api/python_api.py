@@ -5,7 +5,7 @@
 
 import bottle
 import json
-import instance
+# import instance
 import helper
 import sys
 import pymysql as mariadb
@@ -13,8 +13,6 @@ import logging
 import datetime
 
 sys.path.extend(['/git/diglot/api'])
-
-#TODO: Should we implement logging?
 
 books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
@@ -93,35 +91,6 @@ def testme():
         return "Exception occurred: {}".format(error)
 
 
-# TODO: flesh out this function!
-@bottle.route('/header')
-def get_chapter_header(request):
-    """
-    Gets chapter heading text from the database and returns it.
-
-    :param request: the chapter you are requesting the header for
-    :return: ????
-    """
-    db = helper.connect_to_db(dbconf)
-    cursor = db.cursor(mariadb.cursors.DictCursor)
-    # TODO: write query for retrieving the chapter header text
-    query = "Select the stuff from the place when it looks right."
-
-    try:
-        cursor.execute(query)
-        db.commit()
-        query_result = cursor.fetchone()
-        cursor.close()
-        msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query)
-        logging.info(msg)
-        return json.dumps(query_result)
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
-        logging.error(msg)
-        return msg
-
-
 @bottle.get('/<lang>/<book>/<chapter>')
 def get_chapter(lang, book, chapter):
     """
@@ -176,6 +145,7 @@ def get_one_instance():
             db = helper.connect_to_db(dbconf)
             cursor = db.cursor(mariadb.cursors.DictCursor)
         except Exception as db_connect_error:
+            bottle.response.status = 500
             return "Database connection error: {}".format(db_connect_error)
 
         # table = uid[:3]
@@ -193,7 +163,8 @@ def get_one_instance():
             db.rollback()
             msg = "Database query failed: {}".format(query_error)
             logging.error()
-            return "Database query failed: {}".format(query_error)
+            bottle.response.status = 500
+            return msg
 
 
 @bottle.put('/flip')
@@ -216,7 +187,7 @@ def flip_instance():
 
         # table = uid[:3]
         table = "eng_test"
-        query = "SELECT * FROM {} WHERE natural_position=%s".format(table)
+        query = ""
 
         try:
             cursor.execute(query, (uid,))
@@ -251,7 +222,6 @@ def get_flipped():
     try:
         cursor.execute(query, (userid,))
         db.commit()
-        # TODO: Check format of query result to make sure it is OK for coverting to JSON!
         query_result = cursor.fetch_all()
     except mariadb.Error as query_error:
         db.rollback()
@@ -261,38 +231,6 @@ def get_flipped():
         db.close()
 
     return query_result
-
-
-# @bottle.put('/update')
-# def set_flipped_list(chunks):
-#     """
-#     Updates the database with Instances that were flipped in that session
-#
-#     :param chunks: (list) Instances to be set as flipped in the database
-#     :return confirm_list_set: (tuple) (boolean, str/None)
-#             True to indicate update was successful, False if error
-#             Error message if there was an error, None if invalid uid
-#     """
-#     engine = helper.connect_to_db('sqlalchemy', 'conf/diglot.conf')
-#     metadata = sqlalchemy.MetaData(engine)
-#     connection = engine.connect()
-#     trans = connection.begin()
-#     chunks = json.loads(chunks)
-#     # TODO: Figure out how to best structure this data and then process it.
-#     for uid in chunks:
-#
-#     query = ""
-#
-#     try:
-#         query_result = connection.execute(query)
-#         trans.commit()
-#         confirm_list_set = True
-#     except Exception:
-#         trans.rollback()
-#         confirm_list_set = False
-#         raise
-#     connection.close()
-#     return confirm_list_set
 
 
 # @bottle.route('')
@@ -311,21 +249,44 @@ def past_critical_point():
     return critical
 
 
-@bottle.put('/prefs/<uid>/<level>')
-def set_user_level(uid, level):
+@bottle.put('/prefs/<uid>')
+def set_user_prefs(uid):
     """
     Sets the user's level in their user preferences.
+    Some parameters are obtained from the query string (marked with a * below).
 
-    :param level: (int) Indicates the difficulty the user is comfortable with
+    *:param level: (int) Indicates the difficulty the user is comfortable with
+    *:param target: (str) ISO 639-3 identifier for the target language chosen
+
+    :param uid: (str) The id of the user
+
     :return confirm_level_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
             Error message if there was an error, None if invalid uid
     """
-    # run update query to database for given uid to set level to level given.
+    # get values from URL query string
+    uid = bottle.request.query.uid
+    level = int(bottle.request.query.level)
 
-    # TODO: Write query to set user's level
-    query = ""
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except Exception as db_connect_error:
+        return "Database connection error: {}".format(db_connect_error)
 
+    query = "UPDATE user_lm SET level=%d WHERE user_id=%s"
+
+    try:
+        cursor.execute(query, (level, uid))
+        db.commit()
+        query_result = cursor.fetchone()
+    except mariadb.Error as query_error:
+        db.rollback()
+        bottle.response.status = 500
+        return "Database query failed: {}".format(query_error)
+    finally:
+        cursor.close()
+        db.close()
 
     return confirm_level_set
 
@@ -369,7 +330,7 @@ def get_suggestions(lang, level):
     :return: JSON of suggested words from database
     """
 
-    # TODO: Write query to get the next (3?) suggested chunks from the database based on the chapter they are in
+    # TODO: Write query to get the next batch of suggested chunks from the database based on the chapter they are in
     query = ""
 
     try:

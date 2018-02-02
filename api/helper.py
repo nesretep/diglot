@@ -5,6 +5,7 @@ import configparser
 import pymysql as mariadb
 import re
 import logging
+import bottle
 INSTANCE_REGEX = "[a-z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
@@ -33,6 +34,7 @@ def connect_to_db(config_path, adminuser=False):
         logging.info("Connected to {} database successfully using {} user.".format(database, username))
         return dbconnect
     except Exception as dberror:
+        bottle.response.status = 500
         return "Unable to connect to database: {}".format(dberror)
 
 
@@ -73,7 +75,7 @@ def is_valid_uid(uid, type):
 
 def check_login(username, password):
     """
-    This is a placerholder function for some sort af actual authentication setup.
+    This is a placeholder function for some sort af actual authentication setup.
 
     :param username: username of user being authenticated
     :param password: the user's password
