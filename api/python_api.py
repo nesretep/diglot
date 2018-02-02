@@ -24,7 +24,7 @@ dbconf = "conf/diglot.conf"
 
 
 @bottle.route('/')
-def start(filename="../index.html"):
+def start(filepath="../index.html"):
     """
     Loads the page defined in the query string as "page"
 
@@ -38,9 +38,11 @@ def start(filename="../index.html"):
     #     pass
 
     try:
-        file = open(filename, "r")
+        file = open(filepath, "r")
         content = file.read()
         file.close()
+        msg = "{}: File ({}) loaded successfully.".format(datetime.datetime.now(), filepath)
+        logging.info(msg)
         return content
     except IOError as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
@@ -193,9 +195,8 @@ def get_one_instance():
             return "Database query failed: {}".format(query_error)
 
 
-
-@bottle.put('/flip/<uid>')
-def flip_one_chunk(uid):
+@bottle.put('/flip')
+def flip_instance():
     """
     Sets one Instance as flipped in the database.
 
@@ -204,28 +205,33 @@ def flip_one_chunk(uid):
             True to confirm it was flipped, False to indicate an error
             Error message if there was an error, None if invalid uid
     """
-    if helper.is_valid_uid(uid, "chunk"):
-        # Update record for chunk with matching uid to set
+    if helper.is_valid_uid(uid, "instance") is True:
+        # Query database for chunk
         try:
             db = helper.connect_to_db(dbconf)
             cursor = db.cursor(mariadb.cursors.DictCursor)
-        # TODO: Write this query for flipping one chunk
-        except Exception as error:
-            raise
+        except Exception as db_connect_error:
+            return "Database connection error: {}".format(db_connect_error)
+
+        # table = uid[:3]
+        table = "eng_test"
+        query = "SELECT * FROM {} WHERE natural_position=%s".format(table)
 
         try:
+            cursor.execute(query, (uid,))
+            db.commit()
+            query_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+            logging.info(msg)
+            return json.dumps(query_result)
+        except mariadb.Error as query_error:
+            db.rollback()
+            msg = "Database query failed: {}".format(query_error)
+            logging.error()
+            return "Database query failed: {}".format(query_error)
 
-            confirm_flip = True
-        except Exception:
-            confirm_flip = False
-            raise
-        cursor.close()
-        return confirm_flip
-    else:
-        return None
 
-
-def get_flipped_words():
+def get_flipped():
     """
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
