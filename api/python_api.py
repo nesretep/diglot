@@ -92,11 +92,12 @@ def testme():
     except Exception as error:
         return "Exception occurred: {}".format(error)
 
+
 # TODO: flesh out this function!
 @bottle.route('/header')
 def get_chapter_header(request):
     """
-    Gets chapter heading text from the database and returns it
+    Gets chapter heading text from the database and returns it.
 
     :param request: the chapter you are requesting the header for
     :return: ????
