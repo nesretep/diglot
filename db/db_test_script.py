@@ -22,7 +22,7 @@ def get_language(natual_position):
     # iterate through the natural position id and get the language
 
     # return the language to indicate where to insert the data.
-    return "eng_test"
+    return "eng"
 
 
 def add_to_db(data):
@@ -38,18 +38,17 @@ def add_to_db(data):
             for item in data:
                 # need to read through the data
                 mp = item['master_position']
-                np = item['natural_position']
-                text = item['text']
-                rank = item['rank']
+                np = item['instance_id']
+                text = item['instance_text']
                 table = get_language(np)
                 # need to write to the db
-                insert_statement = "INSERT INTO " + table + "(master_position, natural_position, chunk_value, rank) " \
-                                                            "VALUES (%s, %s, %s, %s); "
-                values = (mp, np, text, rank)
+                insert_statement = "INSERT INTO " + table + "(instance_id, master_position, instance_text) " \
+                                                            "VALUES (%s, %s, %s); "
+                values = (np, mp, text)
                 try:
                     cursor.execute(insert_statement, values)
                     con.commit()
-                    print_statement = "(" + mp + ", " + np + ", " + text + ", " + rank + ")" + ": Was successfully " \
+                    print_statement = "(" + np + ", " + mp + ", " + text + ")" + ": Was successfully " \
                                                                                                "added to the database. "
                     # print_statement = "Was successfully added to the database."
                     pprint.pprint(print_statement)
