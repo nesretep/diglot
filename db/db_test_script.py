@@ -71,5 +71,5 @@ def add_to_db(data):
 
 # Calls the csv_dict_list function, passing the named csv
 # data_values = csv_dict_list("eng_test.csv")
-device_values = csv_dict_list(sys.argv[1])
+data_values = csv_dict_list(sys.argv[1])
 add_to_db(data_values)
