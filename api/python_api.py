@@ -81,7 +81,7 @@ def testme():
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-        query = "SELECT * FROM eng_test"
+        query = "SELECT * FROM eng"
         # query = "SHOW tables"
         cursor.execute(query)
         result = cursor.fetchall()
@@ -101,14 +101,15 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
-    table = "eng_test"
+    table = "eng"
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE `natural_position` LIKE %s".format(table)
+    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
+    # query1 = "CALL get_chapter(@{}, @{})".format(lang, chap_uid)
 
     try:
-        cursor.execute(query, (chap_uid,))
+        cursor.execute(query)
         db.commit()
         query_result = cursor.fetchall()
         cursor.close()
@@ -126,6 +127,7 @@ def get_chapter(lang, book, chapter):
 def get_one_instance():
     """
     Get one Instance from the database and return it to the function caller.
+    The URL should look like: http://server.com/instance?lang=eng&book=1Nephi&chapter=1&verse=23&pos=2
 
     :param uid: (str) the uid for the Instance requested.
     :return: (Instance) The Instance with the uid specified in the function call in JSON format.
@@ -190,7 +192,7 @@ def flip_instance():
         query = ""
 
         try:
-            cursor.execute(query, (uid,))
+            cursor.execute(query)
             db.commit()
             query_result = cursor.fetchone()
             msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
