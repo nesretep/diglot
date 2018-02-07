@@ -9,15 +9,19 @@ CREATE TABLE IF NOT EXISTS "language here" (instance_id CHAR(16) NOT NULL PRIMAR
 
 CREATE TABLE IF NOT EXISTS "language here"_media (instance_id CHAR(16) NOT NULL, CONSTRAINT `language_instance_id_constr` FOREIGN KEY (instance_id) REFERENCES "language here" (instance_id) ON DELETE CASCADE ON UPDATE RESTRICT, audio_path TEXT, definition MEDIUMTEXT) engine=innodb;
 
-CREATE TABLE IF NOT EXISTS user_settings (user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, origin_lang CHAR(3), current_target_lang CHAR(3));
+CREATE TABLE IF NOT EXISTS "language here"_tag (id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, instance_id CHAR(16) NOT NULL, instance_tag NOT NULL TEXT);
 
-CREATE TABLE IF NOT EXISTS user_lm (user_id INT UNSIGNED NOT NULL, CONSTRAINT `user_id_constr` FOREIGN KEY (user_id) REFERENCES user_settings (user_id) ON DELETE CASCADE ON UPDATE RESTRICT, target_language CHAR(3), rank SMALLINT UNSIGNED, current_position CHAR(16), is_flipped LONGTEXT, suggested_list LONGTEXT) engine=innodb;
+CREATE TABLE IF NOT EXISTS user_settings (user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, origin_lang CHAR(3), target_lang CHAR(3), current_position CHAR(9), user_level, SMALLINT UNSIGNED);
 
 CREATE TABLE IF NOT EXISTS languages (iso_code CHAR(3) NOT NULL PRIMARY KEY, lang_name TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS "language here"_concept (chunk_id TEXT NOT NULL PRIMARY KEY, concept_id TEXT NOT NULL);
 
-CREATE TABLE IF NOT EXISTS "language here"_concept_data (concept_id VARCHAR NOT NULL, CONSTRAINT 'language_concept_id_constr' FOREIGN KEY (concept_id) REFERENCES "language here" (concept_id) ON DELETE CASCADE ON UPDATE RESTRICT, concept_freq UNSIGNED INT DEFAULT (0), score UNSIGNED INT DEFAULT (0), flipped BOOL, tag LONGTEXT)
+CREATE TABLE IF NOT EXISTS "language here"_concept_data (concept_id TEXT NOT NULL, CONSTRAINT 'language_concept_id_constr' FOREIGN KEY (concept_id) REFERENCES "language here" (concept_id) ON DELETE CASCADE ON UPDATE RESTRICT, concept_freq UNSIGNED INT DEFAULT (0), score UNSIGNED INT DEFAULT (0)) engine=innodb;
+
+CREATE TABLE IF NOT EXISTS flipped_list (id INT UNSIGNED NOT NULL AUTO INCREMENT PRIMARY KEY, user_id INT UNSIGNED NOT NULL, concept_id TEXT NOT NULL);
+
+CREATE TABLE IF NOT EXISTS "language here"_concept_tag (id INT UNSIFNED NOT NULL AUTO INCREMENT PRIMARY KEY, concept_id TEXT NOT NULL, concept_tag TEXT NOT NULL);
 
 ++++++++++++++++++++++++++++++++++++++++++USER CREATION+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
