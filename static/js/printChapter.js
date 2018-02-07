@@ -25,7 +25,7 @@ new Vue({
         
         //get total verses
         for (i = 0; i < this.json.length; i++) {
-          var position = this.json[i].natural_position;
+          var position = this.json[i].instance_id;
           var res = position.split(":");
           var verse = res[3];
           verse = parseInt(verse, 10);
