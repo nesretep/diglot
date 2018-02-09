@@ -71,3 +71,25 @@ BEGIN
 		into v_result;
 	return (v_result);
 END
+
+-- Name: get_chapter
+-- Version: 1.0
+-- Parameters: v_pri_table = CHAR(3) the table of the primary language
+-- 			   v_chapter_id = CHAR(9) the table of the secondary language
+--			   First grabs the text for the v_pri_table parameter
+CREATE FUNCTION get_chapter (v_pri_table CHAR(3), v_chapter_id CHAR(9)) 
+	RETURNS TEXT
+	DETERMINISTIC
+BEGIN
+	DECLARE v_result TEXT;
+
+	select P.master_position, P.instance_id, P.instance_text, P.chunk_id
+		from v_pri_table P
+		where P.instance_id like concat(v_chapter_id, '%');
+
+	select P.master_position, P.instance_id, P.instance_text, P.chunk_id
+		from v_pri_table P
+		where P.instance_id like concat(v_chapter_id, '%') into v_result;
+
+	return (v_result);
+END
