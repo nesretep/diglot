@@ -76,7 +76,7 @@ def load_login_page(filename="../login.html"):
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        table = eng
+        table = "eng"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
         query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
