@@ -78,6 +78,16 @@ def is_valid_uid(uid, type):
         return None
 
 
+def is_valid_lang(lang_id):
+    lang_id_pattern = re.compile("[a-z]{3}")
+    return bool(lang_id_pattern.match(lang_id))
+
+
+def is_injection(var):
+    pattern = re.compile("^[^%<>;]{0,}$")
+    return not bool(pattern.match(var))
+
+
 def check_login(username, password):
     """
     This is a placeholder function for some sort af actual authentication setup.
