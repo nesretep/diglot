@@ -82,12 +82,16 @@ def testme():
         query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
         # query = "SHOW tables"
         # cursor.callproc('', )
-        cursor.execute(query)
+        cursor.execute(query, ("eng:01:01%",))
         result = cursor.fetchall()
         cursor.close()
+        msg = "{}: Query '{}' executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
         return json.dumps(result)
     except mariadb.Error as error:
         # return "Exception occurred: {}".format(error)
+        msg = "{}: Exception occurred: {}".format(datetime.datetime.now(), error)
+        logging.error(msg)
         bottle.response.status = 500
 
 
@@ -110,7 +114,7 @@ def get_chapter(lang, book, chapter):
     # query1 = "CALL get_chapter(@{}, @{})".format(lang, chap_uid)
 
     try:
-        cursor.execute(query)
+        cursor.execute(query, (chap_uid,))
         db.commit()
         query_result = cursor.fetchall()
         cursor.close()

@@ -6,6 +6,8 @@ import pymysql as mariadb
 import re
 import logging
 import bottle
+import datetime
+
 INSTANCE_REGEX = "[a-z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 
@@ -31,11 +33,14 @@ def connect_to_db(config_path, adminuser=False):
 
     try:
         dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
-        logging.info("Connected to {} database successfully using {} user.".format(database, username))
+        logging.info("{}: Connected to {} database successfully using {} user.".format(datetime.datetime.now(),
+                                                                                       database, username))
         return dbconnect
-    except Exception as dberror:
+    except mariadb.Error as dberror:
+        msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), dberror)
+        logging.error(msg)
         bottle.response.status = 500
-        return "Unable to connect to database: {}".format(dberror)
+        # return "Unable to connect to database: {}".format(dberror)
 
 
 def convert_url_to_uid(url):
