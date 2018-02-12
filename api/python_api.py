@@ -22,7 +22,7 @@ dbconf = "conf/diglot.conf"
 
 
 @bottle.route('/')
-def start(filepath="../index.html"):
+def index(filepath="../index.html"):
     """
     Loads the page defined in the query string as "page"
 
@@ -76,16 +76,20 @@ def load_login_page(filename="../login.html"):
 def testme():
     uid = "eng:01:01:01:001"
     try:
+        table = eng
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-        query = "SELECT * FROM eng"
+        query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
         # query = "SHOW tables"
+        # cursor.callproc('', )
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
         return json.dumps(result)
-    except Exception as error:
-        return "Exception occurred: {}".format(error)
+    except mariadb.Error as error:
+        # return "Exception occurred: {}".format(error)
+        bottle.response.status = 500
+
 
 
 @bottle.get('/<lang>/<book>/<chapter>')
@@ -187,9 +191,14 @@ def flip_instance():
     verse = bottle.request.query.verse
     pos = bottle.request.query.pos
     target_lang = bottle.request.query.target_lang
-    target_text = bottle.request.query.target_text
+    user_id = bottle.request.query.user_id
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
+    if helper.is_valid_uid(uid) is False:
+        msg = "Invalid uid ({}) passed to function."
+        logging.error(msg)
+        bottle.response.status = 500
+        return "<h1>HTTP 500 - Server Error</h1>"
 
     # Query database for chunk
     try:
@@ -197,8 +206,8 @@ def flip_instance():
         cursor = db.cursor(mariadb.cursors.DictCursor)
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
-    # TODO: Write query for flipping an instance
-    query = ""
+    # TODO: Verify query for flipping an instance
+    query = "CALL flip_instance({}, {}, {}, {})".format(lang, target_lang, uid, user_id)
 
     try:
         cursor.execute(query)
@@ -214,12 +223,12 @@ def flip_instance():
         return "Database query failed: {}".format(query_error)
 
 @bottle.route('/flipped')
-def get_flipped():
+def get_all_flipped():
     """
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
 
-    :return words: (list) Instance uids to flip
+    :return query_result: (list of dicts) Instances to flip
     """
     # Query database for uids of words already flipped
     try:
