@@ -116,8 +116,8 @@ function popupVue() {
               span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
               var child = span.children();
               child.append("<span onclick='flip_the_phrase3(this);'>Flip</span>");
-              child.append(" | ");
-              child.append(" <span onclick='define(this)'>Define</span> ");
+              /*child.append(" | ");
+              child.append(" <span onclick='define(this)'>Define</span> ");*/
 
 
               var popupChunk = "myPopup" + chunk;
