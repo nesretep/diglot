@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 # filename: python_api.py
 # Python REST API for the Diglot Book of Mormon web app
@@ -22,7 +22,7 @@ dbconf = "conf/diglot.conf"
 
 
 @bottle.route('/')
-def start(filepath="../index.html"):
+def index(filepath="../index.html"):
     """
     Loads the page defined in the query string as "page"
 
@@ -30,11 +30,6 @@ def start(filepath="../index.html"):
     :return content: (str) the contents of the html page specified
     :return None: return value if IOError occurs
     """
-    # if bottle.request.query.page is not None:
-    #     filename = "{}{}{}".format("../", bottle.request.query.page, ".html")
-    # else:
-    #     pass
-
     try:
         file = open(filepath, "r")
         content = file.read()
@@ -49,7 +44,9 @@ def start(filepath="../index.html"):
 
 
 @bottle.route('/settings')
-def load_settings(filename="../settings.html"):
+def load_user_settings(filename="../settings.html"):
+    uid = bottle.request.query.uid
+
     try:
         file = open(filename, "r")
         content = file.read()
@@ -62,7 +59,7 @@ def load_settings(filename="../settings.html"):
 
 
 @bottle.route('/login')
-def load_login(filename="../login.html"):
+def load_login_page(filename="../login.html"):
     try:
         file = open(filename, "r")
         content = file.read()
@@ -79,16 +76,24 @@ def load_login(filename="../login.html"):
 def testme():
     uid = "eng:01:01:01:001"
     try:
+        table = "eng"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-        query = "SELECT * FROM eng"
+        query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
         # query = "SHOW tables"
-        cursor.execute(query)
+        # cursor.callproc('', )
+        cursor.execute(query, ("eng:01:01%",))
         result = cursor.fetchall()
         cursor.close()
+        msg = "{}: Query '{}' executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
         return json.dumps(result)
-    except Exception as error:
-        return "Exception occurred: {}".format(error)
+    except mariadb.Error as error:
+        # return "Exception occurred: {}".format(error)
+        msg = "{}: Exception occurred: {}".format(datetime.datetime.now(), error)
+        logging.error(msg)
+        bottle.response.status = 500
+
 
 
 @bottle.get('/<lang>/<book>/<chapter>')
@@ -109,7 +114,7 @@ def get_chapter(lang, book, chapter):
     # query1 = "CALL get_chapter(@{}, @{})".format(lang, chap_uid)
 
     try:
-        cursor.execute(query)
+        cursor.execute(query, (chap_uid,))
         db.commit()
         query_result = cursor.fetchall()
         cursor.close()
@@ -172,45 +177,62 @@ def get_one_instance():
 @bottle.put('/flip')
 def flip_instance():
     """
-    Sets one Instance as flipped in the database.
+    Sets one Instance as flipped in the database.  Parameters come via a query string to form the uid being flipped.
 
-    :param uid: (str) The Instance uid that needs to be set as flipped.
-    :return confirm_flip: (tuple) (boolean, str/None)
-            True to confirm it was flipped, False to indicate an error
-            Error message if there was an error, None if invalid uid
+    :param lang: (str) the language part of the uid
+    :param book: (str) the book part of the uid
+    :param chapter: (str) the chapter part of the uid
+    :param verse: (str) the verse part of the uid
+    :param pos: (str) the position in the verse part of the uid
+    :param target_lang: (str)
+    :param target_text: (str)
+    :return query_result: JSON-ified dict containing the instance requested for the flip
     """
-    if helper.is_valid_uid(uid, "instance") is True:
-        # Query database for chunk
-        try:
-            db = helper.connect_to_db(dbconf)
-            cursor = db.cursor(mariadb.cursors.DictCursor)
-        except Exception as db_connect_error:
-            return "Database connection error: {}".format(db_connect_error)
 
-        # table = uid[:3]
-        table = "eng_test"
-        query = ""
+    lang = bottle.request.query.lang
+    book = books[bottle.request.query.book]
+    chapter = bottle.request.query.chapter
+    verse = bottle.request.query.verse
+    pos = bottle.request.query.pos
+    target_lang = bottle.request.query.target_lang
+    user_id = bottle.request.query.user_id
 
-        try:
-            cursor.execute(query)
-            db.commit()
-            query_result = cursor.fetchone()
-            msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-            logging.info(msg)
-            return json.dumps(query_result)
-        except mariadb.Error as query_error:
-            db.rollback()
-            msg = "Database query failed: {}".format(query_error)
-            logging.error()
-            return "Database query failed: {}".format(query_error)
+    uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
+    if helper.is_valid_uid(uid) is False:
+        msg = "Invalid uid ({}) passed to function."
+        logging.error(msg)
+        bottle.response.status = 500
+        return "<h1>HTTP 500 - Server Error</h1>"
 
+    # Query database for chunk
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except Exception as db_connect_error:
+        return "Database connection error: {}".format(db_connect_error)
+    # TODO: Verify query for flipping an instance
+    query = "CALL flip_instance({}, {}, {}, {})".format(lang, target_lang, uid, user_id)
 
-def get_flipped():
+    try:
+        cursor.execute(query)
+        db.commit()
+        query_result = cursor.fetchone()
+        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
+        return json.dumps(query_result)
+    except mariadb.Error as query_error:
+        db.rollback()
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        return "Database query failed: {}".format(query_error)
+
+@bottle.route('/flipped')
+def get_all_flipped():
     """
     Get list of all the words for the chapter that have already been flipped.
     Helper function for use in get_chapter()
 
-    :return words: (list) Instance uids to flip
+    :return query_result: (list of dicts) Instances to flip
     """
     # Query database for uids of words already flipped
     try:
@@ -294,32 +316,30 @@ def set_user_prefs(uid):
 
 
 # TODO: Verify whether or not this URL format will work the way we intend it to
-@bottle.route('/prefs/<uid>/<p_lang>-<s_lang>')
-def set_user_language(uid, p_lang, s_lang):
+@bottle.route('/prefs')
+def set_user_language():
     """
-    Sets the user's language preferences.
+    Sets the user's language preferences.  Parameters are passed in a query string.
 
-    :param p_lang: (str) 2 character ISO 639-1 designation for the user's primary language.
-    :param s_lang: (str) 2 character ISO 639-1 designation for the user's secondary language.
+    :param uid: (str) user id for the user whose preferences are being changed.
+    :param p_lang: (str) 3 character ISO 639-2 designation for the user's primary language.
+    :param s_lang: (str) 3 character ISO 639-2 designation for the user's secondary language.
     :return confirm_lang_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
             Error message if there was an error, None if invalid uid
     """
-    if helper.is_valid_uid(uid, "chunk"):
-        # TODO: Write query to set a user's primary and secondary language
-        query = ""
+    # TODO: Write query to set a user's primary and secondary language
+    query = ""
 
-        try:
+    try:
 
-            confirm_lang_set = True
-        except Exception:
+        confirm_lang_set = True
+    except Exception:
 
-            confirm_lang_set = False
-            raise
+        confirm_lang_set = False
+        raise
 
-        return confirm_lang_set
-    else:
-        return None
+    return confirm_lang_set
 
 
 @bottle.get('/<lang>/<level>/suggest')
@@ -332,17 +352,9 @@ def get_suggestions(lang, level):
     :return: JSON of suggested words from database
     """
 
-    # TODO: Write query to get the next batch of suggested chunks from the database based on the chapter they are in
+    # TODO: Write query/code to get the next batch of suggested chunks
+    # from the database based on the chapter they are in
     query = ""
-
-    try:
-
-        confirm_lang_set = True
-    except Exception:
-
-        confirm_lang_set = False
-        raise
-    return json.dumps(query_result)
 
 
 # TODO: Be sure to turn off debug before this goes into production
