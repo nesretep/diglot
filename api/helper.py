@@ -43,6 +43,24 @@ def connect_to_db(config_path, adminuser=False):
         # return "Unable to connect to database: {}".format(dberror)
 
 
+def run_query(cursor, query, fetch):
+    try:
+        cursor.execute(query)
+        db.commit()
+        if fetch == "fetchone":
+            query_result = cursor.fetchone()
+        elif fetch == "fetchall"
+            query_result = cursor.fetchall()
+        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
+        return query_result
+    except mariadb.Error as query_error:
+        db.rollback()
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        bottle.response.status = 500
+
+
 def convert_url_to_uid(url):
     """
     Convert uids from the URL format to the normal format and verifies the uid is in the proper format
