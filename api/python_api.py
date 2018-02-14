@@ -130,52 +130,6 @@ def get_chapter(lang, book, chapter):
     #     return msg
 
 
-@bottle.route('/instance')
-def get_one_instance():
-    """
-    Get one Instance from the database and return it to the function caller.
-    The URL should look like: http://server.com/instance?lang=eng&book=1Nephi&chapter=1&verse=23&pos=2
-
-    :param uid: (str) the uid for the Instance requested.
-    :return: (Instance) The Instance with the uid specified in the function call in JSON format.
-    :return None: returns None if uid is not valid
-    """
-    lang = bottle.request.query.lang
-    book = books[bottle.request.query.book]
-    chapter = bottle.request.query.chapter
-    verse = bottle.request.query.verse
-    pos = bottle.request.query.pos
-
-    uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
-
-    if helper.is_valid_uid(uid, "instance") is True:
-        # Query database for chunk
-        try:
-            db = helper.connect_to_db(dbconf)
-            cursor = db.cursor(mariadb.cursors.DictCursor)
-        except Exception as db_connect_error:
-            bottle.response.status = 500
-            return "Database connection error: {}".format(db_connect_error)
-
-        # table = uid[:3]
-        table = "eng_test"
-        query = "SELECT * FROM {} WHERE natural_position=%s".format(table)
-
-        try:
-            cursor.execute(query, (uid,))
-            db.commit()
-            query_result = cursor.fetchone()
-            msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-            logging.info(msg)
-            return json.dumps(query_result)
-        except mariadb.Error as query_error:
-            db.rollback()
-            msg = "Database query failed: {}".format(query_error)
-            logging.error()
-            bottle.response.status = 500
-            return msg
-
-
 @bottle.put('/flip')
 def flip_instance():
     """
