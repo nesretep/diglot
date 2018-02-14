@@ -111,21 +111,23 @@ def get_chapter(lang, book, chapter):
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
     query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-    # query1 = "CALL get_chapter(@{}, @{})".format(lang, chap_uid)
 
-    try:
-        cursor.execute(query, (chap_uid,))
-        db.commit()
-        query_result = cursor.fetchall()
-        cursor.close()
-        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-        logging.info(msg)
-        return json.dumps(query_result)
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
-        logging.error(msg)
-        return msg
+    query_result = helper.run_query(cursor, query, "fetchall")
+    return json.dumps(query_result)
+    
+    # try:
+    #     cursor.execute(query, (chap_uid,))
+    #     db.commit()
+    #     query_result = cursor.fetchall()
+    #     cursor.close()
+    #     msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+    #     logging.info(msg)
+    #     return json.dumps(query_result)
+    # except mariadb.Error as query_error:
+    #     db.rollback()
+    #     msg = "Database query failed: {}".format(query_error)
+    #     logging.error(msg)
+    #     return msg
 
 
 @bottle.route('/instance')
@@ -211,20 +213,30 @@ def flip_instance():
     except Exception as db_connect_error:
         return "Database connection error: {}".format(db_connect_error)
     # TODO: Verify query for flipping an instance
-    query = "CALL flip_instance({}, {}, {}, {})".format(lang, target_lang, uid, user_id)
+    query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} origin WHERE origin.instance_id LIKE instance_id".format(lang, lang)
+    query1_result = helper.run_query(cursor, query1, "fetchone")
 
-    try:
-        cursor.execute(query)
-        db.commit()
-        query_result = cursor.fetchone()
-        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-        logging.info(msg)
-        return json.dumps(query_result)
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
-        logging.error(msg)
-        return "Database query failed: {}".format(query_error)
+    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id, concept_id)
+
+    query3 = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(origin_table, instance_id)
+    query3_result = helper.run_query(cursor, query2, "fetchone")
+
+    query4 = "SELECT target.instance_id, target.instance_text FROM {} target WHERE target.instance_id LIKE '{}'".format(target_table)
+
+
+    return json.dumps(query_result)
+    # try:
+    #     cursor.execute(query1)
+    #     db.commit()
+    #     query_result = cursor.fetchone()
+    #     msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+    #     logging.info(msg)
+    #     return json.dumps(query_result)
+    # except mariadb.Error as query_error:
+    #     db.rollback()
+    #     msg = "Database query failed: {}".format(query_error)
+    #     logging.error(msg)
+    #     return "Database query failed: {}".format(query_error)
 
 @bottle.route('/flipped')
 def get_all_flipped():
