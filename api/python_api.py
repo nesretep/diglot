@@ -80,8 +80,13 @@ def testme():
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
         query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        # query = "SHOW tables"
-        # cursor.callproc('', )
+    # if helper.is_injection(query) == False:
+    #     query_result = helper.run_query(cursor, query, "fetchall")
+    #     return json.dumps(query_result)
+    # else:
+    #     index("../index.html")
+
+    #     # query = "SHOW tables"
         cursor.execute(query, ("eng:01:01%",))
         result = cursor.fetchall()
         cursor.close()
@@ -110,33 +115,26 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} t WHERE `t.instance_id` LIKE %s ORDER BY t.instance_id".format(lang)
-    if helper.is_injection(query) == False:
-        query_result = helper.run_query(cursor, query, "fetchall")
-    else:
-        index("../index.html")
-
-    return json.dumps(query_result)
-    
-    # try:
-    #     cursor.execute(query, (chap_uid,))
-    #     db.commit()
-    #     query_result = cursor.fetchall()
-    #     cursor.close()
-    #     msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-    #     logging.info(msg)
-    #     return json.dumps(query_result)
-    # except mariadb.Error as query_error:
-    #     db.rollback()
-    #     msg = "Database query failed: {}".format(query_error)
-    #     logging.error(msg)
-    #     return msg
+    query = "SELECT * FROM {} t WHERE `instance_id` LIKE %s ORDER BY instance_id".format(table)
+    try:
+        cursor.execute(query, (chap_uid,))
+        db.commit()
+        query_result = cursor.fetchall()
+        cursor.close()
+        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        logging.info(msg)
+        return json.dumps(query_result)
+    except mariadb.Error as query_error:
+        db.rollback()
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        bottle.response.status = 500
 
 
 @bottle.put('/flip')
 def flip_instance():
     """
-    Sets one Instance as flipped in the database.  Parameters come via a query string to form the uid being flipped.
+    Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.  Parameters come via a query string to form the uid being flipped.
 
     :param lang: (str) the language part of the uid
     :param book: (str) the book part of the uid

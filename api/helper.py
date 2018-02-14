@@ -40,7 +40,7 @@ def connect_to_db(config_path, adminuser=False):
         msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), dberror)
         logging.error(msg)
         bottle.response.status = 500
-        # return "Unable to connect to database: {}".format(dberror)
+        return "Unable to connect to database: {}".format(dberror)
 
 
 def run_query(cursor, query, type):
