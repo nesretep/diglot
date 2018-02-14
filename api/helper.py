@@ -43,15 +43,17 @@ def connect_to_db(config_path, adminuser=False):
         # return "Unable to connect to database: {}".format(dberror)
 
 
-def run_query(cursor, query, fetch):
+def run_query(cursor, query, type):
     try:
         cursor.execute(query)
         db.commit()
-        if fetch == "fetchone":
+        if type == "fetchone":
             query_result = cursor.fetchone()
-        elif fetch == "fetchall"
+        elif type == "fetchall":
             query_result = cursor.fetchall()
-        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        elif type == "insert":
+            query_result = True
+        msg = "{}: Query {} executed successfully.  Returning any data.".format(datetime.datetime.now(), query)
         logging.info(msg)
         return query_result
     except mariadb.Error as query_error:

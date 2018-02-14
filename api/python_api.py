@@ -110,7 +110,7 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
+    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(lang)
 
     query_result = helper.run_query(cursor, query, "fetchall")
     return json.dumps(query_result)
@@ -207,24 +207,26 @@ def flip_instance():
         return "<h1>HTTP 500 - Server Error</h1>"
 
     # Query database for chunk
-    try:
-        db = helper.connect_to_db(dbconf)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-    # TODO: Verify query for flipping an instance
-    query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} origin WHERE origin.instance_id LIKE instance_id".format(lang, lang)
+    db1 = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+
+    # TODO: Verify queries for flipping an instance - check variables filling the queries!
+    query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} origin \
+              WHERE origin.instance_id LIKE instance_id".format(lang, lang)
     query1_result = helper.run_query(cursor, query1, "fetchone")
 
-    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id, concept_id)
+    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
+                                                                                     query1_result['concept_id'])
+    query2_result = helper.run_query(cursor, query2, "insert")
 
-    query3 = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(origin_table, instance_id)
-    query3_result = helper.run_query(cursor, query2, "fetchone")
+    query3 = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(lang, uid)
+    query3_result = helper.run_query(cursor, query3, "fetchone")
 
-    query4 = "SELECT target.instance_id, target.instance_text FROM {} target WHERE target.instance_id LIKE '{}'".format(target_table)
+    query4 = "SELECT target.instance_id, target.instance_text FROM {} target \
+              WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
+    query4_result = helper.run_query(cursor, query4, "fetchone")
 
-
-    return json.dumps(query_result)
+    return json.dumps(query4_result)
     # try:
     #     cursor.execute(query1)
     #     db.commit()
@@ -237,6 +239,7 @@ def flip_instance():
     #     msg = "Database query failed: {}".format(query_error)
     #     logging.error(msg)
     #     return "Database query failed: {}".format(query_error)
+
 
 @bottle.route('/flipped')
 def get_all_flipped():
