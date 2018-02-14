@@ -21,8 +21,8 @@ def connect_to_db(config_path, adminuser=False):
     :return: connection object for the connection type specified in connect_type
     """
     config = configparser.ConfigParser()
-    config.read(config_path.decode())
-    database = config['database'][ 'database']
+    config.read(config_path)
+    database = config['database']['database']
     hostname = config['database']['hostname']
     if adminuser is True:
         username = config['admin']['username']
