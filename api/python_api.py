@@ -166,7 +166,7 @@ def flip_instance():
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
-    query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} origin \
+    query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} lang on con.chunk_id = lang.chunk_id \
               WHERE origin.instance_id LIKE instance_id".format(lang, lang)
     if helper.is_injection(query1) == False:
         query1_result = helper.run_query(cursor, query1, "fetchone")
