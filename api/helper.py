@@ -43,26 +43,7 @@ def connect_to_db(config_path, adminuser=False):
         return "Unable to connect to database: {}".format(dberror)
 
 
-def run_query(query, type):
-    db = helper.connect_to_db(dbconf)
-    cursor = db.cursor(mariadb.cursors.DictCursor)
-    try:
-        cursor.execute(query)
-        db.commit()
-        if type == "fetchone":
-            query_result = cursor.fetchone()
-        elif type == "fetchall":
-            query_result = cursor.fetchall()
-        elif type == "insert":
-            query_result = True
-        msg = "{}: Query {} executed successfully.  Returning any data.".format(datetime.datetime.now(), query)
-        logging.info(msg)
-        return query_result
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
-        logging.error(msg)
-        bottle.response.status = 500
+
 
 
 def convert_url_to_uid(url):
@@ -112,7 +93,7 @@ def is_injection(query):
     :param query: (str) The query being checked.
     :return: (bool) True if the unacceptable character are found, False if they are not found
     """
-    pattern = re.compile("^[^%<>;]{0,}$")
+    pattern = re.compile("^[^<>;]{0,}$")
     return not bool(pattern.match(query))
 
 

@@ -21,6 +21,35 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 dbconf = "conf/diglot.conf"
 
 
+def run_query(query, type):
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except ConnectionError as con_error:
+        msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), con_error)
+        logging.error(msg)
+    try:
+        cursor.execute(query)
+        db.commit()
+        if type == "fetchone":
+            query_result = cursor.fetchone()
+        elif type == "fetchall":
+            query_result = cursor.fetchall()
+        elif type == "insert":
+            query_result = True
+        msg1 = "{}: Query {} executed successfully.  Returning any data.".format(datetime.datetime.now(), query)
+        logging.info(msg1)
+        db.close()
+        msg2 = "{}: Closed database connection.".format(datetime.datetime.now())
+        logging.info(msg2)
+        return query_result
+    except mariadb.Error as query_error:
+        db.rollback()
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        bottle.response.status = 500
+
+
 @bottle.route('/')
 def index(filepath="../index.html"):
     """
@@ -81,7 +110,7 @@ def testme():
         cursor = db.cursor(mariadb.cursors.DictCursor)
         query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
     # if helper.is_injection(query) == False:
-    #     query_result = helper.run_query(cursor, query, "fetchall")
+    #     query_result = run_query(query, "fetchall")
     #     return json.dumps(query_result)
     # else:
     #     index("../index.html")
@@ -170,27 +199,27 @@ def flip_instance():
               WHERE lang.instance_id = `{}`".format(lang, lang, uid)
 
     if helper.is_injection(query1) == False:
-        query1_result = helper.run_query(query1, "fetchone")
+        query1_result = run_query(query1, "fetchone")
     else:
         index("../index.html")
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
     if helper.is_injection(query2) == False:
-        query2_result = helper.run_query(query2, "insert")
+        query2_result = run_query(query2, "insert")
     else:
         index("../index.html")
 
     query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
     if helper.is_injection(query3) == False:
-        query3_result = helper.run_query(query3, "fetchone")
+        query3_result = run_query(query3, "fetchone")
     else:
         index("../index.html")
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
               WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
     if helper.is_injection(query4) == False:
-        query4_result = helper.run_query(query4, "fetchone")
+        query4_result = run_query(query4, "fetchone")
     else:
         index("../index.html")
 
