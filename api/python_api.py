@@ -162,35 +162,35 @@ def flip_instance():
         # return "<h1>HTTP 500 - Server Error</h1>"
 
     # Query database for chunk
-    db1 = helper.connect_to_db(dbconf)
-    cursor = db.cursor(mariadb.cursors.DictCursor)
+    # db = helper.connect_to_db(dbconf)
+    # cursor = db.cursor(mariadb.cursors.DictCursor)
 
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
-    query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang on con.chunk_id = lang.chunk_id \
-              WHERE lang.instance_id LIKE instance_id".format(lang, lang, uid)
+    query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang ON (con.chunk_id = lang.chunk_id) \
+              WHERE lang.instance_id = `{}`".format(lang, lang, uid)
 
     if helper.is_injection(query1) == False:
-        query1_result = helper.run_query(cursor, query1, "fetchone")
+        query1_result = helper.run_query(query1, "fetchone")
     else:
         index("../index.html")
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
     if helper.is_injection(query2) == False:
-        query2_result = helper.run_query(cursor, query2, "insert")
+        query2_result = helper.run_query(query2, "insert")
     else:
         index("../index.html")
 
     query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
     if helper.is_injection(query3) == False:
-        query3_result = helper.run_query(cursor, query2, "fetchone")
+        query3_result = helper.run_query(query3, "fetchone")
     else:
         index("../index.html")
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
               WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
     if helper.is_injection(query4) == False:
-        query4_result = helper.run_query(cursor, query2, "fetchone")
+        query4_result = helper.run_query(query4, "fetchone")
     else:
         index("../index.html")
 
@@ -339,10 +339,11 @@ def get_suggestions(lang, level):
     # from the database based on the chapter they are in
     query = ""
 
+
 # TODO: Be sure to turn off debug=True!!!
 if __name__ == '__main__':
-    bottle.run(host='localhost', port=8000, debug=True, reloader=True)
+    bottle.run(host='localhost', port=8000, reloader=True)
 else:
     app = application = bottle.default_app()
     bottle.debug(True)
-    logging.basicConfig(filename='/tmp/test.log', level=logging.DEBUG)
+    logging.basicConfig(filename='/tmp/test.log', level=logging.ERROR)

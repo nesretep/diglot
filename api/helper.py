@@ -43,7 +43,9 @@ def connect_to_db(config_path, adminuser=False):
         return "Unable to connect to database: {}".format(dberror)
 
 
-def run_query(cursor, query, type):
+def run_query(query, type):
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
     try:
         cursor.execute(query)
         db.commit()
@@ -103,9 +105,15 @@ def is_valid_lang(lang_id):
     return bool(lang_id_pattern.match(lang_id))
 
 
-def is_injection(var):
+def is_injection(query):
+    """
+    Checks id character commonly used in SQL injection attacks appear in the query.
+
+    :param query: (str) The query being checked.
+    :return: (bool) True if the unacceptable character are found, False if they are not found
+    """
     pattern = re.compile("^[^%<>;]{0,}$")
-    return not bool(pattern.match(var))
+    return not bool(pattern.match(query))
 
 
 def check_login(username, password):
