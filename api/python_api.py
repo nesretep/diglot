@@ -167,7 +167,7 @@ def flip_instance():
 
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
     query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} lang on con.chunk_id = lang.chunk_id \
-              WHERE origin.instance_id LIKE instance_id".format(lang, lang)
+              WHERE origin.instance_id LIKE {}".format(lang, lang, uid)
     if helper.is_injection(query1) == False:
         query1_result = helper.run_query(cursor, query1, "fetchone")
     else:
