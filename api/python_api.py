@@ -159,7 +159,7 @@ def get_chapter(lang, book, chapter):
         bottle.response.status = 500
 
 
-@bottle.put('/flip')
+@bottle.route('/flip')
 def flip_instance():
     """
     Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.
@@ -170,8 +170,7 @@ def flip_instance():
     :param chapter: (str) the chapter part of the uid
     :param verse: (str) the verse part of the uid
     :param pos: (str) the position in the verse part of the uid
-    :param target_lang: (str)
-    :param target_text: (str)
+    :param target_lang: (str) target language identifier
     :return query_result: JSON-ified dict containing the instance requested for the flip
     """
 
@@ -204,7 +203,7 @@ def flip_instance():
             logging.info(msg)
             return json.dumps(query1_result)
         except mariadb.Error as query1_error:
-            msg = "Database query failed: {}".format(query1_error)
+            msg = "Database flip query1 failed: {}".format(query1_error)
             logging.error(msg)
             return msg
 
@@ -220,7 +219,7 @@ def flip_instance():
             return json.dumps(query2_result)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database query failed: {}".format(query_error)
+            msg = "Database flip query2 failed: {}".format(query_error)
             logging.error(msg)
             return msg
 
@@ -234,7 +233,7 @@ def flip_instance():
             return json.dumps(query3_result)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database query failed: {}".format(query_error)
+            msg = "Database flip query3 failed: {}".format(query_error)
             logging.error(msg)
             return msg
 
@@ -250,7 +249,7 @@ def flip_instance():
             return json.dumps(query4_result)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database query failed: {}".format(query_error)
+            msg = "Database flip query4 failed: {}".format(query_error)
             logging.error(msg)
             return msg
 
