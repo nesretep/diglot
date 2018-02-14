@@ -86,7 +86,6 @@ def testme():
     # else:
     #     index("../index.html")
 
-    #     # query = "SHOW tables"
         cursor.execute(query, ("eng:01:01%",))
         result = cursor.fetchall()
         cursor.close()
@@ -134,7 +133,8 @@ def get_chapter(lang, book, chapter):
 @bottle.put('/flip')
 def flip_instance():
     """
-    Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.  Parameters come via a query string to form the uid being flipped.
+    Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.
+    Parameters come via a query string to form the uid being flipped.
 
     :param lang: (str) the language part of the uid
     :param book: (str) the book part of the uid
@@ -155,7 +155,7 @@ def flip_instance():
     user_id = bottle.request.query.user_id
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
-    if helper.is_valid_uid(uid) == False:
+    if helper.is_valid_uid(uid, "instance") == False:
         msg = "Invalid uid ({}) passed to function.".format(uid)
         logging.error(msg)
         bottle.response.status = 500
