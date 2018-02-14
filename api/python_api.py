@@ -110,9 +110,12 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(lang)
+    query = "SELECT * FROM {} t WHERE `t.instance_id` LIKE %s ORDER BY t.instance_id".format(lang)
+    if helper.is_injection(query) == False:
+        query_result = helper.run_query(cursor, query, "fetchall")
+    else:
+        index("../index.html")
 
-    query_result = helper.run_query(cursor, query, "fetchall")
     return json.dumps(query_result)
     
     # try:
@@ -154,11 +157,11 @@ def flip_instance():
     user_id = bottle.request.query.user_id
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
-    if helper.is_valid_uid(uid) is False:
-        msg = "Invalid uid ({}) passed to function."
+    if helper.is_valid_uid(uid) == False:
+        msg = "Invalid uid ({}) passed to function.".format(uid)
         logging.error(msg)
         bottle.response.status = 500
-        return "<h1>HTTP 500 - Server Error</h1>"
+        # return "<h1>HTTP 500 - Server Error</h1>"
 
     # Query database for chunk
     db1 = helper.connect_to_db(dbconf)
@@ -167,18 +170,30 @@ def flip_instance():
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
     query1 = "SELECT con.concept_id FROM {}_concept con INNER JOIN {} origin \
               WHERE origin.instance_id LIKE instance_id".format(lang, lang)
-    query1_result = helper.run_query(cursor, query1, "fetchone")
+    if helper.is_injection(query1) == False:
+        query1_result = helper.run_query(cursor, query1, "fetchone")
+    else:
+        index("../index.html")
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
-    query2_result = helper.run_query(cursor, query2, "insert")
+    if helper.is_injection(query2) == False:
+        query2_result = helper.run_query(cursor, query2, "insert")
+    else:
+        index("../index.html")
 
-    query3 = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(lang, uid)
-    query3_result = helper.run_query(cursor, query3, "fetchone")
+    query3 = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
+    if helper.is_injection(query3) == False:
+        query3_result = helper.run_query(cursor, query2, "fetchone")
+    else:
+        index("../index.html")
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} target \
               WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
-    query4_result = helper.run_query(cursor, query4, "fetchone")
+    if helper.is_injection(query4) == False:
+        query4_result = helper.run_query(cursor, query2, "fetchone")
+    else:
+        index("../index.html")
 
     return json.dumps(query4_result)
     # try:
