@@ -188,54 +188,71 @@ def flip_instance():
         msg = "Invalid uid ({}) passed to function.".format(uid)
         logging.error(msg)
         bottle.response.status = 500
-        # return "<h1>HTTP 500 - Server Error</h1>"
-
+        
     # Query database for chunk
-    # db = helper.connect_to_db(dbconf)
-    # cursor = db.cursor(mariadb.cursors.DictCursor)
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
 
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
     query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang ON (con.chunk_id = lang.chunk_id) \
               WHERE lang.instance_id = `{}`".format(lang, lang, uid)
-
     if helper.is_injection(query1) == False:
-        query1_result = run_query(query1, "fetchone")
-    else:
-        index("../index.html")
+        try:
+            cursor.execute(query1)
+            query1_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query1)
+            logging.info(msg)
+            return json.dumps(query1_result)
+        except mariadb.Error as query1_error:
+            msg = "Database query failed: {}".format(query1_error)
+            logging.error(msg)
+            return msg
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
     if helper.is_injection(query2) == False:
-        query2_result = run_query(query2, "insert")
-    else:
-        index("../index.html")
+        try:
+            cursor.execute(query2)
+            db.commit()
+            query2_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query2)
+            logging.info(msg)
+            return json.dumps(query2_result)
+        except mariadb.Error as query_error:
+            db.rollback()
+            msg = "Database query failed: {}".format(query_error)
+            logging.error(msg)
+            return msg
 
     query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
     if helper.is_injection(query3) == False:
-        query3_result = run_query(query3, "fetchone")
-    else:
-        index("../index.html")
+        try:
+            cursor.execute(query3)
+            query3_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query3)
+            logging.info(msg)
+            return json.dumps(query3_result)
+        except mariadb.Error as query_error:
+            db.rollback()
+            msg = "Database query failed: {}".format(query_error)
+            logging.error(msg)
+            return msg
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
               WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
     if helper.is_injection(query4) == False:
-        query4_result = run_query(query4, "fetchone")
-    else:
-        index("../index.html")
-
-    return json.dumps(query4_result)
-    # try:
-    #     cursor.execute(query1)
-    #     db.commit()
-    #     query_result = cursor.fetchone()
-    #     msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
-    #     logging.info(msg)
-    #     return json.dumps(query_result)
-    # except mariadb.Error as query_error:
-    #     db.rollback()
-    #     msg = "Database query failed: {}".format(query_error)
-    #     logging.error(msg)
-    #     return "Database query failed: {}".format(query_error)
+        try:
+            cursor.execute(query4)
+            db.commit()
+            query4_result = cursor.fetchone()
+            msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query3)
+            logging.info(msg)
+            return json.dumps(query4_result)
+        except mariadb.Error as query_error:
+            db.rollback()
+            msg = "Database query failed: {}".format(query_error)
+            logging.error(msg)
+            return msg
 
 
 @bottle.route('/flipped')
