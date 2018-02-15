@@ -19,6 +19,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 dbconf = "conf/diglot.conf"
+# TODO: remove return statements that reveal debugging info from all functions
 
 
 def run_query(query, type):
@@ -57,7 +58,6 @@ def index(filepath="../index.html"):
 
     :param filename: (str) filename set by default; may be overridden
     :return content: (str) the contents of the html page specified
-    :return None: return value if IOError occurs
     """
     try:
         file = open(filepath, "r")
@@ -69,11 +69,18 @@ def index(filepath="../index.html"):
     except IOError as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
+        bottle.response.status = 404
         return None
 
 
 @bottle.route('/settings')
 def load_user_settings(filename="../settings.html"):
+    """
+    Loads the settings page.
+
+    :param filename: (str) URL to load; defaults to the path specified above
+    :return content: contents of the file loaded
+    """
     uid = bottle.request.query.uid
 
     try:
@@ -84,11 +91,18 @@ def load_user_settings(filename="../settings.html"):
     except IOError as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
+        bottle.response.status = 404
         return None
 
 
 @bottle.route('/login')
 def load_login_page(filename="../login.html"):
+    """
+    Loads the login page.
+
+    :param filename: (str) URL to load; defaults to the path specified above
+    :return content: contents of the file loaded
+    """
     try:
         file = open(filename, "r")
         content = file.read()
@@ -97,6 +111,7 @@ def load_login_page(filename="../login.html"):
     except IOError as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
+        bottle.response.status = 404
         return None
 
 
@@ -139,11 +154,10 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
-    table = "eng"
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} t WHERE `instance_id` LIKE %s ORDER BY instance_id".format(table)
+    query = "SELECT * FROM {} t WHERE `instance_id` LIKE %s ORDER BY instance_id".format(lang)
     try:
         cursor.execute(query, (chap_uid,))
         db.commit()
