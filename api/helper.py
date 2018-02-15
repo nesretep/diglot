@@ -24,6 +24,8 @@ def connect_to_db(config_path, adminuser=False):
     config.read(config_path)
     database = config['database']['database']
     hostname = config['database']['hostname']
+    charset = config['database']['charset']
+
     if adminuser is True:
         username = config['admin']['username']
         password = config['admin']['password']
@@ -40,10 +42,6 @@ def connect_to_db(config_path, adminuser=False):
         msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), dberror)
         logging.error(msg)
         bottle.response.status = 500
-        return "Unable to connect to database: {}".format(dberror)
-
-
-
 
 
 def convert_url_to_uid(url):
