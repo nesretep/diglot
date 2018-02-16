@@ -1,8 +1,8 @@
 ++++++++++++++++++++++++++++++++++++++++++DATABASE CREATION+++++++++++++++++++++++++++++++++++++++++++++++++
 
 CREATE DATABASE IF NOT EXISITS diglot 
-  CHARACTER SET = 'utf8'
-  COLLATE = 'utf32_general_ci';
+  CHARACTER SET = 'utf8mb4'
+  COLLATE = 'utf8mb4_general_ci';
 ++++++++++++++++++++++++++++++++++++++++++TABLE CREATION++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 CREATE TABLE IF NOT EXISTS "language here" (instance_id CHAR(16) NOT NULL PRIMARY KEY, master_position CHAR(12) NOT NULL, instance_text TEXT NOT NULL, chunk_id TEXT);
@@ -36,60 +36,3 @@ GRANT INSERT ON diglot.flipped_list to 'diglotapi'@'localhost';
 diglotadmin - CYn8-T#qZ6-.8!@2
 
 diglotapi - >EAj!mwzY(g39c#Q
-
-++++++++++++++++++++++++++++++++++++++++++FUNCTION CREATION+++++++++++++++++++++++++++++++++++++++++++++++++
-
--- Name: flip_chunk
--- Version: 1.0
--- Parameters: v_pri_table = CHAR(3) the table of the primary language
--- 			   v_sec_table = CHAR(3) the table of the secondary language
---			   v_instance_id = CHAR(16) the instance_id of the primary language
---			   v_user_id = INT UNSIGNED the user_id of the user that we are tracking the chunk flip
---			   First grabs the matching chunk_id and insert it into the flipped_list table
---			   Next grabs the corresponding language instance_id and instance_text and returns it to the api
-CREATE FUNCTION flip_chunk (v_pri_table CHAR(3), v_sec_table CHAR(3), v_instance_id CHAR(16), v_user_id INT UNSIGNED) 
-	RETURNS TEXT
-	DETERMINISTIC
-BEGIN
-	DECLARE v_chunk_id VARCHAR(15);
-	DECLARE v_result TEXT;
-	DECLARE v_master_position CHAR(12);
-
-	select P.chunk_id
-		from v_pri_table P
-		where P.instance_id like v_instance_id into v_chunk_id;
-
-	insert into flipped_list (user_id, chunk_id) VALUES (v_user_id, v_chunk_id);
-
-	select P.master_position 
-		from v_pri_table P 
-		where P.instance_id like v_instance_id into v_master_position;
-	
-	select S.instance_id, S.instance_text
-		from v_sec_table S
-		where v_master_position = S.master_position
-		into v_result;
-	return (v_result);
-END
-
--- Name: get_chapter
--- Version: 1.0
--- Parameters: v_pri_table = CHAR(3) the table of the primary language
--- 			   v_chapter_id = CHAR(9) the table of the secondary language
---			   First grabs the text for the v_pri_table parameter
-CREATE FUNCTION get_chapter (v_pri_table CHAR(3), v_chapter_id CHAR(9)) 
-	RETURNS TEXT
-	DETERMINISTIC
-BEGIN
-	DECLARE v_result TEXT;
-
-	select P.master_position, P.instance_id, P.instance_text, P.chunk_id
-		from v_pri_table P
-		where P.instance_id like concat(v_chapter_id, '%');
-
-	select P.master_position, P.instance_id, P.instance_text, P.chunk_id
-		from v_pri_table P
-		where P.instance_id like concat(v_chapter_id, '%') into v_result;
-
-	return (v_result);
-END
