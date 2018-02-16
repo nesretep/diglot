@@ -197,33 +197,34 @@ def flip_one_concept():
 
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
     query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang ON (con.chunk_id = lang.chunk_id) \
-              WHERE lang.instance_id = `{}`".format(lang, lang, uid)
+              WHERE lang.instance_id = '{}'".format(lang, lang, uid)
+    # query1 = "SELECT con.concept_id FROM eng_concept AS con INNER JOIN eng AS lang ON (con.chunk_id = lang.chunk_id) \
+    #          WHERE lang.instance_id = 'eng:01:01:01:001'"
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1)
             query1_result = cursor.fetchone()
-            msg = "Query {} executed successfully.".format(query1)
+            msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
-            msg = "Database flip query1 failed: {}".format(query1_error)
+            msg = "Database flip query1 ({}) failed: {}".format(query1, query1_error)
             logging.error(msg)
             bottle.abort(500, "Test")
 
-    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
-                                                                                     query1_result['concept_id'])
+    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, query1_result['concept_id'])
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
             db.commit()
             query2_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query {} executed successfully.".format(query2)
+            msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
-        except mariadb.Error as query_error:
+        except mariadb.Error as query2_error:
             if query_error[1:5] == "1169":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
-                msg = "Database flip query2 failed: {}".format(query_error)
+                msg = "Database flip query2 failed: {}".format(query2_error)
                 logging.error(msg)
                 bottle.abort(500, "Test")
 
@@ -233,29 +234,33 @@ def flip_one_concept():
         try:
             cursor.execute(query3)
             query3_result = cursor.fetchone()
-            msg = "Query {} executed successfully.".format(query3)
+            msg = "Query3 {} executed successfully.".format(query3)
             logging.info(msg)
-        except mariadb.Error as query_error:
+        except mariadb.Error as query3_error:
             db.rollback()
-            msg = "Database flip query3 failed: {}".format(query_error)
+            msg = "Database flip query3 failed: {}".format(query3_error)
             logging.error(msg)
             bottle.abort(500, "Test")
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-              WHERE target.instance_id LIKE '{}'".format(target_lang, query3_result['instance_id'])
+              WHERE target.master_position LIKE '{}'".format(target_lang, query3_result['master_position'])
+    logging.debug("before")
     if helper.is_injection(query4) == False:
+        logging.debug("Is injection is False.")
         try:
             cursor.execute(query4)
             db.commit()
             query4_result = cursor.fetchone()
-            msg = "Query {} executed successfully.".format(query3)
+            msg = "Query4 {} executed successfully.".format(query4)
             logging.info(msg)
             return json.dumps(query4_result)
-        except mariadb.Error as query_error:
+        except mariadb.Error as query4_error:
             db.rollback()
-            msg = "Database flip query4 failed: {}".format(query_error)
+            msg = "Database flip query4 failed: {}".format(query4_error)
             logging.error(msg)
             bottle.abort(500, "Test")
+    else:
+        logging.debug("injection true")
 
 
 @bottle.route('/flipped')
@@ -397,4 +402,4 @@ else:
     bottle.debug(True)
     LOGFORMAT = "%(asctime)-15s %(message)s"  # TODO: implement proper log formatting (optional)
     # TODO: figure out how to put log in /var/log and have it work properly
-    logging.basicConfig(filename='/tmp/diglot.log', level=logging.INFO, format=LOGFORMAT)
+    logging.basicConfig(filename='/tmp/diglot.log', level=logging.DEBUG, format=LOGFORMAT)
