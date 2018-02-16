@@ -20,36 +20,35 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 
 dbconf = "conf/diglot.conf"
 # TODO: remove return statements that reveal debugging info from all functions
-# TODO: Make sure log entries have a time stamp in them
 
 
-def run_query(query, type):
-    try:
-        db = helper.connect_to_db(dbconf)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-    except ConnectionError as con_error:
-        msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), con_error)
-        logging.error(msg)
-    try:
-        cursor.execute(query)
-        db.commit()
-        if type == "fetchone":
-            query_result = cursor.fetchone()
-        elif type == "fetchall":
-            query_result = cursor.fetchall()
-        elif type == "insert":
-            query_result = True
-        msg1 = "{}: Query {} executed successfully.  Returning any data.".format(datetime.datetime.now(), query)
-        logging.info(msg1)
-        db.close()
-        msg2 = "{}: Closed database connection.".format(datetime.datetime.now())
-        logging.info(msg2)
-        return query_result
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
-        logging.error(msg)
-        bottle.response.status = 500
+# def run_query(query, type):
+#     try:
+#         db = helper.connect_to_db(dbconf)
+#         cursor = db.cursor(mariadb.cursors.DictCursor)
+#     except ConnectionError as con_error:
+#         msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), con_error)
+#         logging.error(msg)
+#     try:
+#         cursor.execute(query)
+#         db.commit()
+#         if type == "fetchone":
+#             query_result = cursor.fetchone()
+#         elif type == "fetchall":
+#             query_result = cursor.fetchall()
+#         elif type == "insert":
+#             query_result = True
+#         msg1 = "{}: Query {} executed successfully.  Returning any data.".format(datetime.datetime.now(), query)
+#         logging.info(msg1)
+#         db.close()
+#         msg2 = "{}: Closed database connection.".format(datetime.datetime.now())
+#         logging.info(msg2)
+#         return query_result
+#     except mariadb.Error as query_error:
+#         db.rollback()
+#         msg = "{}: Database query failed: {}".format((datetime.datetime.now(), query_error)
+#         logging.error(msg)
+#         bottle.abort(500, "Test")
 
 
 @bottle.route('/')
@@ -57,7 +56,7 @@ def index(filepath="../index.html"):
     """
     Loads the page defined in the query string as "page"
 
-    :param filename: (str) filename set by default; may be overridden
+    :param filepath: (str) filename set by default; may be overridden
     :return content: (str) the contents of the html page specified
     """
     try:
@@ -67,10 +66,10 @@ def index(filepath="../index.html"):
         msg = "{}: File ({}) loaded successfully.".format(datetime.datetime.now(), filepath)
         logging.info(msg)
         return content
-    except IOError as file_error:
+    except Exception as file_error:
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
-        bottle.response.status = 404
+        bottle.abort(404, "File not found")
 
 
 @bottle.route('/settings')
@@ -138,7 +137,7 @@ def testme():
         # return "Exception occurred: {}".format(error)
         msg = "{}: Exception occurred: {}".format(datetime.datetime.now(), error)
         logging.error(msg)
-        bottle.response.status = 500
+        bottle.abort(500, "Test")
 
 
 @bottle.get('/<lang>/<book>/<chapter>')
@@ -154,20 +153,18 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s ORDER BY `instance_id`".format(lang)
+    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s ORDER BY instance_id".format(lang)
     try:
         cursor.execute(query, (chap_uid,))
-        db.commit()
         query_result = cursor.fetchall()
         cursor.close()
-        msg = "{}: Query {} executed successfully.  Returning JSON data.".format(datetime.datetime.now(), query)
+        msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query)
         logging.info(msg)
         return json.dumps(query_result)
     except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
+        msg = "{}: Database query failed: {}".format(datetime.datetime.now(), query_error)
         logging.error(msg)
-        bottle.response.status = 500
+        bottle.abort(500, "Test")
 
 
 @bottle.route('/flip')
@@ -195,9 +192,9 @@ def flip_one_concept():
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
     if helper.is_valid_uid(uid, "instance") == False:
-        msg = "Invalid uid ({}) passed to function.".format(uid)
+        msg = "{}: Invalid uid ({}) passed to function.".format((datetime.datetime.now(), uid))
         logging.error(msg)
-        bottle.response.status = 500
+        bottle.abort(500, "Test")
         
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
@@ -213,9 +210,9 @@ def flip_one_concept():
             msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
-            msg = "Database flip query1 failed: {}".format(query1_error)
+            msg = "{}: Database flip query1 failed: {}".format((datetime.datetime.now(), query1_error))
             logging.error(msg)
-            bottle.response.status = 500
+            bottle.abort(500, "Test")
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
@@ -228,14 +225,16 @@ def flip_one_concept():
             logging.info(msg)
         except mariadb.Error as query_error:
             if query_error[1:5] == "1169":
-                logging.info("{}: Instance already in flipped_list for user_id {}.".format(datetime.datetime.now(), user_id))
+                logging.warning("{}: Instance already in flipped_list for user_id {}.".format(datetime.datetime.now(),
+                                                                                              user_id))
             else:
                 db.rollback()
                 msg = "{}: Database flip query2 failed: {}".format(datetime.datetime.now(), query_error)
                 logging.error(msg)
-                bottle.response.status = 500
+                bottle.abort(500, "Test")
 
-    query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
+    query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang,
+                                                                                                         uid)
     if helper.is_injection(query3) == False:
         try:
             cursor.execute(query3)
@@ -246,10 +245,10 @@ def flip_one_concept():
             db.rollback()
             msg = "{}: Database flip query3 failed: {}".format(datetime.datetime.now(), query_error)
             logging.error(msg)
-            bottle.response.status = 500
+            bottle.abort(500, "Test")
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-              WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
+              WHERE target.instance_id LIKE '{}'".format(target_lang, query3_result['instance_id'])
     if helper.is_injection(query4) == False:
         try:
             cursor.execute(query4)
@@ -262,7 +261,7 @@ def flip_one_concept():
             db.rollback()
             msg = "{}: Database flip query4 failed: {}".format(datetime.datetime.now(), query_error)
             logging.error(msg)
-            bottle.response.status = 500
+            bottle.abort(500, "Test")
 
 
 @bottle.route('/flipped')
@@ -345,7 +344,7 @@ def set_user_prefs(uid):
         query_result = cursor.fetchone()
     except mariadb.Error as query_error:
         db.rollback()
-        bottle.response.status = 500
+        bottle.abort(500, "Test")
         return "Database query failed: {}".format(query_error)
     finally:
         cursor.close()
@@ -402,4 +401,5 @@ if __name__ == '__main__':
 else:
     app = application = bottle.default_app()
     bottle.debug(True)
-    logging.basicConfig(filename='/tmp/test.log', level=logging.ERROR)
+    LOGFORMAT = "%(asctime)-15s %(message)s"  # TODO: implement proper log formatting (optional)
+    logging.basicConfig(filename='/var/log/diglot/diglot.log', level=logging.ERROR)
