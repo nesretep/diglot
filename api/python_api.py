@@ -220,7 +220,7 @@ def flip_one_concept():
             msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
         except mariadb.Error as query2_error:
-            if query_error[1:5] == "1169":
+            if query2_error[1:5] == "1169":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
