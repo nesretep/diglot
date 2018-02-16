@@ -35,8 +35,7 @@ def connect_to_db(config_path, adminuser=False):
 
     try:
         dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database, charset=charset)
-        logging.info("{}: Connected to {} database successfully using {} user.".format(datetime.datetime.now(),
-                                                                                       database, username))
+        logging.info("Connected to {} database successfully using {} user.".format(database, username))
         return dbconnect
     except mariadb.Error as dberror:
         msg = "{}: Unable to connect to database: {}".format(datetime.datetime.now(), dberror)

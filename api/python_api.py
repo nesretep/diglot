@@ -209,8 +209,7 @@ def flip_one_concept():
             logging.error(msg)
             bottle.abort(500, "Test")
 
-    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
-                                                                                     query1_result['concept_id'])
+    query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, query1_result['concept_id'])
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
