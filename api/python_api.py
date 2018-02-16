@@ -120,9 +120,11 @@ def testme():
         table = "eng"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-        query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
+        # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
+        query = "SELECT target.instance_id, target.instance_text FROM {} AS target \
+                      WHERE target.master_position LIKE '{}'".format("spa", "01:01:01:001")
         if helper.is_injection(query) == False:
-            cursor.execute(query, ("eng:01:01%",))
+            cursor.execute(query)
             result = cursor.fetchall()
             cursor.close()
             msg = "Query '{}' executed successfully.".format(query)
@@ -198,8 +200,6 @@ def flip_one_concept():
     # TODO: Verify queries for flipping an instance - check variables filling the queries!
     query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang ON (con.chunk_id = lang.chunk_id) \
               WHERE lang.instance_id = '{}'".format(lang, lang, uid)
-    # query1 = "SELECT con.concept_id FROM eng_concept AS con INNER JOIN eng AS lang ON (con.chunk_id = lang.chunk_id) \
-    #          WHERE lang.instance_id = 'eng:01:01:01:001'"
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1)
