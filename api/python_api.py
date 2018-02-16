@@ -120,14 +120,16 @@ def testme():
         table = "eng"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
+        lang = "spa"
+        mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
         query = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-                      WHERE target.master_position LIKE '{}'".format("spa", "01:01:01:001")
+                      WHERE target.master_position LIKE '{}'".format(lang, mp)
         if helper.is_injection(query) == False:
             cursor.execute(query)
             result = cursor.fetchall()
             cursor.close()
-            msg = "Query '{}' executed successfully.".format(query)
+            msg = "Test query '{}' executed successfully.".format(query)
             logging.info(msg)
             return json.dumps(result)
     except mariadb.Error as error:
@@ -236,6 +238,7 @@ def flip_one_concept():
             query3_result = cursor.fetchone()
             msg = "Query3 {} executed successfully.".format(query3)
             logging.info(msg)
+            logging.debug("q3mp: {}".format(query3_result['master_position']))
         except mariadb.Error as query3_error:
             db.rollback()
             msg = "Database flip query3 failed: {}".format(query3_error)
@@ -261,6 +264,11 @@ def flip_one_concept():
             bottle.abort(500, "Test")
     else:
         logging.debug("injection true")
+
+
+@bottle.route('/peek')
+def peek():
+    pass
 
 
 @bottle.route('/flipped')
