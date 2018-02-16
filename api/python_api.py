@@ -20,6 +20,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 
 dbconf = "conf/diglot.conf"
 # TODO: remove return statements that reveal debugging info from all functions
+# TODO: Make sure log entries have a time stamp in them
 
 
 def run_query(query, type):
@@ -70,7 +71,6 @@ def index(filepath="../index.html"):
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
         bottle.response.status = 404
-        return None
 
 
 @bottle.route('/settings')
@@ -92,7 +92,6 @@ def load_user_settings(filename="../settings.html"):
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
         bottle.response.status = 404
-        return None
 
 
 @bottle.route('/login')
@@ -112,7 +111,6 @@ def load_login_page(filename="../login.html"):
         msg = "{}: Unable to open file: {}".format(datetime.datetime.now(), file_error)
         logging.error(msg)
         bottle.response.status = 404
-        return None
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
@@ -143,7 +141,6 @@ def testme():
         bottle.response.status = 500
 
 
-
 @bottle.get('/<lang>/<book>/<chapter>')
 def get_chapter(lang, book, chapter):
     """
@@ -157,7 +154,7 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} t WHERE `instance_id` LIKE %s ORDER BY instance_id".format(lang)
+    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s ORDER BY `instance_id`".format(lang)
     try:
         cursor.execute(query, (chap_uid,))
         db.commit()
@@ -174,7 +171,7 @@ def get_chapter(lang, book, chapter):
 
 
 @bottle.route('/flip')
-def flip_instance():
+def flip_one_concept():
     """
     Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.
     Parameters come via a query string to form the uid being flipped.
@@ -215,11 +212,10 @@ def flip_instance():
             query1_result = cursor.fetchone()
             msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query1)
             logging.info(msg)
-            return json.dumps(query1_result)
         except mariadb.Error as query1_error:
             msg = "Database flip query1 failed: {}".format(query1_error)
             logging.error(msg)
-            return msg
+            bottle.response.status = 500
 
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id,
                                                                                      query1_result['concept_id'])
@@ -227,15 +223,17 @@ def flip_instance():
         try:
             cursor.execute(query2)
             db.commit()
-            query2_result = cursor.fetchone()
+            query2_result = cursor.fetchone()  # TODO: Do we need this line?
             msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query2)
             logging.info(msg)
-            return json.dumps(query2_result)
         except mariadb.Error as query_error:
-            db.rollback()
-            msg = "Database flip query2 failed: {}".format(query_error)
-            logging.error(msg)
-            return msg
+            if query_error[1:5] == "1169":
+                logging.info("{}: Instance already in flipped_list for user_id {}.".format(datetime.datetime.now(), user_id))
+            else:
+                db.rollback()
+                msg = "{}: Database flip query2 failed: {}".format(datetime.datetime.now(), query_error)
+                logging.error(msg)
+                bottle.response.status = 500
 
     query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang, uid)
     if helper.is_injection(query3) == False:
@@ -244,12 +242,11 @@ def flip_instance():
             query3_result = cursor.fetchone()
             msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query3)
             logging.info(msg)
-            return json.dumps(query3_result)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database flip query3 failed: {}".format(query_error)
+            msg = "{}: Database flip query3 failed: {}".format(datetime.datetime.now(), query_error)
             logging.error(msg)
-            return msg
+            bottle.response.status = 500
 
     query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
               WHERE target.instance_id LIKE '{}'".format(target_table, query3_result['instance_id'])
@@ -263,9 +260,9 @@ def flip_instance():
             return json.dumps(query4_result)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database flip query4 failed: {}".format(query_error)
+            msg = "{}: Database flip query4 failed: {}".format(datetime.datetime.now(), query_error)
             logging.error(msg)
-            return msg
+            bottle.response.status = 500
 
 
 @bottle.route('/flipped')
