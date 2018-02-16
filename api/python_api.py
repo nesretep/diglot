@@ -20,7 +20,6 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
 
 dbconf = "conf/diglot.conf"
 # TODO: remove return statements that reveal debugging info from all functions
-# TODO: Make sure log entries have a time stamp in them
 
 
 def run_query(query, type):
@@ -47,7 +46,7 @@ def run_query(query, type):
         return query_result
     except mariadb.Error as query_error:
         db.rollback()
-        msg = "Database query failed: {}".format(query_error)
+        msg = "{}: Database query failed: {}".format((datetime.datetime.now(), query_error)
         logging.error(msg)
         bottle.response.status = 500
 
@@ -165,7 +164,7 @@ def get_chapter(lang, book, chapter):
         return json.dumps(query_result)
     except mariadb.Error as query_error:
         db.rollback()
-        msg = "Database query failed: {}".format(query_error)
+        msg = "{}: Database query failed: {}".format((datetime.datetime.now(), query_error)
         logging.error(msg)
         bottle.response.status = 500
 
@@ -195,7 +194,7 @@ def flip_one_concept():
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
     if helper.is_valid_uid(uid, "instance") == False:
-        msg = "Invalid uid ({}) passed to function.".format(uid)
+        msg = "{}: Invalid uid ({}) passed to function.".format((datetime.datetime.now(), uid)
         logging.error(msg)
         bottle.response.status = 500
         
@@ -213,7 +212,7 @@ def flip_one_concept():
             msg = "{}: Query {} executed successfully.".format(datetime.datetime.now(), query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
-            msg = "Database flip query1 failed: {}".format(query1_error)
+            msg = "{}: Database flip query1 failed: {}".format((datetime.datetime.now(), query1_error)
             logging.error(msg)
             bottle.response.status = 500
 
@@ -402,4 +401,4 @@ if __name__ == '__main__':
 else:
     app = application = bottle.default_app()
     bottle.debug(True)
-    logging.basicConfig(filename='/tmp/test.log', level=logging.ERROR)
+    logging.basicConfig(filename='/var/log/diglot.log', level=logging.INFO)
