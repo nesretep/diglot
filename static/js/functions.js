@@ -115,7 +115,7 @@ function popupVue() {
               var span = $(event.target);
               span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
               var child = span.children();
-              child.append("<span onclick='flip_the_phrase3(this);'>Flip</span>");
+              child.append("<span onclick='APIflip(this)'>Flip</span>");
               /*child.append(" | ");
               child.append(" <span onclick='define(this)'>Define</span> ");*/
 
@@ -130,12 +130,41 @@ function popupVue() {
        }
 }
 
-function APIflip(user_id, target_lang){
-  var id = event.target.id;
+function APIflip(e){
+  //get the instance id
+  var span = $(e).parent().parent();
+  var id = span.attr("id");
+  var popupChunk = "myPopup" + chunk;
+  //window.alert(chunk);
+  var word = span.clone().children().remove();
+  word = word.end().text().trim();
+
   id = id.split(":");
   var lang = id[0];
-  var book = id[1];
+  var book = "1Nephi";
   var chapter = id[2];
   var verse = id[3];
   var pos = id[4];
+
+  var url = "diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
+  alert(url);
+  /*if(word == dict[lookup_value_eng]){
+    span.fadeOut('fast', function(){
+    span.text(" " + dict[lookup_value_target]);
+    });
+    span.fadeIn();
+  }
+  else{
+    span.fadeOut('fast', function(){
+    span.text(" " + dict[lookup_value_eng]);
+    });
+    span.fadeIn();
+  }*/   
 }
+
+function APIuser_load(user_id){
+  var url = "diglot.it.et.byu.edu/flip?user_id=1";
+}
+
+function APIload_flipped_word(){}
+function API(){}

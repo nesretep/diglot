@@ -32,7 +32,7 @@ def add_to_db(data):
     global insert_error
     try:
         con = pymysql.connect(host='localhost', user='diglotadmin', password='CYn8-T#qZ6-.8!@2', database='diglot',
-                              use_unicode=True, charset='utf8')
+                              use_unicode=True, charset='utf8mb4')
         cursor = con.cursor()
         try:
             for item in data:
