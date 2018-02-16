@@ -34,7 +34,7 @@ def connect_to_db(config_path, adminuser=False):
         password = config['api']['password']
 
     try:
-        dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database)
+        dbconnect = mariadb.connect(host=hostname, user=username, passwd=password, db=database, charset=charset)
         logging.info("{}: Connected to {} database successfully using {} user.".format(datetime.datetime.now(),
                                                                                        database, username))
         return dbconnect
