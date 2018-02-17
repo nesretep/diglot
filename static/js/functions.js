@@ -149,6 +149,7 @@ function APIflip(e){
   var pos = id[4];
   var target_lang = "spa";
   //get from user preference
+
   if($(span).hasClass("spa")){
     target_lang = "eng";
   }
@@ -157,7 +158,7 @@ function APIflip(e){
       return response.json().then((json) => {
         //console.log("JSON", json)
         span.fadeOut('fast', function(){
-          alert(json["instance_text"]);
+          //alert(json["instance_text"]);
           var spanish = json["instance_text"];
           span.text(" " + spanish);
           span.attr("id", json["instance_id"]);
@@ -166,7 +167,7 @@ function APIflip(e){
     });
   });
   //change tags
-  if(target_lang = "spa"){
+  if(target_lang == "spa"){
     $(span).addClass("spa");
     $(span).removeClass("eng");
   }
