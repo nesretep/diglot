@@ -150,7 +150,7 @@ function APIflip(e){
   var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
   fetch(url).then((response) => {
       return response.json().then((json) => {
-        console.log("JSON", json)
+        //console.log("JSON", json)
         span.fadeOut('fast', function(){
           //alert(json["instance_text"]);
           var spanish = json["instance_text"];
