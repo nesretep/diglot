@@ -147,28 +147,23 @@ function APIflip(e){
   var chapter = id[2];
   var verse = id[3];
   var pos = id[4];
-
-  var url = "diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
-  alert(url);
-  span.fadeOut('fast', function(){
-    span.text(" " + "Yo");
+  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
+  fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json)
+        span.fadeOut('fast', function(){
+          //alert(json["instance_text"]);
+          var spanish = json["instance_text"];
+          span.text(" " + spanish);
+        });
+        span.fadeIn();
+    });
   });
-  span.fadeIn();
-  
-  /*if(word == dict[lookup_value_eng]){
-    span.fadeOut('fast', function(){
-    span.text(" " + dict[lookup_value_target]);
-    });
-    span.fadeIn();
-  }
-  else{
-    span.fadeOut('fast', function(){
-    span.text(" " + dict[lookup_value_eng]);
-    });
-    span.fadeIn();
-  }*/   
 }
 
 function APIuser_load(user_id){
   var url = "diglot.it.et.byu.edu/flip?user_id=1";
 }
+
+function APIget_flipped_words(){}
+function peek(){}
