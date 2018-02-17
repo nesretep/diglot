@@ -150,6 +150,11 @@ function APIflip(e){
 
   var url = "diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
   alert(url);
+  span.fadeOut('fast', function(){
+    span.text(" " + "Yo");
+  });
+  span.fadeIn();
+  
   /*if(word == dict[lookup_value_eng]){
     span.fadeOut('fast', function(){
     span.text(" " + dict[lookup_value_target]);
