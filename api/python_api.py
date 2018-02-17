@@ -195,7 +195,7 @@ def flip_one_concept():
         msg = "Invalid uid ({}) passed to function.".format(uid)
         logging.error(msg)
         bottle.abort(500, "Invalid uid passed to function.")
-        
+
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
@@ -273,8 +273,15 @@ def flip_one_concept():
 
 @bottle.route('/peek')
 def peek():
-    pass
+    lang = bottle.request.query.lang
+    mp = bottle.request.query.mp
 
+    query = "SELECT lang.instance_text FROM {} AS lang WHERE lang.master_position LIKE '{}'".format(table, master_position)
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except mariadb.Error as db_connect_error:
+        return "Database connection error: {}".format(db_connect_error)
 
 @bottle.route('/flipped')
 def get_all_flipped():
