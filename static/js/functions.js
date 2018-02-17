@@ -116,9 +116,10 @@ function popupVue() {
               var span = $(event.target);
               span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
               var child = span.children();
+              
+              child.append(" <span onclick='define(this)'>Peek</span> ");
+              child.append(" | ");
               child.append("<span onclick='APIflip(this)'>Flip</span>");
-              /*child.append(" | ");
-              child.append(" <span onclick='define(this)'>Define</span> ");*/
 
 
               var popupChunk = "myPopup" + chunk;
@@ -175,14 +176,32 @@ function APIflip(e){
     $(span).addClass("eng");
     $(span).removeClass("spa");
   }
-  
-  
-
 }
 
 function APIuser_load(user_id){
   var url = "diglot.it.et.byu.edu/flip?user_id=1";
 }
 
-function APIget_flipped_words(){}
-function peek(){}
+function APIget_flipped_words(){
+  //get JSON
+  //var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1";
+  /*fetch(url).then((response) => {
+      return response.json().then((json) => {
+        //console.log("JSON", json)
+    });
+  });
+  //for loop through json
+  for(json){
+    span =getelementbyid(json[instance_id])
+    span.text = json[instance_text];
+    span.id = json[spanish instance id]
+  }
+  */
+
+}
+/*
+function peek(){
+  //language table
+  //master position (mp)
+
+}*/
