@@ -147,7 +147,7 @@
                      <div v-for=" verseItem in verses" class="verse">
                         <span><b>{{ verseItem }} </b></span>
                         <span v-for="item in json">
-                        <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk" v-bind:id= "item.instance_id" >
+                        <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk eng" v-bind:id= "item.instance_id" >
                         &nbsp;{{ item.instance_text }}
                         </span>
                         <span v-else-if="item.verse == verseItem && item.punctuation==true" class="punctuation">

@@ -147,18 +147,36 @@ function APIflip(e){
   var chapter = id[2];
   var verse = id[3];
   var pos = id[4];
-  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=spa&user_id=1";
+  var target_lang = "spa";
+  //get from user preference
+  if($(span).hasClass("spa")){
+    target_lang = "eng";
+  }
+  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1";
   fetch(url).then((response) => {
       return response.json().then((json) => {
         //console.log("JSON", json)
         span.fadeOut('fast', function(){
-          //alert(json["instance_text"]);
+          alert(json["instance_text"]);
           var spanish = json["instance_text"];
           span.text(" " + spanish);
+          span.attr("id", json["instance_id"]);
         });
         span.fadeIn();
     });
   });
+  //change tags
+  if(target_lang = "spa"){
+    $(span).addClass("spa");
+    $(span).removeClass("eng");
+  }
+  else{
+    $(span).addClass("eng");
+    $(span).removeClass("spa");
+  }
+  
+  
+
 }
 
 function APIuser_load(user_id){
