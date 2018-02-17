@@ -102,6 +102,7 @@ function popupVue() {
        var alreadyPopup = document.getElementsByClassName("popuptext");
        var exists = $(event.target).children().attr("id");
        var chunk = $(event.target).attr("id");
+       //alert(chunk);
        //checks if there is already a pop up
        //if there is, delete it
        if($(alreadyPopup).attr('id') != null){
@@ -134,6 +135,7 @@ function APIflip(e){
   //get the instance id
   var span = $(e).parent().parent();
   var id = span.attr("id");
+  var chunk = span.attr("id");
   var popupChunk = "myPopup" + chunk;
   //window.alert(chunk);
   var word = span.clone().children().remove();
@@ -165,6 +167,3 @@ function APIflip(e){
 function APIuser_load(user_id){
   var url = "diglot.it.et.byu.edu/flip?user_id=1";
 }
-
-function APIload_flipped_word(){}
-function API(){}
