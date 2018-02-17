@@ -281,7 +281,24 @@ def peek():
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
     except mariadb.Error as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
+        msg = "Database connection error: {}".format(db_connect_error)
+        logging.info(msg)
+        bottle.abort(500, "Check the log for details.")
+
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query)
+            query_result = cursor.fetchone()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            retuen json.dumps(query_result)
+        except mariadb.Error as query_error:
+            msg = "Database peek query ({}) failed: {}".format(query, query_error)
+            logging.error(msg)
+            bottle.abort(500, "Check the log for details.")
+        else:
+            logging.debug("Possible SQL injection attempt: {}.").format(query)
+
 
 @bottle.route('/flipped')
 def get_all_flipped():
