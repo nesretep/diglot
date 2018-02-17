@@ -188,6 +188,7 @@ def flip_one_concept():
     pos = bottle.request.query.pos
     target_lang = bottle.request.query.target_lang
     user_id = bottle.request.query.user_id
+    flipback = bottle.request.query.flipback
 
     uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
     if helper.is_valid_uid(uid, "instance") == False:
@@ -212,8 +213,10 @@ def flip_one_concept():
             msg = "Database flip query1 ({}) failed: {}".format(query1, query1_error)
             logging.error(msg)
             bottle.abort(500, "Test")
-
+    if flipback == "True":
     query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, query1_result['concept_id'])
+    else:
+        query2 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = {}".format(user_id, query1_result['concept_id'])
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
@@ -222,6 +225,7 @@ def flip_one_concept():
             msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
         except mariadb.Error as query2_error:
+            # TODO: Fix this if to check for another error
             if query2_error[1:5] == "1169":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
@@ -230,8 +234,7 @@ def flip_one_concept():
                 logging.error(msg)
                 bottle.abort(500, "Test")
 
-    query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(target_lang,
-                                                                                                         uid)
+    query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(lang, uid)
     if helper.is_injection(query3) == False:
         try:
             cursor.execute(query3)
