@@ -90,7 +90,7 @@ def load_user_settings(filename="../settings.html"):
     except IOError as file_error:
         msg = "Unable to open file: {}".format(file_error)
         logging.error(msg)
-        bottle.response.status = 404
+        bottle.abort(404, "File not found")
 
 
 @bottle.route('/login')
@@ -109,7 +109,7 @@ def load_login_page(filename="../login.html"):
     except IOError as file_error:
         msg = "Unable to open file: {}".format(file_error)
         logging.error(msg)
-        bottle.response.status = 404
+        bottle.abort(404, "File not found")
 
 
 # TODO: This will be removed before going into production and probably replaced with another function
@@ -228,7 +228,7 @@ def flip_one_concept():
             logging.info(msg)
         except mariadb.Error as query2_error:
             # TODO: Fix this if to check for another error
-            if query2_error[1:5] == "1169":
+            if query2_error[1:5] == "1062":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
@@ -243,7 +243,7 @@ def flip_one_concept():
             query3_result = cursor.fetchone()
             msg = "Query3 {} executed successfully.".format(query3)
             logging.info(msg)
-            logging.debug("q3mp: {}".format(query3_result['master_position']))
+            # logging.debug("q3mp: {}".format(query3_result['master_position']))
         except mariadb.Error as query3_error:
             db.rollback()
             msg = "Database flip query3 failed: {}".format(query3_error)
@@ -254,7 +254,7 @@ def flip_one_concept():
               WHERE target.master_position LIKE '{}'".format(target_lang, query3_result['master_position'])
     logging.debug("before")
     if helper.is_injection(query4) == False:
-        logging.debug("Is injection is False.")
+        # logging.debug("Is injection is False.")
         try:
             cursor.execute(query4)
             db.commit()
@@ -276,7 +276,7 @@ def peek():
     lang = bottle.request.query.lang
     mp = bottle.request.query.mp
 
-    query = "SELECT lang.instance_text FROM {} AS lang WHERE lang.master_position LIKE '{}'".format(table, master_position)
+    query = "SELECT lang.instance_text FROM {} AS lang WHERE lang.master_position LIKE '{}'".format(lang, mp)
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
@@ -291,13 +291,13 @@ def peek():
             query_result = cursor.fetchone()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
-            retuen json.dumps(query_result)
+            return json.dumps(query_result)
         except mariadb.Error as query_error:
             msg = "Database peek query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
             bottle.abort(500, "Check the log for details.")
-        else:
-            logging.debug("Possible SQL injection attempt: {}.").format(query)
+    else:
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
 
 
 @bottle.route('/flipped')
