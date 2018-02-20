@@ -123,10 +123,10 @@ def testme():
         lang = "spa"
         mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        query = "SELECT target.instance_id, target.instance_text FROM %s AS target \
-                      WHERE target.master_position LIKE '%s'"
+        query = "SELECT target.instance_id, target.instance_text FROM {} AS target \
+                      WHERE target.master_position LIKE '{}'".format(lang, mp)
         if helper.is_injection(query) == False:
-            cursor.execute(query, (lang, mp))
+            cursor.execute(query)
             result = cursor.fetchall()
             cursor.close()
             msg = "Test query '{}' executed successfully.".format(query)
@@ -163,7 +163,7 @@ def get_chapter(lang, book, chapter):
     except mariadb.Error as query_error:
         msg = "Database query failed: {}".format(query_error)
         logging.error(msg)
-        bottle.abort(500, "Test")
+        bottle.abort(500, "Database error.  See the log for details.")
 
 
 @bottle.route('/flip')
