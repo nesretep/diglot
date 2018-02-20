@@ -136,7 +136,7 @@ def testme():
         # return "Exception occurred: {}".format(error)
         msg = "Exception occurred: {}".format(error)
         logging.error(msg)
-        bottle.abort(500, "Test")
+        bottle.abort(500, "Test failed: {}".format(msg))
 
 
 @bottle.get('/<lang>/<book>/<chapter>')
