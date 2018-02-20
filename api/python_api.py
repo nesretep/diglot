@@ -123,10 +123,10 @@ def testme():
         lang = "spa"
         mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        query = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-                      WHERE target.master_position LIKE '{}'".format(lang, mp)
+        query = "SELECT target.instance_id, target.instance_text FROM %s AS target \
+                      WHERE target.master_position LIKE '%s'"
         if helper.is_injection(query) == False:
-            cursor.execute(query)
+            cursor.execute(query, (lang, mp))
             result = cursor.fetchall()
             cursor.close()
             msg = "Test query '{}' executed successfully.".format(query)
