@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISITS diglot
   COLLATE = 'utf8mb4_general_ci';
 ++++++++++++++++++++++++++++++++++++++++++TABLE CREATION++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CREATE TABLE IF NOT EXISTS "language here" (instance_id CHAR(16) NOT NULL PRIMARY KEY, master_position CHAR(12) NOT NULL, instance_text TEXT NOT NULL, chunk_id TEXT);
+CREATE TABLE IF NOT EXISTS "language here" (instance_id CHAR(16) NOT NULL PRIMARY KEY, master_position CHAR(12) NOT NULL, instance_text TEXT NOT NULL, chunk_id CHAR(13));
 
 CREATE TABLE IF NOT EXISTS "language here"_media (instance_id CHAR(16) NOT NULL, CONSTRAINT `language_instance_id_constr` FOREIGN KEY (instance_id) REFERENCES "language here" (instance_id) ON DELETE CASCADE ON UPDATE RESTRICT, audio_path TEXT, definition MEDIUMTEXT) engine=innodb;
 
@@ -13,15 +13,15 @@ CREATE TABLE IF NOT EXISTS "language here"_tag (id INT UNSIGNED NOT NULL AUTO_IN
 
 CREATE TABLE IF NOT EXISTS user_settings (user_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, origin_lang CHAR(3), target_lang CHAR(3), current_position CHAR(9), user_level, SMALLINT UNSIGNED);
 
-CREATE TABLE IF NOT EXISTS languages (iso_code CHAR(3) NOT NULL PRIMARY KEY, lang_name TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS languages (iso_code CHAR(3) NOT NULL PRIMARY KEY, lang_name TEXT NOT NULL, flip_level TINYINT UNSIGNED);
 
-CREATE TABLE IF NOT EXISTS "language here"_concept (chunk_id TEXT NOT NULL PRIMARY KEY, concept_id TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS "language here"_concept (chunk_id CHAR(13) NOT NULL, concept_id CHAR(13) NOT NULL, CONSTRAINT `language_concept_id_constr` UNIQUE KEY (chunk_id, concept_id));
 
-CREATE TABLE IF NOT EXISTS "language here"_concept_data (concept_id TEXT NOT NULL, CONSTRAINT 'language_concept_id_constr' FOREIGN KEY (concept_id) REFERENCES "language here" (concept_id) ON DELETE CASCADE ON UPDATE RESTRICT, concept_freq UNSIGNED INT DEFAULT (0), score UNSIGNED INT DEFAULT (0)) engine=innodb;
+CREATE TABLE IF NOT EXISTS "language here"_concept_data (concept_id CHAR(13) NOT NULL, CONSTRAINT `language_concept_id_constr` FOREIGN KEY (concept_id) REFERENCES "language here" (concept_id) ON DELETE CASCADE ON UPDATE RESTRICT, concept_freq UNSIGNED INT DEFAULT (0), score UNSIGNED INT DEFAULT (0)) engine=innodb;
 
-CREATE TABLE IF NOT EXISTS flipped_list (id INT UNSIGNED NOT NULL AUTO INCREMENT PRIMARY KEY, user_id INT UNSIGNED NOT NULL, concept_id TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS flipped_list (user_id, TINYINT UNSIGNED NOT NULL, concept_id CHAR(13) NOT NULL, CONSTRAINT `flipped_list_constr` UNIQUE KEY (user_id, concept_id));
 
-CREATE TABLE IF NOT EXISTS "language here"_concept_tag (id INT UNSIFNED NOT NULL AUTO INCREMENT PRIMARY KEY, concept_id TEXT NOT NULL, concept_tag TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS "language here"_concept_tag (concept_id CHAR(13) NOT NULL, concept_tag TEXT NOT NULL, CONSTRAINT `language_concept_tag_constr` UNIQUE KEY (chunk_id, concept_tag);
 
 ++++++++++++++++++++++++++++++++++++++++++USER CREATION+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -32,6 +32,7 @@ CREATE USER IF NOT EXISTS 'diglotapi'@'localhost' IDENTIFIED BY 'password';
 GRANT SELECT on diglot.* to 'diglotapi'@'localhost';
 GRANT UPDATE ON diglot.user_settings to 'diglotapi'@'localhost';
 GRANT INSERT ON diglot.flipped_list to 'diglotapi'@'localhost';
+GRANT DELETE ON diglot.flipped_list to 'diglotapi'@'localhost';
 
 diglotadmin - CYn8-T#qZ6-.8!@2
 
