@@ -11,7 +11,7 @@ user-select: none;
 /* The actual popup */
 .popup .popuptext {
 visibility: hidden;
-width: 117px;
+width: 215px;
 background-color: #555;
 color: #fff;
 text-align: center;

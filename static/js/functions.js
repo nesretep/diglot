@@ -1,5 +1,6 @@
 //gets json for manipulation
 var chapterJSON = {};
+var get = "";
 fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
   return response.json().then((json) => {
     console.log("JSON", json)
@@ -107,14 +108,48 @@ function defineVue(){
        }
 }
 
+function peek(instance_id){
+  var mp = "";
+  var position = 0;
+  //iterate through array of JSON to get master position
+  for(i = 0; i < chapterJSON.length-1; i++){
+    if(chapterJSON[i].instance_id == instance_id){
+      mp= chapterJSON[i].master_position;
+      position = i;
+      break;
+    }
+  }
+  //alert(position);
+  var lang = "spa";
+ 
+  var url = "http://diglot.it.et.byu.edu/peek?lang=" + lang + "&mp=" + mp;
+  
+ 
+  fetch(url).then((response) => {
+    return response.json().then((json) => {
+      //console.log("JSON", json)
+
+      
+      //console.log(json["instance_text"]);
+      //alert(json["instance_text"]);
+      var helper = document.getElementById("peek");
+      $(helper).text(json["instance_text"]);
+      
+    });
+  });
+  
+  
+}
 function popupVue() {
 
        var alreadyPopup = document.getElementsByClassName("popuptext");
        var exists = $(event.target).children().attr("id");
        var chunk = $(event.target).attr("id");
        //alert(chunk);
-       //checks if there is already a pop up
-       //if there is, delete it
+
+       //gets the peek value
+       peek(chunk);
+
        if($(alreadyPopup).attr('id') != null){
               $(alreadyPopup).remove();
        }
@@ -127,7 +162,7 @@ function popupVue() {
               span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
               var child = span.children();
               
-              child.append(" <span>Peek</span> ");
+              child.append(" <span id='peek'></span> ");
               child.append(" | ");
               child.append("<span onclick='APIflip(this)'>Flip</span>");
 
@@ -135,11 +170,13 @@ function popupVue() {
               var popupChunk = "myPopup" + chunk;
               var popup = document.getElementById(popupChunk);
               popup.classList.toggle("show");
+              peek(chunk);
        }
        else{
               var span = $(event.target);
               span.children().remove();
        }
+
 }
 
 function APIflip(e){
@@ -209,9 +246,4 @@ function APIget_flipped_words(){
   */
 
 }
-/*
-function peek(){
-  //language table
-  //master position (mp)
 
-}*/
