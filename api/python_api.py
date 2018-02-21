@@ -213,7 +213,7 @@ def flip_one_concept():
                 bottle.abort(500, "Database error.  See the log for details.")
     else:
         msg = "Possible injection attempt: {}".format(query)
-            logging.error(msg)
+        logging.error(msg)
         bottle.abort(400, msg)
 
     query2 = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
@@ -278,18 +278,20 @@ def get_all_flipped():
 
     query = "SELECT * FROM user_lm WHERE userid = ? AND flipped = True"
 
-    try:
-        cursor.execute(query, (userid,))
-        db.commit()
-        query_result = cursor.fetch_all()
-    except mariadb.Error as query_error:
-        db.rollback()
-        return "Database query failed: {}".format(query_error)
-    finally:
-        cursor.close()
-        db.close()
-
-    return query_result
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query, (concept_id,))
+            query2_result = cursor.fetchone()  # TODO: Do we need this line?
+            msg = "Query2 {} executed successfully.".format(query)
+            logging.info(msg)
+        except mariadb.Error as query_error:
+            msg = "Database flip query2 failed: {}".format(query_error)
+            logging.error(msg)
+            bottle.abort(500, "Database error.  See the log for details.")
+    else:
+        msg = "Possible injection attempt: {}".format(query)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
 
 # @bottle.route('')
