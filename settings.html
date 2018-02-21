@@ -15,6 +15,13 @@
         border: none;
         background: none;
       }
+      .button-increment{
+        border-radius: 86px;
+        border: 0;
+      }
+      input{
+        width: 42%;
+      }
     </style>
   </head>
   <body>                                    
@@ -37,28 +44,27 @@
         <!--spacer-->
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
         <!--sliders-->
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
           <h2>Difficulty Level</h2>
           <br>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="0" class="slider" id="myRange">
-          </div>
+          <button class="button-increment">-</button>
+          <input type="text" name="fname" class="text-center">
+          <button class="button-increment">+</button>
           <br>
           <h2>Number of Recommendations</h2>
           <br>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="0" class="slider" id="myRange2">
-          </div>
+          <button class="button-increment">-</button>
+          <input type="text" name="fname" class="text-center">
+          <button class="button-increment">+</button>
           <br>
           <h2>Font Size</h2>
           <br>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="0" class="slider" id="myRange3">
-          </div>
-
+          <button class="button-increment">-</button>
+          <input type="text" name="fname" class="text-center">
+          <button class="button-increment">+</button>
         </div>
         <!--spacer-->
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
         <!--Language and Account-->
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
           <h2>Target Language</h2>

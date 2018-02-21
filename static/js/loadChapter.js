@@ -46,7 +46,7 @@ new Vue({
           //append to each chunk object
           this.json[i].verse = verse;
          }
-         console.log(this.verses);
+         //console.log(this.verses);
          
 
       })

@@ -1,3 +1,13 @@
+//gets json for manipulation
+var chapterJSON = {};
+fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
+  return response.json().then((json) => {
+    console.log("JSON", json)
+     chapterJSON = json;
+  });
+});
+console.log(chapterJSON);
+
 function flip_the_phrase3(e){
        //use id to query DB. print result to span        
        var span = $(e).parent().parent();
@@ -117,7 +127,7 @@ function popupVue() {
               span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
               var child = span.children();
               
-              child.append(" <span onclick='define(this)'>Peek</span> ");
+              child.append(" <span>Peek</span> ");
               child.append(" | ");
               child.append("<span onclick='APIflip(this)'>Flip</span>");
 
