@@ -40,15 +40,16 @@ def add_to_db(data):
                 mp = item['master_position']
                 np = item['instance_id']
                 text = item['instance_text']
+                chunk = item['chunk_id']
                 table = get_language(np)
                 # need to write to the db
-                insert_statement = "INSERT INTO " + table + "(instance_id, master_position, instance_text) " \
-                                                            "VALUES (%s, %s, %s); "
-                values = (np, mp, text)
+                insert_statement = "INSERT INTO " + table + "(instance_id, master_position, instance_text, chunk_id) " \
+                                                            "VALUES (%s, %s, %s, %s); "
+                values = (np, mp, text, chunk)
                 try:
                     cursor.execute(insert_statement, values)
                     con.commit()
-                    print_statement = "(" + np + ", " + mp + ", " + text + ")" + ": Was successfully " \
+                    print_statement = "(" + np + ", " + mp + ", " + text + ", " + chunk + ")" + ": Was successfully " \
                                                                                                "added to the database. "
                     # print_statement = "Was successfully added to the database."
                     pprint.pprint(print_statement)
