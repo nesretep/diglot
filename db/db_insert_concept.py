@@ -39,7 +39,7 @@ def add_to_db(data):
                 # need to read through the data
                 chunk = item['chunk_id']
                 concept = item['concept_id']
-                table = get_language(np)
+                table = get_language(chunk)
                 # need to write to the db
                 insert_statement = "INSERT INTO " + table + "(chunk_id, concept_id) " \
                                                             "VALUES (%s, %s); "
