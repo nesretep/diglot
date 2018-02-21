@@ -181,94 +181,55 @@ def flip_one_concept():
     :return query_result: JSON-ified dict containing the instance requested for the flip
     """
 
-    lang = bottle.request.query.lang
-    book = books[bottle.request.query.book]
-    chapter = bottle.request.query.chapter
-    verse = bottle.request.query.verse
-    pos = bottle.request.query.pos
     target_lang = bottle.request.query.target_lang
-    user_id = bottle.request.query.user_id
-    flipback = bottle.request.query.flipback
-
-    uid = "{}:{}:{}:{}:{}".format(lang, book, chapter, verse, pos)
-    if helper.is_valid_uid(uid, "instance") == False:
-        msg = "Invalid uid ({}) passed to function.".format(uid)
-        logging.error(msg)
-        bottle.abort(500, "Invalid uid passed to function.")
+    user_id = int(bottle.request.query.user_id)
+    flip_back = bool(bottle.request.query.flip_back)
+    concept_id = bottle.request.query.concept_id
+    lang = concept_id[:3]
 
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    # TODO: Verify queries for flipping an instance - check variables filling the queries!
-    query1 = "SELECT con.concept_id FROM {}_concept AS con INNER JOIN {} AS lang ON (con.chunk_id = lang.chunk_id) \
-              WHERE lang.instance_id = '{}'".format(lang, lang, uid)
-    if helper.is_injection(query1) == False:
-        try:
-            cursor.execute(query1)
-            query1_result = cursor.fetchone()
-            msg = "Query1 {} executed successfully.".format(query1)
-            logging.info(msg)
-        except mariadb.Error as query1_error:
-            msg = "Database flip query1 ({}) failed: {}".format(query1, query1_error)
-            logging.error(msg)
-            bottle.abort(500, "Test")
-    if flipback == "True":
-        query2 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = {}".format(user_id,
-                                                                                          query1_result['concept_id'])
+    if flip_back is False:
+        query = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = %s".format(user_id)
     else:
-        query2 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, query1_result[
-            'concept_id'])
-    if helper.is_injection(query2) == False:
+        query = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
+    if helper.is_injection(query) == False:
         try:
-            cursor.execute(query2)
+            cursor.execute(query, (concept_id,))
             db.commit()
             query2_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query2 {} executed successfully.".format(query2)
+            msg = "Query2 {} executed successfully.".format(query)
             logging.info(msg)
-        except mariadb.Error as query2_error:
+        except mariadb.Error as query_error:
             # TODO: Fix this if to check for another error
-            if query2_error[1:5] == "1062":
+            if query_error[1:5] == "1062":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
-                msg = "Database flip query2 failed: {}".format(query2_error)
+                msg = "Database flip query2 failed: {}".format(query_error)
                 logging.error(msg)
-                bottle.abort(500, "Test")
-
-    query3 = "SELECT origin.master_position FROM {} AS origin WHERE origin.instance_id LIKE '{}'".format(lang, uid)
-    if helper.is_injection(query3) == False:
-        try:
-            cursor.execute(query3)
-            query3_result = cursor.fetchone()
-            msg = "Query3 {} executed successfully.".format(query3)
-            logging.info(msg)
-            # logging.debug("q3mp: {}".format(query3_result['master_position']))
-        except mariadb.Error as query3_error:
-            db.rollback()
-            msg = "Database flip query3 failed: {}".format(query3_error)
-            logging.error(msg)
-            bottle.abort(500, "Test")
-
-    query4 = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-              WHERE target.master_position LIKE '{}'".format(target_lang, query3_result['master_position'])
-    logging.debug("before")
-    if helper.is_injection(query4) == False:
-        # logging.debug("Is injection is False.")
-        try:
-            cursor.execute(query4)
-            db.commit()
-            query4_result = cursor.fetchone()
-            msg = "Query4 {} executed successfully.".format(query4)
-            logging.info(msg)
-            return json.dumps(query4_result)
-        except mariadb.Error as query4_error:
-            db.rollback()
-            msg = "Database flip query4 failed: {}".format(query4_error)
-            logging.error(msg)
-            bottle.abort(500, "Test")
+                bottle.abort(500, "Database error.  See the log for details.")
     else:
-        logging.debug("injection true")
+        msg = "Possible injection attempt: {}".format(query)
+            logging.error(msg)
+        bottle.abort(400, msg)
+
+    query2 = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
+               INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
+               origin.master_position = target.master_position WHERE con.concept_id = {} \
+               ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+    if helper.is_injection(query2) == False:
+        try:
+            cursor.execute(query2)
+            query2_result = cursor.fetchall()
+            msg = "Query2 {} executed successfully.".format(query2)
+            logging.info(msg)
+        except mariadb.Error as query2_error:
+            msg = "Database flip query2 failed: {}".format(query2_error)
+            logging.error(msg)
+            bottle.abort(500, "Database error.  See the log for details.")
 
 
 @bottle.route('/peek')
