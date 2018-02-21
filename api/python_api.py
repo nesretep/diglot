@@ -192,27 +192,27 @@ def flip_one_concept():
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
     if flip_back is False:
-        query = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = %s".format(user_id)
+        query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = %s".format(user_id)
     else:
-        query = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
-    if helper.is_injection(query) == False:
+        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
+    if helper.is_injection(query1) == False:
         try:
-            cursor.execute(query, (concept_id,))
+            cursor.execute(query1, (concept_id,))
             db.commit()
-            query2_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query2 {} executed successfully.".format(query)
+            query1_result = cursor.fetchone()  # TODO: Do we need this line?
+            msg = "Query {} executed successfully.".format(query1)
             logging.info(msg)
-        except mariadb.Error as query_error:
+        except mariadb.Error as query1_error:
             # TODO: Fix this if to check for another error
-            if query_error[1:5] == "1062":
+            if query1_error[1:5] == "1062":
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
-                msg = "Database flip query2 failed: {}".format(query_error)
+                msg = "Database flip query failed: {}".format(query1_error)
                 logging.error(msg)
                 bottle.abort(500, "Database error.  See the log for details.")
     else:
-        msg = "Possible injection attempt: {}".format(query)
+        msg = "Possible injection attempt: {}".format(query1)
         logging.error(msg)
         bottle.abort(400, msg)
 
