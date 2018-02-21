@@ -128,10 +128,6 @@ function peek(instance_id){
   fetch(url).then((response) => {
     return response.json().then((json) => {
       //console.log("JSON", json)
-
-      
-      //console.log(json["instance_text"]);
-      //alert(json["instance_text"]);
       var helper = document.getElementById("peek");
       $(helper).text(json["instance_text"]);
       
@@ -146,10 +142,6 @@ function popupVue() {
        var exists = $(event.target).children().attr("id");
        var chunk = $(event.target).attr("id");
        //alert(chunk);
-
-       //gets the peek value
-       peek(chunk);
-
        if($(alreadyPopup).attr('id') != null){
               $(alreadyPopup).remove();
        }
