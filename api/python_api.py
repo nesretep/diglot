@@ -195,15 +195,15 @@ def flip_one_concept():
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
     if flip_back is True:
-        query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = %s".format(user_id)
+        query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = '{}'".format(user_id, concept_id)
     elif flip_back is False:
-        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', %s)".format(user_id)
+        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
     if helper.is_injection(query1) == False:
         try:
-            cursor.execute(query1, (concept_id,))
+            cursor.execute(query1)
             db.commit()
             query1_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query {} executed successfully.".format(query1)
+            msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
             # TODO: Fix this if to check for another error
