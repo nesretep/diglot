@@ -155,7 +155,7 @@ function popupVue() {
               var child = span.children();
               
               child.append(" <span id='peek'></span> ");
-              child.append(" | ");
+              child.append(" <br>"); /*or " | "*/
               child.append("<span onclick='APIflip(this)'>Flip</span>");
 
 
