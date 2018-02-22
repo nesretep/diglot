@@ -5,12 +5,10 @@
 
 import bottle
 import json
-# import instance
 import helper
 import sys
 import pymysql as mariadb
 import logging
-import datetime
 
 sys.path.extend(['/git/diglot/api'])
 
@@ -118,15 +116,15 @@ def testme():
     uid = "eng:01:01:01:001"
     try:
         target_lang = "spa"
-        concept_id = "spa_"
+        concept_id = "eng_con_00001"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
         lang = "eng"
         mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
         query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
-                  INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
-                  origin.master_position = target.master_position WHERE con.concept_id = {} \
+                  INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
+                  WHERE con.concept_id = {} \
                   ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
         if helper.is_injection(query) == False:
             cursor.execute(query)
@@ -196,10 +194,10 @@ def flip_one_concept():
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    if flip_back is False:
+    if flip_back is True:
         query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = %s".format(user_id)
-    else:
-        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
+    elif flip_back is False:
+        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', %s)".format(user_id)
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1, (concept_id,))
@@ -209,7 +207,7 @@ def flip_one_concept():
             logging.info(msg)
         except mariadb.Error as query1_error:
             # TODO: Fix this if to check for another error
-            if query1_error[1:5] == "1062":
+            if query1_error[0] == 1062:
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
@@ -223,7 +221,7 @@ def flip_one_concept():
 
     query2 = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
                INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
-               origin.master_position = target.master_position WHERE con.concept_id = {} \
+               origin.master_position = target.master_position WHERE con.concept_id = '{}' \
                ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
     if helper.is_injection(query2) == False:
         try:
