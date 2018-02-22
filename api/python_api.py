@@ -133,10 +133,12 @@ def get_chapter(lang, book, chapter):
         cursor.close()
         msg = "Query {} executed successfully.".format(query)
         logging.info(msg)
+        db.close()
         return json.dumps(query_result)
     except mariadb.Error as query_error:
         msg = "Database query failed: {}".format(query_error)
         logging.error(msg)
+        db.close()
         bottle.abort(500, "Database error.  See the log for details.")
 
 
@@ -200,10 +202,12 @@ def flip_one_concept():
             query2_result = cursor.fetchall()
             msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
+            db.close()
             return json.dumps(query2_result)
         except mariadb.Error as query2_error:
             msg = "Database flip query2 failed: {}".format(query2_error)
             logging.error(msg)
+            db.close()
             bottle.abort(500, "Database error.  See the log for details.")
 
 
@@ -227,13 +231,16 @@ def peek():
             query_result = cursor.fetchone()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
+            db.close()
             return json.dumps(query_result)
         except mariadb.Error as query_error:
             msg = "Database peek query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
+            db.close()
             bottle.abort(500, "Check the log for details.")
     else:
         logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
 
 
 @bottle.route('/flipped')
@@ -259,14 +266,17 @@ def get_all_flipped():
             query2_result = cursor.fetchone()  # TODO: Do we need this line?
             msg = "Query2 {} executed successfully.".format(query)
             logging.info(msg)
+            db.close()
         except mariadb.Error as query_error:
             msg = "Database flip query2 failed: {}".format(query_error)
             logging.error(msg)
             bottle.abort(500, "Database error.  See the log for details.")
+            db.close()
     else:
         msg = "Possible injection attempt: {}".format(query)
         logging.error(msg)
         bottle.abort(400, msg)
+        db.close()
 
 
 # @bottle.route('')
