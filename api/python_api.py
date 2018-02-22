@@ -20,35 +20,6 @@ dbconf = "conf/diglot.conf"
 # TODO: remove return statements that reveal debugging info from all functions
 
 
-# def run_query(query, type):
-#     try:
-#         db = helper.connect_to_db(dbconf)
-#         cursor = db.cursor(mariadb.cursors.DictCursor)
-#     except ConnectionError as con_error:
-#         msg = " Unable to connect to database: {}".format(con_error)
-#         logging.error(msg)
-#     try:
-#         cursor.execute(query)
-#         db.commit()
-#         if type == "fetchone":
-#             query_result = cursor.fetchone()
-#         elif type == "fetchall":
-#             query_result = cursor.fetchall()
-#         elif type == "insert":
-#             query_result = True
-#         msg1 = "Query {} executed successfully.  Returning any data.".format(query)
-#         logging.info(msg1)
-#         db.close()
-#         msg2 = "Closed database connection.".format(datetime.datetime.now())
-#         logging.info(msg2)
-#         return query_result
-#     except mariadb.Error as query_error:
-#         db.rollback()
-#         msg = "Database query failed: {}".format((query_error)
-#         logging.error(msg)
-#         bottle.abort(500, "Test")
-
-
 @bottle.route('/')
 def index(filepath="../index.html"):
     """
@@ -162,26 +133,27 @@ def get_chapter(lang, book, chapter):
         cursor.close()
         msg = "Query {} executed successfully.".format(query)
         logging.info(msg)
+        db.close()
         return json.dumps(query_result)
     except mariadb.Error as query_error:
         msg = "Database query failed: {}".format(query_error)
         logging.error(msg)
+        db.close()
         bottle.abort(500, "Database error.  See the log for details.")
+
 
 
 @bottle.route('/flip')
 def flip_one_concept():
     """
     Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.
-    Parameters come via a query string to form the uid being flipped.
+    Parameters are retrieved from the query string of the HTTP request
 
-    :param lang: (str) the language part of the uid
-    :param book: (str) the book part of the uid
-    :param chapter: (str) the chapter part of the uid
-    :param verse: (str) the verse part of the uid
-    :param pos: (str) the position in the verse part of the uid
-    :param target_lang: (str) target language identifier
-    :return query_result: JSON-ified dict containing the instance requested for the flip
+    :param concept_id: (str) concept identifier for the concept to be flipped
+    :param user_id: (str) id of the user for which the concept is being flipped
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :param flip_back: (bool) Indicates if the concept is being flipped back to the origin language again or not
+    :return query2_result: JSON-ified dict containing the instance requested for the flip
     """
 
     target_lang = bottle.request.query.target_lang
@@ -194,6 +166,8 @@ def flip_one_concept():
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
+    # either adds or removes the concept selected from the table depending on whether the user is flipping the
+    # concept to the target language or back to the origin language from the target language
     if flip_back is True:
         query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = '{}'".format(user_id, concept_id)
     elif flip_back is False:
@@ -206,7 +180,7 @@ def flip_one_concept():
             msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
-            # TODO: Fix this if to check for another error
+            # Check for error from database indicating a duplicate entry for that user with that concept_id
             if query1_error[0] == 1062:
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
@@ -218,7 +192,7 @@ def flip_one_concept():
         msg = "Possible injection attempt: {}".format(query1)
         logging.error(msg)
         bottle.abort(400, msg)
-
+    # Grabs the info needed on the front end to complete the flipping of the concept
     query2 = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
                INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
                origin.master_position = target.master_position WHERE con.concept_id = '{}' \
@@ -229,15 +203,25 @@ def flip_one_concept():
             query2_result = cursor.fetchall()
             msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
+            db.close()
             return json.dumps(query2_result)
         except mariadb.Error as query2_error:
             msg = "Database flip query2 failed: {}".format(query2_error)
             logging.error(msg)
+            db.close()
             bottle.abort(500, "Database error.  See the log for details.")
 
 
 @bottle.route('/peek')
 def peek():
+    """
+    Retrieves information to facilitate the ability to peek at the translation of an instance before flipping it
+    Parameters are retrieved from the query string of the HTTP request
+
+    :param lang: (str) the language used for the peek
+    :param mp: (str) the id of the master position for the instance the user is peeking at
+    :return query_result: (list of dicts) contains the data needed to facilitate the peek functionality
+    """
     lang = bottle.request.query.lang
     mp = bottle.request.query.mp
 
@@ -256,46 +240,54 @@ def peek():
             query_result = cursor.fetchone()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
+            db.close()
             return json.dumps(query_result)
         except mariadb.Error as query_error:
             msg = "Database peek query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
+            db.close()
             bottle.abort(500, "Check the log for details.")
     else:
         logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
 
 
 @bottle.route('/flipped')
 def get_all_flipped():
     """
-    Get list of all the words for the chapter that have already been flipped.
-    Helper function for use in get_chapter()
+    Get list of all the words for the chapter that have already been flipped by the user who is logged in.
+    Helper function for use in conjunction with get_chapter()
 
+    :param user_id: (str) id of the user the flipped concepts are being requested for
     :return query_result: (list of dicts) Instances to flip
     """
+    user_id = bottle.request.query.user_id
     # Query database for uids of words already flipped
+    query = "SELECT * FROM flipped_list WHERE user_id = %s"
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-
-    query = "SELECT * FROM user_lm WHERE userid = ? AND flipped = True"
+    except mariadb.Error as db_connect_error:
+        msg = "Database connection error: {}".format(db_connect_error)
+        logging.info(msg)
+        bottle.abort(500, "Check the log for details.")
 
     if helper.is_injection(query) == False:
         try:
-            cursor.execute(query, (concept_id,))
-            query2_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query2 {} executed successfully.".format(query)
+            cursor.execute(query, (user_id,))
+            query_result = cursor.fetchone()
+            msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
+            db.close()
+            return json.dumps(query_result)
         except mariadb.Error as query_error:
-            msg = "Database flip query2 failed: {}".format(query_error)
+            msg = "Database peek query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
-            bottle.abort(500, "Database error.  See the log for details.")
+            db.close()
+            bottle.abort(500, "Check the log for details.")
     else:
-        msg = "Possible injection attempt: {}".format(query)
-        logging.error(msg)
-        bottle.abort(400, msg)
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
 
 
 # @bottle.route('')
@@ -314,14 +306,14 @@ def past_critical_point():
     return critical
 
 
-@bottle.put('/prefs/<uid>')
-def set_user_prefs(uid):
+@bottle.put('/setlevel')
+def set_user_level():
     """
     Sets the user's level in their user preferences.
-    Some parameters are obtained from the query string (marked with a * below).
+    Parameters are obtained from the query string
 
-    *:param level: (int) Indicates the difficulty the user is comfortable with
-    *:param target: (str) ISO 639-3 identifier for the target language chosen
+    :param level: (int) Indicates the difficulty the user is comfortable with
+    :param target: (str) ISO 639-3 identifier for the target language chosen
 
     :param uid: (str) The id of the user
 
@@ -356,7 +348,6 @@ def set_user_prefs(uid):
     return confirm_level_set
 
 
-# TODO: Verify whether or not this URL format will work the way we intend it to
 @bottle.route('/prefs')
 def set_user_language():
     """
