@@ -20,35 +20,6 @@ dbconf = "conf/diglot.conf"
 # TODO: remove return statements that reveal debugging info from all functions
 
 
-# def run_query(query, type):
-#     try:
-#         db = helper.connect_to_db(dbconf)
-#         cursor = db.cursor(mariadb.cursors.DictCursor)
-#     except ConnectionError as con_error:
-#         msg = " Unable to connect to database: {}".format(con_error)
-#         logging.error(msg)
-#     try:
-#         cursor.execute(query)
-#         db.commit()
-#         if type == "fetchone":
-#             query_result = cursor.fetchone()
-#         elif type == "fetchall":
-#             query_result = cursor.fetchall()
-#         elif type == "insert":
-#             query_result = True
-#         msg1 = "Query {} executed successfully.  Returning any data.".format(query)
-#         logging.info(msg1)
-#         db.close()
-#         msg2 = "Closed database connection.".format(datetime.datetime.now())
-#         logging.info(msg2)
-#         return query_result
-#     except mariadb.Error as query_error:
-#         db.rollback()
-#         msg = "Database query failed: {}".format((query_error)
-#         logging.error(msg)
-#         bottle.abort(500, "Test")
-
-
 @bottle.route('/')
 def index(filepath="../index.html"):
     """
