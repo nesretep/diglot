@@ -246,36 +246,38 @@ def peek():
 @bottle.route('/flipped')
 def get_all_flipped():
     """
-    Get list of all the words for the chapter that have already been flipped.
-    Helper function for use in get_chapter()
+    Get list of all the words for the chapter that have already been flipped by the user who is logged in.
+    Helper function for use in conjunction with get_chapter()
 
+    :param user_id: (str) id of the user the flipped concepts are being requested for
     :return query_result: (list of dicts) Instances to flip
     """
+    user_id = bottle.request.query.user_id
     # Query database for uids of words already flipped
+    query = "SELECT * FROM flipped_list WHERE user_id = %s"
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-
-    query = "SELECT * FROM user_lm WHERE userid = ? AND flipped = True"
+    except mariadb.Error as db_connect_error:
+        msg = "Database connection error: {}".format(db_connect_error)
+        logging.info(msg)
+        bottle.abort(500, "Check the log for details.")
 
     if helper.is_injection(query) == False:
         try:
-            cursor.execute(query, (concept_id,))
-            query2_result = cursor.fetchone()  # TODO: Do we need this line?
-            msg = "Query2 {} executed successfully.".format(query)
+            cursor.execute(query, (user_id,))
+            query_result = cursor.fetchone()
+            msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
             db.close()
+            return json.dumps(query_result)
         except mariadb.Error as query_error:
-            msg = "Database flip query2 failed: {}".format(query_error)
+            msg = "Database peek query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
-            bottle.abort(500, "Database error.  See the log for details.")
             db.close()
+            bottle.abort(500, "Check the log for details.")
     else:
-        msg = "Possible injection attempt: {}".format(query)
-        logging.error(msg)
-        bottle.abort(400, msg)
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
         db.close()
 
 
