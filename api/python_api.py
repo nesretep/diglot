@@ -117,17 +117,19 @@ def load_login_page(filename="../login.html"):
 def testme():
     uid = "eng:01:01:01:001"
     try:
-        table = "eng"
+        target_lang = "spa"
+        concept_id = "spa_"
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
-        lang = "spa"
+        lang = "eng"
         mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
-                     LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE '%s' \
-                     ORDER BY origin.instance_id".format(lang, lang)
+        query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
+                  INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
+                  origin.master_position = target.master_position WHERE con.concept_id = {} \
+                  ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
         if helper.is_injection(query) == False:
-            cursor.execute(query, (lang,))
+            cursor.execute(query)
             result = cursor.fetchall()
             cursor.close()
             msg = "Test query '{}' executed successfully.".format(query)
@@ -154,7 +156,7 @@ def get_chapter(lang, book, chapter):
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
     query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
-             LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE '%s' \
+             LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE %s \
              ORDER BY origin.instance_id".format(lang, lang)
     try:
         cursor.execute(query, (chap_uid,))
@@ -211,7 +213,7 @@ def flip_one_concept():
                 logging.warning("Instance already in flipped_list for user_id {}.".format(user_id))
             else:
                 db.rollback()
-                msg = "Database flip query failed: {}".format(query1_error)
+                msg = "Database flip query1 failed: {}".format(query1_error)
                 logging.error(msg)
                 bottle.abort(500, "Database error.  See the log for details.")
     else:
