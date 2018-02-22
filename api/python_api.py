@@ -188,7 +188,7 @@ def flip_one_concept():
     user_id = int(bottle.request.query.user_id)
     flip_back = bool(bottle.request.query.flip_back)
     concept_id = bottle.request.query.concept_id
-    lang = bottle.request.query.lang
+    lang = concept_id[:3]
 
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
