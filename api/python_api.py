@@ -127,7 +127,7 @@ def testme():
                      LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE '%s' \
                      ORDER BY origin.instance_id".format(lang, lang)
         if helper.is_injection(query) == False:
-            cursor.execute(query)
+            cursor.execute(query, (lang,))
             result = cursor.fetchall()
             cursor.close()
             msg = "Test query '{}' executed successfully.".format(query)
