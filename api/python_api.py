@@ -152,7 +152,9 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query = "SELECT * FROM {} WHERE `instance_id` LIKE %s ORDER BY instance_id".format(lang)
+    query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
+             LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE instance_id LIKE '%s' \
+             ORDER BY origin.instance_id".format(lang, lang)
     try:
         cursor.execute(query, (chap_uid,))
         query_result = cursor.fetchall()
