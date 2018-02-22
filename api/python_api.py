@@ -188,7 +188,7 @@ def flip_one_concept():
     user_id = int(bottle.request.query.user_id)
     flip_back = bool(bottle.request.query.flip_back)
     concept_id = bottle.request.query.concept_id
-    lang = concept_id[:3]
+    lang = bottle.request.query.lang
 
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
@@ -229,6 +229,7 @@ def flip_one_concept():
             query2_result = cursor.fetchall()
             msg = "Query2 {} executed successfully.".format(query2)
             logging.info(msg)
+            return json.dumps(query2_result)
         except mariadb.Error as query2_error:
             msg = "Database flip query2 failed: {}".format(query2_error)
             logging.error(msg)
