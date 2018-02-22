@@ -123,8 +123,9 @@ def testme():
         lang = "spa"
         mp = "01:01:01:001"
         # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        query = "SELECT target.instance_id, target.instance_text FROM {} AS target \
-                      WHERE target.master_position LIKE '{}'".format(lang, mp)
+        query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
+                     LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE '%s' \
+                     ORDER BY origin.instance_id".format(lang, lang)
         if helper.is_injection(query) == False:
             cursor.execute(query)
             result = cursor.fetchall()
