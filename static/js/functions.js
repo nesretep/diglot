@@ -204,12 +204,14 @@ function APIflip(e){
         
         for(i=0; i < json.length-1; i++){
           
-          var instance = document.getElementById(json[i].instance_id);
+          var instance = document.getElementById(json[i].origin_instance_id);
           //alert(json[i].instance_id);
           $(instance).fadeOut('fast');
-          $(instance).text(" " + json[i].instance_text);
+          $(instance).html('&nbsp;');
+          $(instance).append(json[i].target_instance_text);
+          // + json[i].target_instance_text);
           //alert(json[i].instance_text);
-          //$(instance).attr("id", json[i].target.instance_id);
+          $(instance).attr("id", json[i].target_instance_id);
           $(instance).fadeIn();
         }//end for loop
 
