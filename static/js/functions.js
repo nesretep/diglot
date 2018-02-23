@@ -7,7 +7,7 @@ fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
      chapterJSON = json;
   });
 });
-console.log(chapterJSON);
+//console.log(chapterJSON);
 
 function flip_the_phrase3(e){
        //use id to query DB. print result to span        
@@ -121,10 +121,7 @@ function peek(instance_id){
   }
   //alert(position);
   var lang = "spa";
- 
   var url = "http://diglot.it.et.byu.edu/peek?lang=" + lang + "&mp=" + mp;
-  
- 
   fetch(url).then((response) => {
     return response.json().then((json) => {
       //console.log("JSON", json)
@@ -155,8 +152,8 @@ function popupVue() {
               var child = span.children();
               
               child.append(" <span id='peek'></span> ");
-              child.append(" | ");
-              child.append("<span onclick='APIflip(this)'>Flip</span>");
+              child.append(" <br>"); /*or " | "*/
+              child.append("<span onClick='APIflip(this)'>Flip</span>");
 
 
               var popupChunk = "myPopup" + chunk;
@@ -168,7 +165,6 @@ function popupVue() {
               var span = $(event.target);
               span.children().remove();
        }
-
 }
 
 function APIflip(e){
@@ -181,6 +177,8 @@ function APIflip(e){
   var word = span.clone().children().remove();
   word = word.end().text().trim();
 
+  var classList = document.getElementById(id).className.split(/\s+/);
+
   id = id.split(":");
   var lang = id[0];
   var book = "1Nephi";
@@ -188,33 +186,65 @@ function APIflip(e){
   var verse = id[3];
   var pos = id[4];
   var target_lang = "spa";
+  var concept_id = classList[classList.length-1];
   //get from user preference
 
   if($(span).hasClass("spa")){
     target_lang = "eng";
   }
-  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1";
+  //var new_concept = lang + "_" + concept_id.substring(4);
+
+  var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+  console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
-        //console.log("JSON", json)
-        span.fadeOut('fast', function(){
-          //alert(json["instance_text"]);
-          var spanish = json["instance_text"];
-          span.text(" " + spanish);
-          span.attr("id", json["instance_id"]);
-        });
-        span.fadeIn();
+        console.log("JSON", json);
+        
+        //change words
+        for(i=0; i < json.length-1; i++){
+          var instance = document.getElementById(json[i].origin_instance_id);
+          //alert(json[i].origin_instance_id);
+          //change language class tag
+          if(target_lang == "spa"){
+            $(instance).addClass("spa");
+            $(instance).removeClass("eng");
+          }
+          else{
+            $(instance).addClass("eng");
+            $(instance).removeClass("spa");
+          }
+
+          //flipped flag
+          $(instance).addClass("flipped");
+
+          //place concept id on the end of the list
+          $(instance).removeClass(concept_id);
+          $(instance).addClass(concept_id);
+          
+
+          //fade out, text change, id change
+          $(instance).fadeOut('fast');
+          $(instance).html('&nbsp;');
+          $(instance).append(json[i].target_instance_text);
+          $(instance).attr("id", json[i].target_instance_id);
+          $(instance).fadeIn();
+        }//end for loop
+
+        //append to json
+        for(i=0; i < json.length-1; i++){
+          for(j = 0; j < chapterJSON.length-1; j++){
+            if(chapterJSON[i].instance_id == json[i].origin_instance_id){
+              //alert("match!");
+              chapterJSON[i].target_instance_id = json[i].target_instance_id;
+            }
+          }
+        }//end append loop
+        console.log(chapterJSON);
+
     });
   });
   //change tags
-  if(target_lang == "spa"){
-    $(span).addClass("spa");
-    $(span).removeClass("eng");
-  }
-  else{
-    $(span).addClass("eng");
-    $(span).removeClass("spa");
-  }
+ 
 }
 
 function APIuser_load(user_id){

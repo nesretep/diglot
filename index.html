@@ -48,8 +48,13 @@
          .chapter{
             padding-bottom: 10px;
          }*/
-         #peek_helper{
-            display: hidden;
+         #peek{
+            border-bottom: 1px dotted #000;
+            text-decoration: none;
+         }
+         .flipped{
+            border-bottom: 1px dotted #000;
+            text-decoration: none;  
          }
       </style>
       
@@ -150,7 +155,7 @@
                      <div v-for=" verseItem in verses" class="verse">
                         <span><b>{{ verseItem }} </b></span>
                         <span v-for="item in json">
-                        <span v-if="item.verse == verseItem && item.punctuation==false" class="popup chunk eng" v-bind:id= "item.instance_id" >
+                        <span v-if="item.verse == verseItem && item.punctuation==false" v-bind:class="item.concept_id" class="popup chunk eng"  v-bind:id= "item.instance_id" >
                         &nbsp;{{ item.instance_text }}
                         </span>
                         <span v-else-if="item.verse == verseItem && item.punctuation==true" class="punctuation">
@@ -165,7 +170,6 @@
          </div>
          <div id='demo'></div>
       </div>
-      <div id="peek_helper">text</div>
       <!-- end #content -->
       <script src="static/js/loadChapter.js" ></script>
       <script src="static/js/chapters.js" ></script>

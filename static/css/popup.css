@@ -11,7 +11,7 @@ user-select: none;
 /* The actual popup */
 .popup .popuptext {
 visibility: hidden;
-width: 215px;
+width: 119px; /*215*/
 background-color: #555;
 color: #fff;
 text-align: center;
@@ -22,7 +22,8 @@ position: absolute;
 z-index: 1;
 bottom: 125%;
 left: 95%;
-margin-left: -65px;
+margin-left: -65px;/*162*/
+font-size: 18px;
 }
 /* Popup arrow */
 .popup .popuptext::after {
