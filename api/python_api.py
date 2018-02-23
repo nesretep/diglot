@@ -142,23 +142,20 @@ def get_chapter(lang, book, chapter):
         bottle.abort(500, "Database error.  See the log for details.")
 
 
-
 @bottle.route('/flip')
 def flip_one_concept():
     """
-    Sends data for switching an instance to the target langauge.  Sets one Instance as flipped in the database.
+    Sends data for switching an instance to the target language.  Sets one Instance as flipped in the database.
     Parameters are retrieved from the query string of the HTTP request
 
     :param concept_id: (str) concept identifier for the concept to be flipped
     :param user_id: (str) id of the user for which the concept is being flipped
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
-    :param flip_back: (bool) Indicates if the concept is being flipped back to the origin language again or not
     :return query2_result: JSON-ified dict containing the instance requested for the flip
     """
 
     target_lang = bottle.request.query.target_lang
     user_id = int(bottle.request.query.user_id)
-    flip_back = bool(bottle.request.query.flip_back)
     concept_id = bottle.request.query.concept_id
     lang = concept_id[:3]
 
@@ -168,10 +165,7 @@ def flip_one_concept():
 
     # either adds or removes the concept selected from the table depending on whether the user is flipping the
     # concept to the target language or back to the origin language from the target language
-    if flip_back is True:
-        query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = '{}'".format(user_id, concept_id)
-    elif flip_back is False:
-        query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
+    query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1)
@@ -197,6 +191,58 @@ def flip_one_concept():
                INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON \
                origin.master_position = target.master_position WHERE con.concept_id = '{}' \
                ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+    if helper.is_injection(query2) == False:
+        try:
+            cursor.execute(query2)
+            query2_result = cursor.fetchall()
+            msg = "Query2 {} executed successfully.".format(query2)
+            logging.info(msg)
+            db.close()
+            return json.dumps(query2_result)
+        except mariadb.Error as query2_error:
+            msg = "Database flip query2 failed: {}".format(query2_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Database error.  See the log for details.")
+
+
+@bottle.route('/flipback')
+def flip_one_back():
+    target_lang = bottle.request.query.target_lang
+    user_id = int(bottle.request.query.user_id)
+    concept_id = bottle.request.query.concept_id
+    lang = concept_id[:3]
+
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+    query1 = "DELETE FROM flipped_list WHERE user_id = {} AND concept_id = '{}'".format(user_id, concept_id)
+
+    if helper.is_injection(query1) == False:
+        try:
+            cursor.execute(query1)
+            db.commit()
+            query1_result = cursor.fetchone()  # TODO: Do we need this line?
+            msg = "Query1 {} executed successfully.".format(query1)
+            logging.info(msg)
+        except mariadb.Error as query1_error:
+            # Check for error from database indicating a duplicate entry for that user with that concept_id
+            if query1_error[0] == 1062:
+                logging.debug("Instance already in flipped_list for user_id {}.".format(user_id))
+            else:
+                db.rollback()
+                msg = "Database flip query1 failed: {}".format(query1_error)
+                logging.error(msg)
+                bottle.abort(500, "Database error.  See the log for details.")
+    else:
+        msg = "Possible injection attempt: {}".format(query1)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
+              origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
+              ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
+              WHERE con.concept_id = {} ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
@@ -263,7 +309,11 @@ def get_all_flipped():
     """
     user_id = bottle.request.query.user_id
     # Query database for uids of words already flipped
-    query = "SELECT * FROM flipped_list WHERE user_id = %s"
+    query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM user_settings AS u \
+             INNER JOIN flipped_list AS f on u.user_id = f.user_id INNER JOIN {}_concept AS con ON \
+             con.concept_id = f.concept_id INNER JOIN {} origin ON origin.chunk_id = con.chunk_id INNER JOIN {} \
+             AS target ON origin.master_position = target.master_position WHERE user_id = user_id \
+             ORDER BY origin.instance_id"
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
