@@ -168,6 +168,7 @@ function popupVue() {
               var span = $(event.target);
               span.children().remove();
        }
+       
 
 }
 
@@ -197,7 +198,7 @@ function APIflip(e){
     target_lang = "eng";
   }
   var new_concept = lang + "_" + concept_id.substring(4);
-  
+
   var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + new_concept;
   console.log(url);
   fetch(url).then((response) => {
