@@ -181,6 +181,8 @@ function APIflip(e){
   var word = span.clone().children().remove();
   word = word.end().text().trim();
 
+  var classList = document.getElementById(id).className.split(/\s+/);
+
   id = id.split(":");
   var lang = id[0];
   var book = "1Nephi";
@@ -188,22 +190,29 @@ function APIflip(e){
   var verse = id[3];
   var pos = id[4];
   var target_lang = "spa";
+  var concept_id = classList[3];
   //get from user preference
 
   if($(span).hasClass("spa")){
     target_lang = "eng";
   }
-  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1";
+  var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+  console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
-        //console.log("JSON", json)
-        span.fadeOut('fast', function(){
-          //alert(json["instance_text"]);
-          var spanish = json["instance_text"];
-          span.text(" " + spanish);
-          span.attr("id", json["instance_id"]);
-        });
-        span.fadeIn();
+        console.log("JSON", json[0].instance_id);
+        
+        for(i=0; i < json.length-1; i++){
+          
+          var instance = document.getElementById(json[i].instance_id);
+          //alert(json[i].instance_id);
+          $(instance).fadeOut('fast');
+          $(instance).text(" " + json[i].instance_text);
+          //alert(json[i].instance_text);
+          //$(instance).attr("id", json[i].target.instance_id);
+          $(instance).fadeIn();
+        }//end for loop
+
     });
   });
   //change tags
