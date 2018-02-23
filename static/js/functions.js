@@ -190,13 +190,15 @@ function APIflip(e){
   var verse = id[3];
   var pos = id[4];
   var target_lang = "spa";
-  var concept_id = classList[3];
+  var concept_id = classList[classList.length-1];
   //get from user preference
 
   if($(span).hasClass("spa")){
     target_lang = "eng";
   }
-  var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+  var new_concept = lang + "_" + concept_id.substring(4);
+  
+  var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + new_concept;
   console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
@@ -205,12 +207,25 @@ function APIflip(e){
         for(i=0; i < json.length-1; i++){
           
           var instance = document.getElementById(json[i].origin_instance_id);
-          //alert(json[i].instance_id);
+          //change language class tag
+          if(target_lang == "spa"){
+            $(instance).addClass("spa");
+            $(instance).removeClass("eng");
+          }
+          else{
+            $(instance).addClass("eng");
+            $(instance).removeClass("spa");
+          }
+
+          //place concept id on the end of the list
+          $(instance).removeClass(concept_id);
+          $(instance).addClass(concept_id);
+          
+
+          //fade out, text change, id change
           $(instance).fadeOut('fast');
           $(instance).html('&nbsp;');
           $(instance).append(json[i].target_instance_text);
-          // + json[i].target_instance_text);
-          //alert(json[i].instance_text);
           $(instance).attr("id", json[i].target_instance_id);
           $(instance).fadeIn();
         }//end for loop
@@ -218,14 +233,7 @@ function APIflip(e){
     });
   });
   //change tags
-  if(target_lang == "spa"){
-    $(span).addClass("spa");
-    $(span).removeClass("eng");
-  }
-  else{
-    $(span).addClass("eng");
-    $(span).removeClass("spa");
-  }
+ 
 }
 
 function APIuser_load(user_id){
