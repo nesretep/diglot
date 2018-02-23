@@ -237,7 +237,7 @@ function APIflip(e){
         for(i=0; i < json.length-1; i++){
           for(j = 0; j < chapterJSON.length-1; j++){
             if(chapterJSON[i].instance_id == json[i].origin_instance_id){
-              alert("match!");
+              //alert("match!");
               chapterJSON[i].target_instance_id = json[i].target_instance_id;
             }
           }
