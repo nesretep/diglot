@@ -121,10 +121,7 @@ function peek(instance_id){
   }
   //alert(position);
   var lang = "spa";
- 
   var url = "http://diglot.it.et.byu.edu/peek?lang=" + lang + "&mp=" + mp;
-  
- 
   fetch(url).then((response) => {
     return response.json().then((json) => {
       //console.log("JSON", json)
@@ -156,7 +153,7 @@ function popupVue() {
               
               child.append(" <span id='peek'></span> ");
               child.append(" <br>"); /*or " | "*/
-              child.append("<span onclick='APIflip(this)'>Flip</span>");
+              child.append("<span onClick='APIflip(this)'>Flip</span>");
 
 
               var popupChunk = "myPopup" + chunk;
