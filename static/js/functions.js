@@ -7,7 +7,7 @@ fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
      chapterJSON = json;
   });
 });
-console.log(chapterJSON);
+//console.log(chapterJSON);
 
 function flip_the_phrase3(e){
        //use id to query DB. print result to span        
@@ -168,8 +168,6 @@ function popupVue() {
               var span = $(event.target);
               span.children().remove();
        }
-       
-
 }
 
 function APIflip(e){
@@ -197,17 +195,18 @@ function APIflip(e){
   if($(span).hasClass("spa")){
     target_lang = "eng";
   }
-  var new_concept = lang + "_" + concept_id.substring(4);
+  //var new_concept = lang + "_" + concept_id.substring(4);
 
-  var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + new_concept;
+  var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
-        console.log("JSON", json[0].instance_id);
+        console.log("JSON", json);
         
+        //change words
         for(i=0; i < json.length-1; i++){
-          
           var instance = document.getElementById(json[i].origin_instance_id);
+          //alert(json[i].origin_instance_id);
           //change language class tag
           if(target_lang == "spa"){
             $(instance).addClass("spa");
@@ -217,6 +216,9 @@ function APIflip(e){
             $(instance).addClass("eng");
             $(instance).removeClass("spa");
           }
+
+          //flipped flag
+          $(instance).addClass("flipped");
 
           //place concept id on the end of the list
           $(instance).removeClass(concept_id);
@@ -230,6 +232,17 @@ function APIflip(e){
           $(instance).attr("id", json[i].target_instance_id);
           $(instance).fadeIn();
         }//end for loop
+
+        //append to json
+        for(i=0; i < json.length-1; i++){
+          for(j = 0; j < chapterJSON.length-1; j++){
+            if(chapterJSON[i].instance_id == json[i].origin_instance_id){
+              alert("match!");
+              chapterJSON[i].target_instance_id = json[i].target_instance_id;
+            }
+          }
+        }//end append loop
+        console.log(chapterJSON);
 
     });
   });
