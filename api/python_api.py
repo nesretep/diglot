@@ -194,7 +194,7 @@ def flip_one_concept():
         bottle.abort(400, msg)
     # Grabs the info needed on the front end to complete the flipping of the concept
     query2 = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
-              target.instance_text AS target_instance_id FROM {}_concept AS con INNER JOIN {} AS origin ON \
+              target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
               WHERE con.concept_id = '{}' ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
     if helper.is_injection(query2) == False:
