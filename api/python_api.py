@@ -153,7 +153,6 @@ def flip_one_concept():
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
     """
-
     target_lang = bottle.request.query.target_lang
     user_id = int(bottle.request.query.user_id)
     concept_id = bottle.request.query.concept_id
@@ -241,7 +240,7 @@ def flip_one_back():
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = {} ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+              WHERE con.concept_id = '{}' ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
 
     if helper.is_injection(query2) == False:
         try:
