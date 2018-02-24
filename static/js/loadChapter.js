@@ -51,6 +51,12 @@ new Vue({
 
       })
     })
+  },
+  updated: function() {
+    $("span:contains(()").html('&nbsp;(');
+    var text = $("span:contains(()").next().text().trim();
+    //alert(text);
+    $("span:contains(()").next().text(text);
   }
 })
 
