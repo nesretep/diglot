@@ -81,36 +81,6 @@ def load_login_page(filename="../login.html"):
         bottle.abort(404, "File not found")
 
 
-# TODO: This will be removed before going into production and probably replaced with another function
-@bottle.get('/test')
-def testme():
-    uid = "eng:01:01:01:001"
-    try:
-        target_lang = "spa"
-        concept_id = "eng_con_00001"
-        db = helper.connect_to_db(dbconf)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-        lang = "eng"
-        mp = "01:01:01:001"
-        # query = "SELECT * FROM {} WHERE `instance_id` LIKE %s".format(table)
-        query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con \
-                  INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-                  WHERE con.concept_id = {} \
-                  ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
-        if helper.is_injection(query) == False:
-            cursor.execute(query)
-            result = cursor.fetchall()
-            cursor.close()
-            msg = "Test query '{}' executed successfully.".format(query)
-            logging.info(msg)
-            return json.dumps(result)
-    except mariadb.Error as error:
-        # return "Exception occurred: {}".format(error)
-        msg = "Exception occurred: {}".format(error)
-        logging.error(msg)
-        bottle.abort(500, "Test failed: {}".format(msg))
-
-
 @bottle.get('/<lang>/<book>/<chapter>')
 def get_chapter(lang, book, chapter):
     """
@@ -153,10 +123,30 @@ def flip_one_concept():
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
     """
-    target_lang = bottle.request.query.target_lang
-    user_id = int(bottle.request.query.user_id)
-    concept_id = bottle.request.query.concept_id
-    lang = concept_id[:3]
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+    if helper.is_valid_concept(bottle.request.query.concept_id);
+        concept_id = bottle.request.query.concept_id
+    else:
+        msg = "Invalid concept identifier ({})."
+        logging.error(msg)
+        bottle.abort(400, msg)
+    if helper.is_valid_lang(concept_id[:3]):
+        lang = concept_id[:3]
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(concept_id[:3])
+        logging.error(msg)
+        bottle.abort(400, msg)
+    try:
+        user_id = int(bottle.request.query.user_id)
+    except Exception as convert_error:
+        msg = "Invalid user_id ({}).".format(user_id)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
@@ -207,10 +197,39 @@ def flip_one_concept():
 
 @bottle.route('/flipback')
 def flip_one_back():
-    target_lang = bottle.request.query.target_lang
-    user_id = int(bottle.request.query.user_id)
-    concept_id = bottle.request.query.concept_id
-    lang = concept_id[:3]
+    """
+    Flips a concept back to the origin language
+
+    :param lang:
+    :param target_lang:
+    :param concept_id:
+    :return:
+    """
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+    if helper.is_valid_concept(bottle.request.query.concept_id);
+        concept_id = bottle.request.query.concept_id
+    else:
+        msg = "Invalid concept identifier ({})."
+        logging.error(msg)
+        bottle.abort(400, msg)
+    if helper.is_valid_lang(concept_id[:3]):
+        lang = concept_id[:3]
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(concept_id[:3])
+        logging.error(msg)
+        bottle.abort(400, msg)
+    try:
+        user_id = int(bottle.request.query.user_id)
+    except Exception as convert_error:
+        msg = "Invalid user_id ({}).".format(user_id)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
