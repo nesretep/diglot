@@ -17,7 +17,7 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 dbconf = "conf/diglot.conf"
-# TODO: remove return statements that reveal debugging info from all functions
+# TODO: figure out how we want to handle possible injection attempts (HTTP 400s?)
 
 
 @bottle.route('/')
@@ -123,28 +123,32 @@ def flip_one_concept():
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
     """
+    # Validating/Sanitizing data for the query
     if helper.is_valid_lang(bottle.request.query.target_lang):
         target_lang = bottle.request.query.target_lang
     else:
         msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
         logging.error(msg)
         bottle.abort(400, msg)
-    if helper.is_valid_concept(bottle.request.query.concept_id);
+
+    if helper.is_valid_concept(bottle.request.query.concept_id):
         concept_id = bottle.request.query.concept_id
     else:
         msg = "Invalid concept identifier ({})."
         logging.error(msg)
         bottle.abort(400, msg)
+
     if helper.is_valid_lang(concept_id[:3]):
         lang = concept_id[:3]
     else:
         msg = "Invalid language identifier ({}) for origin language.".format(concept_id[:3])
         logging.error(msg)
         bottle.abort(400, msg)
+
     try:
         user_id = int(bottle.request.query.user_id)
-    except Exception as convert_error:
-        msg = "Invalid user_id ({}).".format(user_id)
+    except ValueError as convert_error:
+        msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -152,14 +156,11 @@ def flip_one_concept():
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    # either adds or removes the concept selected from the table depending on whether the user is flipping the
-    # concept to the target language or back to the origin language from the target language
     query1 = "INSERT INTO flipped_list (user_id, concept_id) VALUES ('{}', '{}')".format(user_id, concept_id)
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1)
             db.commit()
-            query1_result = cursor.fetchone()  # TODO: Do we need this line?
             msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
@@ -200,18 +201,19 @@ def flip_one_back():
     """
     Flips a concept back to the origin language
 
-    :param lang:
-    :param target_lang:
-    :param concept_id:
-    :return:
+    :param lang: (str) 3 character ISO 639-3 designation for the language
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :param concept_id: (str) concept identifier for the concept to be flipped
+    :return query2_result: (list of dicts) list converted to JSON containing the instances to be flipped back
     """
+    # Validating/Sanitizing data for the query
     if helper.is_valid_lang(bottle.request.query.target_lang):
         target_lang = bottle.request.query.target_lang
     else:
         msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
         logging.error(msg)
         bottle.abort(400, msg)
-    if helper.is_valid_concept(bottle.request.query.concept_id);
+    if helper.is_valid_concept(bottle.request.query.concept_id):
         concept_id = bottle.request.query.concept_id
     else:
         msg = "Invalid concept identifier ({})."
@@ -225,8 +227,8 @@ def flip_one_back():
         bottle.abort(400, msg)
     try:
         user_id = int(bottle.request.query.user_id)
-    except Exception as convert_error:
-        msg = "Invalid user_id ({}).".format(user_id)
+    except ValueError as convert_error:
+        msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -239,7 +241,6 @@ def flip_one_back():
         try:
             cursor.execute(query1)
             db.commit()
-            query1_result = cursor.fetchone()  # TODO: Do we need this line?
             msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
         except mariadb.Error as query1_error:
@@ -286,8 +287,20 @@ def peek():
     :param mp: (str) the id of the master position for the instance the user is peeking at
     :return query_result: (list of dicts) contains the data needed to facilitate the peek functionality
     """
-    lang = bottle.request.query.lang
-    mp = bottle.request.query.mp
+    # Validating/Sanitizing data for the query
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_uid(bottle.request.query.mp, mp):
+        mp = bottle.request.query.mp
+    else:
+        msg = "Invalid master position ({}).".format(bottle.request.query.mp)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
     query = "SELECT lang.instance_text FROM {} AS lang WHERE lang.master_position LIKE '{}'".format(lang, mp)
     try:
@@ -321,13 +334,34 @@ def get_all_flipped():
     """
     Get list of all the words for the chapter that have already been flipped by the user who is logged in.
     Helper function for use in conjunction with get_chapter()
+    Parameters are obtained via the query string for the API call
 
     :param user_id: (str) id of the user the flipped concepts are being requested for
+    :param lang: (str) 3 character ISO 639-3 designation for the language
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query_result: (list of dicts) Instances to flip
     """
-    user_id = bottle.request.query.user_id
-    lang = bottle.request.query.lang
-    target_lang = bottle.request.query.target_lang
+    # Validating/Sanitizing data for the query
+    try:
+        user_id = int(bottle.request.query.user_id)
+    except ValueError as convert_error:
+        msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.lang):
+        lang = bottle.request.query.lang
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
     # Query database for uids of words already flipped
     query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM user_settings AS u \
@@ -371,9 +405,7 @@ def past_critical_point():
     """
 
     query = ""
-    """
-        Something goes here...
-    """
+    # TODO: write function to handle the critical point
     critical = False
     return critical
 
@@ -411,8 +443,9 @@ def set_user_level():
         query_result = cursor.fetchone()
     except mariadb.Error as query_error:
         db.rollback()
-        bottle.abort(500, "Test")
-        return "Database query failed: {}".format(query_error)
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        bottle.abort(500, msg)
     finally:
         cursor.close()
         db.close()
@@ -426,13 +459,13 @@ def set_user_language():
     Sets the user's language preferences.  Parameters are passed in a query string.
 
     :param uid: (str) user id for the user whose preferences are being changed.
-    :param p_lang: (str) 3 character ISO 639-2 designation for the user's primary language.
-    :param s_lang: (str) 3 character ISO 639-2 designation for the user's secondary language.
+    :param p_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
+    :param s_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
     :return confirm_lang_set: (tuple) (boolean, str/None)
             True to indicate update was successful, False if error
             Error message if there was an error, None if invalid uid
     """
-    # TODO: Write query to set a user's primary and secondary language
+    # TODO: Write query/code to set a user's primary and secondary language
     query = ""
 
     try:
@@ -446,27 +479,12 @@ def set_user_language():
     return confirm_lang_set
 
 
-@bottle.get('/<lang>/<level>/suggest')
-def get_suggestions(lang, level):
-    """
-    Grabs a set of suggested words for the given language and level
-
-    :param lang: (str) 2 character ISO 639-1 designation for the language
-    :param level: (int) the user's level of comfort with the language
-    :return: JSON of suggested words from database
-    """
-
-    # TODO: Write query/code to get the next batch of suggested chunks
-    # from the database based on the chapter they are in
-    query = ""
-
-
 # TODO: Be sure to turn off debug=True!!!
 if __name__ == '__main__':
     bottle.run(host='localhost', port=8000, reloader=True)
 else:
     app = application = bottle.default_app()
     bottle.debug(True)
-    LOGFORMAT = "%(asctime)-15s %(message)s"  # TODO: implement proper log formatting (optional)
+    LOGFORMAT = "%(asctime)-15s %(message)s"
     # TODO: figure out how to put log in /var/log and have it work properly
     logging.basicConfig(filename='/tmp/diglot.log', level=logging.DEBUG, format=LOGFORMAT)
