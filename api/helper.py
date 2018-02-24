@@ -83,6 +83,11 @@ def is_valid_lang(lang_id):
     return bool(lang_id_pattern.match(lang_id))
 
 
+def is_valid_concept(concept_id):
+    concept_id_pattern = re.compile("[a-z]{3}_con_[0-9]{5}")
+    return bool(concept_id_pattern.match(concept_id))
+
+
 def is_injection(query):
     """
     Checks id character commonly used in SQL injection attacks appear in the query.
