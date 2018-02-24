@@ -288,8 +288,8 @@ def peek():
     :return query_result: (list of dicts) contains the data needed to facilitate the peek functionality
     """
     # Validating/Sanitizing data for the query
-    if helper.is_valid_lang(bottle.request.query.target_lang):
-        target_lang = bottle.request.query.target_lang
+    if helper.is_valid_lang(bottle.request.query.lang):
+        lang = bottle.request.query.lang
     else:
         msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
         logging.error(msg)
