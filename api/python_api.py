@@ -307,12 +307,15 @@ def get_all_flipped():
     :return query_result: (list of dicts) Instances to flip
     """
     user_id = bottle.request.query.user_id
+    lang = bottle.request.query.lang
+    target_lang = bottle.request.query.target_lang
+
     # Query database for uids of words already flipped
     query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM user_settings AS u \
              INNER JOIN flipped_list AS f on u.user_id = f.user_id INNER JOIN {}_concept AS con ON \
              con.concept_id = f.concept_id INNER JOIN {} origin ON origin.chunk_id = con.chunk_id INNER JOIN {} \
              AS target ON origin.master_position = target.master_position WHERE user_id = user_id \
-             ORDER BY origin.instance_id"
+             ORDER BY origin.instance_id".format(lang, lang, target_lang)
     try:
         db = helper.connect_to_db(dbconf)
         cursor = db.cursor(mariadb.cursors.DictCursor)
