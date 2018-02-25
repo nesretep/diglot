@@ -7,7 +7,7 @@ new Vue({
   created: function() {
     fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
       return response.json().then((json) => {
-        //console.log("JSON", json)
+        console.log("JSON", json)
         this.json = json
         
         //mark punctuation
@@ -53,40 +53,9 @@ new Vue({
     })
   },
   updated: function() {
+    //clean up punctuation
     $("span:contains(()").html('&nbsp;(');
     var text = $("span:contains(()").next().text().trim();
-    //alert(text);
     $("span:contains(()").next().text(text);
   }
 })
-
-/*Test JSON pull
-var settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "http://diglot.it.et.byu.edu/eng/1Nephi/01",
-  "method": "GET",
-  "headers": {
-    "accept": "application/json",
-    "content-type": "application/json",
-    "cache-control": "no-cache",
-    "postman-token": "358adb71-556a-a6c9-046b-c2dda6336398"
-  }
-}
-
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
-*/
-
-/*
-var xmlHttp = new XMLHttpRequest();
-xmlHttp.onreadystatechange = function() { 
- if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-     callback(xmlHttp.responseText);
-}
-xmlHttp.open("GET", "http://diglot.it.et.byu.edu/eng/1Nephi/01", true); // true for asynchronous 
-xmlHttp.send(null);
-alert(xmlHttp.responseText);
-document.getElementById("demo").innerHTML = xmlHttp.responseText;
-*/

@@ -33,6 +33,7 @@ function peek(instance_id){
     });
   }); 
 }
+
 function popupVue() {
 
        var alreadyPopup = document.getElementsByClassName("popuptext");
@@ -97,6 +98,7 @@ function APIflip_back(e){
         for(i=0; i < json.length-1; i++){
           var instance = document.getElementById(json[i].target_instance_id);
 
+          $(instance).removeClass("flipped");
           $(instance).addClass("eng");
           $(instance).removeClass("spa");
 
@@ -120,7 +122,8 @@ function APIflip_back(e){
 }
 function APIflip(e){
   //get the instance id
-  var span = $(e).parent().parent();
+    
+   var span = $(e).parent().parent();
 
   if(span.hasClass("flipped")==false){
     var id = span.attr("id");
@@ -187,12 +190,12 @@ function APIflip(e){
           for(i=0; i < json.length-1; i++){
             for(j = 0; j < chapterJSON.length-1; j++){
               if(chapterJSON[i].instance_id == json[i].origin_instance_id){
-                //alert("match!");
+                alert("match!");
                 chapterJSON[i].target_instance_id = json[i].target_instance_id;
               }
             }
           }//end append loop
-          //console.log(chapterJSON);
+          console.log(chapterJSON);
 
       });
     });
