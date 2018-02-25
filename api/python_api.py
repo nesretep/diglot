@@ -295,7 +295,7 @@ def peek():
         logging.error(msg)
         bottle.abort(400, msg)
 
-    if helper.is_valid_uid(bottle.request.query.mp, mp):
+    if helper.is_valid_uid(bottle.request.query.mp, "mp"):
         mp = bottle.request.query.mp
     else:
         msg = "Invalid master position ({}).".format(bottle.request.query.mp)
