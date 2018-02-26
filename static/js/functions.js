@@ -109,16 +109,19 @@ function APIflip_back(e){
         //change words
         for(i=0; i < json.length-1; i++){
           var instance = document.getElementById(json[i].target_instance_id);
+          var classList_hold = document.getElementById(json[i].target_instance_id).className.split(/\s+/);
+          var concept_id_hold = classList_hold[classList_hold.length-1];
+          var master_position_hold = classList_hold[classList_hold.length-2];
 
           $(instance).removeClass("flipped");
           $(instance).addClass("eng");
           $(instance).removeClass("spa");
 
           //place concept id on the end of the list
-          $(instance).removeClass(master_position);
-          $(instance).addClass(master_position);
-          $(instance).removeClass(concept_id);
-          $(instance).addClass(concept_id);
+          $(instance).removeClass(master_position_hold);
+          $(instance).addClass(master_position_hold);
+          $(instance).removeClass(concept_id_hold);
+          $(instance).addClass(concept_id_hold);
           
 
           //fade out, text change, id change
