@@ -11,7 +11,9 @@ fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
 
 
 function peek(instance_id){
-  var mp = "";
+  var classList = document.getElementById(instance_id).className.split(/\s+/);
+  var mp = classList[classList.length-2];
+
   var position = 0;
   //iterate through array of JSON to get master position
   for(i = 0; i < chapterJSON.length-1; i++){
@@ -22,7 +24,15 @@ function peek(instance_id){
     }
   }
   //alert(position);
+  var chunk = document.getElementById(instance_id);
+  var id = $(chunk).attr('id');;
+  id = id.split(":");
+  var current_lang = id[0];
   var lang = "spa";
+  if(current_lang == "spa"){
+    lang = "eng";
+  }
+
   var url = "http://diglot.it.et.byu.edu/peek?lang=" + lang + "&mp=" + mp;
   fetch(url).then((response) => {
     return response.json().then((json) => {
@@ -87,7 +97,8 @@ function APIflip_back(e){
   var lang = "eng";
   var target_lang = "spa";
   var concept_id = classList[classList.length-1];
-
+  var master_position = classList[classList.length-2];
+  
   var url = "http://diglot.it.et.byu.edu/flipback?lang=" + lang + "&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
@@ -103,6 +114,8 @@ function APIflip_back(e){
           $(instance).removeClass("spa");
 
           //place concept id on the end of the list
+          $(instance).removeClass(master_position);
+          $(instance).addClass(master_position);
           $(instance).removeClass(concept_id);
           $(instance).addClass(concept_id);
           
@@ -143,6 +156,8 @@ function APIflip(e){
     var pos = id[4];
     var target_lang = "spa";
     var concept_id = classList[classList.length-1];
+    var master_position = classList[classList.length-2];
+    //alert(master_position);
     //get from user preference
 
     if($(span).hasClass("spa")){
@@ -174,6 +189,8 @@ function APIflip(e){
             $(instance).addClass("flipped");
 
             //place concept id on the end of the list
+            $(instance).removeClass(master_position);
+            $(instance).addClass(master_position);
             $(instance).removeClass(concept_id);
             $(instance).addClass(concept_id);
             
