@@ -16,13 +16,14 @@ function peek(instance_id){
 
   var position = 0;
   //iterate through array of JSON to get master position
-  for(i = 0; i < chapterJSON.length-1; i++){
+  /*for(i = 0; i < chapterJSON.length-1; i++){
     if(chapterJSON[i].instance_id == instance_id){
       mp= chapterJSON[i].master_position;
       position = i;
       break;
     }
   }
+  */
   //alert(position);
   var chunk = document.getElementById(instance_id);
   var id = $(chunk).attr('id');;
@@ -98,7 +99,7 @@ function APIflip_back(e){
   var target_lang = "spa";
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
-  
+
   var url = "http://diglot.it.et.byu.edu/flipback?lang=" + lang + "&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
@@ -163,7 +164,6 @@ function APIflip(e){
     if($(span).hasClass("spa")){
       target_lang = "eng";
     }
-    //var new_concept = lang + "_" + concept_id.substring(4);
 
     var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
     console.log(url);
@@ -174,7 +174,10 @@ function APIflip(e){
           //change words
           for(i=0; i < json.length-1; i++){
             var instance = document.getElementById(json[i].origin_instance_id);
-            //alert(json[i].origin_instance_id);
+            var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
+            var concept_id_hold = classList_hold[classList_hold.length-1];
+            var master_position_hold = classList_hold[classList_hold.length-2];
+
             //change language class tag
             if(target_lang == "spa"){
               $(instance).addClass("spa");
@@ -189,10 +192,10 @@ function APIflip(e){
             $(instance).addClass("flipped");
 
             //place concept id on the end of the list
-            $(instance).removeClass(master_position);
-            $(instance).addClass(master_position);
-            $(instance).removeClass(concept_id);
-            $(instance).addClass(concept_id);
+            $(instance).removeClass(master_position_hold);
+            $(instance).addClass(master_position_hold);
+            $(instance).removeClass(concept_id_hold);
+            $(instance).addClass(concept_id_hold);
             
 
             //fade out, text change, id change
@@ -203,16 +206,6 @@ function APIflip(e){
             $(instance).fadeIn();
           }//end for loop
 
-          //append to json
-          for(i=0; i < json.length-1; i++){
-            for(j = 0; j < chapterJSON.length-1; j++){
-              if(chapterJSON[i].instance_id == json[i].origin_instance_id){
-                alert("match!");
-                chapterJSON[i].target_instance_id = json[i].target_instance_id;
-              }
-            }
-          }//end append loop
-          console.log(chapterJSON);
 
       });
     });
