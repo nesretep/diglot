@@ -438,25 +438,59 @@ def save_user_preferences():
     Sets the user's language preferences.  Parameters are passed in a query string.
 
     :param uid: (str) user id for the user whose preferences are being changed.
-    :param p_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
-    :param s_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
+    :param origin_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
+    :param target_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
     :param rate:
     :param level:
-    :param fontsize:
     :return:
     """
     # TODO: Write query/code to set a user's primary and secondary language
-    query = ""
+    if helper.is_valid_lang(bottle.request.query.origin_lang):
+        origin_lang = bottle.request.query.origin_lang
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.origin_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
     try:
+        uid = int(bottle.request.query.uid)
+        rate = int(bottle.request.query.rate)
+        level = int(bottle.request.query.level)
+    except ValueError as convert_error:
+        msg = "Invalid value for numeric parameter: {}".format(convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
 
-        confirm_lang_set = True
-    except Exception:
+    query = "INSERT INTO user_info (origin_lang_id, target_lang_id, `level`, current_position, rate) \
+              VALUES ('{}', '{}', '{}', '{}', '{}') WHERE user_id = %s".format(origin_lang, target_lang, level, current_pos, rate)
 
-        confirm_lang_set = False
-        raise
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    return confirm_lang_set
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query, (uid,))
+            query_result = cursor.fetchone()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            db.close()
+            return json.dumps(query_result)
+        except mariadb.Error as query_error:
+            msg = "Database peek query ({}) failed: {}".format(query, query_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Check the log for details.")
+    else:
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
+    return None
 
 
 # TODO: Be sure to turn off debug=True!!!
