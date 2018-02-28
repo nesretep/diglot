@@ -22,7 +22,7 @@ def get_language(natual_position):
     # iterate through the natural position id and get the language
 
     # return the language to indicate where to insert the data.
-    return "spa_concept"
+    return "eng_concept"
 
 
 def add_to_db(data):
