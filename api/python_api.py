@@ -17,7 +17,6 @@ books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "
          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 dbconf = "conf/diglot.conf"
-# TODO: figure out how we want to handle possible injection attempts (HTTP 400s?)
 
 
 @bottle.route('/')
@@ -396,74 +395,55 @@ def get_all_flipped():
         db.close()
 
 
-# @bottle.route('')
-def past_critical_point():
+@bottle.route('/loaduser/<user_id>')
+def load_user_data():
     """
-    Checks if user is past critical point
-
-    :return critical: (boolean) True if past critical point, False if not
+    Loads user data on login
+    :param user_id: the uid number of the user whose data were passing to the front end
+    :return:
     """
-
-    query = ""
-    # TODO: write function to handle the critical point
-    critical = False
-    return critical
-
-
-@bottle.put('/setlevel')
-def set_user_level():
-    """
-    Sets the user's level in their user preferences.
-    Parameters are obtained from the query string
-
-    :param level: (int) Indicates the difficulty the user is comfortable with
-    :param target: (str) ISO 639-3 identifier for the target language chosen
-
-    :param uid: (str) The id of the user
-
-    :return confirm_level_set: (tuple) (boolean, str/None)
-            True to indicate update was successful, False if error
-            Error message if there was an error, None if invalid uid
-    """
-    # get values from URL query string
-    uid = bottle.request.query.uid
-    level = int(bottle.request.query.level)
-
+    # TODO: Test function to pass user data to front end
+    # Verifies that the thing being passed as the uid is actually a number or string representation of such
     try:
-        db = helper.connect_to_db(dbconf)
-        cursor = db.cursor(mariadb.cursors.DictCursor)
-    except Exception as db_connect_error:
-        return "Database connection error: {}".format(db_connect_error)
-
-    query = "UPDATE user_lm SET level=%d WHERE user_id=%s"
-
-    try:
-        cursor.execute(query, (level, uid))
-        db.commit()
-        query_result = cursor.fetchone()
-    except mariadb.Error as query_error:
-        db.rollback()
-        msg = "Database query failed: {}".format(query_error)
+        user_id = int(user_id)
+    except ValueError as uid_faliure:
+        msg = "Invalid user_id ({}) passed in API call.".format(user_id)
         logging.error(msg)
-        bottle.abort(500, msg)
-    finally:
-        cursor.close()
-        db.close()
+        bottle.abort(400, "Check the log for details.")
 
-    return confirm_level_set
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+
+    query = "SELECT * FROM user_info WHERE user_id = %s"
+
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query, (user_id))
+            msg = "loaduser query '{}' was executed successfully.".format(query1)
+            query_result = cursor.fetchone()
+            logging.info(msg)
+            return json.dumps(query_result)
+        except mariadb.Error as query1_error:
+            msg = "loaduser query failed: {}".format(query1_error)
+            logging.error(msg)
+            bottle.abort(500, "Database error.  See the log for details.")
+    else:
+        msg = "Possible injection attempt: {}".format(query1)
+        logging.error(msg)
 
 
 @bottle.route('/prefs')
-def set_user_language():
+def save_user_preferences():
     """
     Sets the user's language preferences.  Parameters are passed in a query string.
 
     :param uid: (str) user id for the user whose preferences are being changed.
     :param p_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
     :param s_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
-    :return confirm_lang_set: (tuple) (boolean, str/None)
-            True to indicate update was successful, False if error
-            Error message if there was an error, None if invalid uid
+    :param rate:
+    :param level:
+    :param fontsize:
+    :return:
     """
     # TODO: Write query/code to set a user's primary and secondary language
     query = ""
