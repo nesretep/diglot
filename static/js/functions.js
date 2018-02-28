@@ -122,7 +122,6 @@ function APIflip_back(e){
 
 function APIflip(e){
   //get the instance id
-    
    var span = $(e).parent().parent();
 
   if(span.hasClass("flipped")==false){
@@ -156,9 +155,47 @@ function APIflip(e){
     fetch(url).then((response) => {
         return response.json().then((json) => {
           //console.log("JSON", json);
-          
-          //change words
+          if(json.length <= 2 ){
+            for(i=0; i < json.length; i++){
+
+            var instance = document.getElementById(json[i].origin_instance_id);
+            var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
+            var concept_id_hold = classList_hold[classList_hold.length-1];
+            var master_position_hold = classList_hold[classList_hold.length-2];
+
+            //change language class tag
+            if(target_lang == "spa"){
+              $(instance).addClass("spa");
+              $(instance).removeClass("eng");
+            }
+            else{
+              $(instance).addClass("eng");
+              $(instance).removeClass("spa");
+            }
+
+            //flipped flag
+            $(instance).addClass("flipped");
+
+            //place concept id on the end of the list
+            $(instance).removeClass(master_position_hold);
+            $(instance).addClass(master_position_hold);
+            $(instance).removeClass(concept_id_hold);
+            $(instance).addClass(concept_id_hold);
+            
+
+            //fade out, text change, id change
+            $(instance).fadeOut('fast');
+            $(instance).html('&nbsp;');
+            $(instance).append(json[i].target_instance_text);
+            $(instance).attr("id", json[i].target_instance_id);
+            $(instance).fadeIn();
+
+          }//end for if
+
+          }
+          //change words  2 0 1 2 3
           for(i=0; i < json.length-1; i++){
+
             var instance = document.getElementById(json[i].origin_instance_id);
             var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
             var concept_id_hold = classList_hold[classList_hold.length-1];
