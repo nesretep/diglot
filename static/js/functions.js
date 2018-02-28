@@ -88,7 +88,33 @@ function APIflip_back(e){
   fetch(url).then((response) => {
       return response.json().then((json) => {
         //console.log("JSON", json);
-        
+        if(json.length <= 2 ){
+          for(i=0; i < json.length; i++){
+            var instance = document.getElementById(json[i].target_instance_id);
+            var classList_hold = document.getElementById(json[i].target_instance_id).className.split(/\s+/);
+            var concept_id_hold = classList_hold[classList_hold.length-1];
+            var master_position_hold = classList_hold[classList_hold.length-2];
+
+            $(instance).removeClass("flipped");
+            $(instance).addClass("eng");
+            $(instance).removeClass("spa");
+
+            //place concept id on the end of the list
+            $(instance).removeClass(master_position_hold);
+            $(instance).addClass(master_position_hold);
+            $(instance).removeClass(concept_id_hold);
+            $(instance).addClass(concept_id_hold);
+            
+
+            //fade out, text change, id change
+            $(instance).fadeOut('fast');
+            $(instance).html('&nbsp;');
+            $(instance).append(json[i].origin_instance_text);
+            $(instance).attr("id", json[i].origin_instance_id);
+            $(instance).fadeIn();
+          }
+
+        }//end for if
         //change words
         for(i=0; i < json.length-1; i++){
           var instance = document.getElementById(json[i].target_instance_id);
