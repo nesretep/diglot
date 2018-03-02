@@ -54,8 +54,9 @@ new Vue({
   },
   updated: function() {
     //clean up punctuation
-    $("span:contains(()").html('&nbsp;(');
+    /*$("span:contains(()").html('&nbsp;(');
     var text = $("span:contains(()").next().text().trim();
     $("span:contains(()").next().text(text);
+      */
   }
 })
