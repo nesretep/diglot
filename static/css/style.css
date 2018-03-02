@@ -25,3 +25,15 @@ body {
 .chapter{
   padding-bottom: 10px;
 }
+.flipped{
+  border-bottom: 1px dotted #000;
+  text-decoration: none;  
+}
+body{
+  font-size: 20px;
+  font-family: "Times New Roman", Georgia, Serif;
+}
+#peek{
+  border-bottom: 1px dotted #ffffff;
+  text-decoration: none;
+}
