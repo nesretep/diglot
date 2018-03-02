@@ -47,9 +47,9 @@ function popupVue(){
     span.append("<span class='popuptext' id='myPopup" + chunk + "'></span>");
     var child = span.children();
 
-    child.append(" <span id='peek'></span> ");
-    child.append(" <br>"); /*or " | "*/
-    child.append("<span onClick='APIflip(this)'>Flip</span>");
+    child.append(" <span onClick='APIflip(this)' id='peek'></span> ");
+    //child.append(" <br>"); /*or " | "*/
+    //child.append("<span onClick='APIflip(this)'>Flip</span>");
 
 
     var popupChunk = "myPopup" + chunk;
