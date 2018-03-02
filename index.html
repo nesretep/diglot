@@ -73,8 +73,9 @@
                   <li><a href="">Main</a></li>
                </ul>
             </li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">Chapter 1</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">First Nephi</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">Book of Mormon</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">First Nephi</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chapter 1</li>
             
          </ol>
       </nav>
@@ -126,32 +127,21 @@
          <div class="container">
             <!--Book Title and Introduction-->
             <div class="row">
-               <div class="col-xs-10 col-sm-10 col-md-10" style="text-align: center;">
+               <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center;">
                   <h1>The First Book of Nephi</h1>
                   <p class="subtitle" data-aid="128342696" id="subtitle1">His Reign and Ministry</p>
                </div>
-               <div class="col-xs-2 col-sm-2 col-md-2"></div>
-               <div class="col-xs-10 col-sm-10 col-md-10"  style="text-align: justify;">
-                  
-               </div>
-               <div class="col-xs-2 col-sm-2 col-md-2"></div>
             </div>
             <!--Chapter and summary-->
             <div class="row">
-               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
+               <div class="col-xs-12 col-sm-12 col-md-12 wrap">
                   <h2 class="title-number" data-aid="128342698" id="title_number1">Chapter 1</h2>
                </div>
-               <div class="col-xs-2 col-sm-2 col-md-2"></div>
-            </div>
-            <div class="row">
-               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
-                  
-               <div class="col-xs-2 col-sm-2 col-md-2"></div>
             </div>
             <!--Verses-->
             <div class="row">
-               <div class="col-xs-10 col-sm-10 col-md-10 wrap">
-                  <div onclick="popupVue()" id="chapter" >
+               <div class="col-xs-12 col-sm-12 col-md-12 wrap">
+                  <div onclick="popupVue()" id="chapter">
                      <div v-for=" verseItem in verses" class="verse">
                         <span><b>{{ verseItem }} </b></span>
                         <span v-for="item in json">
@@ -165,7 +155,6 @@
                      </div>
                   </div>
                </div>
-               <div class="col-xs-2 col-sm-2 col-md-2" id="vs19side"></div>
             </div>
          </div>
          <div id='demo'></div>
