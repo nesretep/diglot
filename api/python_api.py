@@ -396,7 +396,7 @@ def get_all_flipped():
 
 
 @bottle.route('/loaduser/<user_id>')
-def load_user_data():
+def load_user_data(user_id):
     """
     Loads user data on login
     :param user_id: the uid number of the user whose data were passing to the front end
@@ -414,21 +414,21 @@ def load_user_data():
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    query = "SELECT * FROM user_info WHERE user_id = %s"
+    query = "SELECT * FROM user_settings WHERE user_id = %s"
 
     if helper.is_injection(query) == False:
         try:
             cursor.execute(query, (user_id))
-            msg = "loaduser query '{}' was executed successfully.".format(query1)
+            msg = "loaduser query '{}' was executed successfully.".format(query)
             query_result = cursor.fetchone()
             logging.info(msg)
             return json.dumps(query_result)
-        except mariadb.Error as query1_error:
-            msg = "loaduser query failed: {}".format(query1_error)
+        except mariadb.Error as query_error:
+            msg = "loaduser query failed: {}".format(query_error)
             logging.error(msg)
             bottle.abort(500, "Database error.  See the log for details.")
     else:
-        msg = "Possible injection attempt: {}".format(query1)
+        msg = "Possible injection attempt: {}".format(query)
         logging.error(msg)
 
 
