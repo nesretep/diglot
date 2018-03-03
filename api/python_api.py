@@ -468,9 +468,7 @@ def save_user_preferences():
         msg = "Invalid value for numeric parameter: {}".format(convert_error)
         logging.error(msg)
         bottle.abort(400, msg)
-
-    # query = "INSERT INTO user_info (origin_lang_id, target_lang_id, `level`, current_position, rate) \
-    #           VALUES ('{}', '{}', '{}', '{}', '{}') WHERE user_id = %s".format(origin_lang, target_lang, level, current_pos, rate)
+    # TODO: Add code for handling changes to user's level (adding words to list of flipped words on level increase)
     query = "UPDATE user_info SET origin_lang_id = '{}', target_lang_id = '{}', `level` = '{}', \
              current_position = '{}', rate = '{}' WHERE user_id = %s".format(origin_lang, target_lang, level, current_pos, rate)
     db = helper.connect_to_db(dbconf)
@@ -503,5 +501,5 @@ else:
     app = application = bottle.default_app()
     bottle.debug(True)
     LOGFORMAT = "%(asctime)-15s %(message)s"
-    # TODO: figure out how to put log in /var/log and have it work properly
+    # TODO: figure out how to put log in /var/log/diglot instead of in /tmp
     logging.basicConfig(filename='/tmp/diglot.log', level=logging.DEBUG, format=LOGFORMAT)
