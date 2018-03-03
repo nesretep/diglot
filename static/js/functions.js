@@ -285,6 +285,11 @@ function APIflip_backnew(e){
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
 
+  if($(span).hasClass("spa")){
+      target_lang = "eng";
+      lang = "spa";
+    }
+
   var url = "http://diglot.it.et.byu.edu/flipback?lang=" + lang + "&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
@@ -378,7 +383,7 @@ function APIflipnew(e){
       target_lang = "eng";
     }
 
-    var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+    var url = "http://diglot.it.et.byu.edu/loaduser/<user_id>";
     console.log(url);
     fetch(url).then((response) => {
         return response.json().then((json) => {
