@@ -10,18 +10,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>                                    
-  <div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png" width= '15 px'>
-       <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="/login">Login</a></li>
-      <li><a href="/settings">Settings</a></li>
-      <li><a href="/">Main</a></li>
-    </ul>
-  </div>
-
   <center>
     <h1>  <font face = "Times New Roman">Login</font> </h1>
     <br>
@@ -29,17 +17,18 @@
       <div class="form-group">
         <label class="col-md-5 control-label">Username</label>
         <div class="col-md-2">
-          <input class="form-control" id="focusedInput" type="text">
+          <input class="form-control" id="focusedInputUser" type="text">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-5 control-label">Password</label>
         <div class="col-md-2">
-          <input class="form-control" id="focusedInput" type="password">
+          <input class="form-control" id="focusedInputpass" type="password">
         </div>
       </div>
-      <button class='btn btn-default' onclick="get_user()">Sign In</button>
+      
     </form>
+    <button class='btn btn-default' onclick="get_user()">Sign In</button>
     <br>
   </center>
 </head>
@@ -47,6 +36,17 @@
 
 <script type="text/javascript">
   function get_user(){
-
+    var user = document.getElementById("focusedInputUser").value;
+    //alert(user);
+    sessionStorage.setItem("user",user);
+    alert(sessionStorage.getItem("user"));
+    var user_id;
+    var url = "http://diglot.it.et.byu.edu/loaduser/" +  user_id;
+    console.log(url);
+    fetch(url).then((response) => {
+        return response.json().then((json) => {
+          //console.log("JSON", json);
+      });
+    });
   }
 </script>
