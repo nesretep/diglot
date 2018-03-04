@@ -27,12 +27,6 @@ def index(filepath="../index.html"):
     :param filepath: (str) filename set by default; may be overridden
     :return content: (str) the contents of the html page specified
     """
-    filepathvar = bottle.request.query.file
-    filepath = "../{}".format(filepathvar)
-    if filepath == "../":
-        filepath = "../index.html"
-    else:
-        filepath = "../{}".format(filepathvar)
     try:
         file = open(filepath, "r")
         content = file.read()
