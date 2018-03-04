@@ -57,6 +57,6 @@ new Vue({
     /*$("span:contains(()").html('&nbsp;(');
     var text = $("span:contains(()").next().text().trim();
     $("span:contains(()").next().text(text);
-      */
+    */  
   }
 })

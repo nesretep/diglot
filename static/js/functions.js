@@ -20,6 +20,7 @@ function peek(instance_id){
   fetch(url).then((response) => {
     return response.json().then((json) => {
       //put text in pop up
+
       var helper = document.getElementById("peek");
       $(helper).text(json["instance_text"]);
       
@@ -36,9 +37,11 @@ function popupVue(){
   if($(alreadyPopup).attr('id') != null){
     $(alreadyPopup).remove();
   }
+  if(chunk == "peek"){
 
+  }
   //pop up logic
-  if(chunk == null){
+  else if(chunk == null){
     //do nothing
     //this is in case users click on an area that is not a valid chunk
   }
@@ -267,17 +270,19 @@ function APIflip(e){
 }
 function APIflip_backnew(e){
 
+
   //get the instance id
   var span = $(e).parent();
   span.removeClass("flipped");
   var id = span.attr("id");
   var chunk = span.attr("id");
   var popupChunk = "myPopup" + chunk;
-
   var word = span.clone().children().remove();
   word = word.end().text().trim();
-
-  var classList = document.getElementById(id).className.split(/\s+/);
+  //alert(document.getElementById(id).className);
+  //var classList = document.getElementById(id).className.split(/\s+/);
+  var classList = document.getElementById(id).className;
+  classList = classList.split(" ");
 
   id = id.split(":");
   var lang = "eng";
@@ -325,6 +330,7 @@ function APIflip_backnew(e){
         //change words
         for(i=0; i < json.length-1; i++){
           var instance = document.getElementById(json[i].target_instance_id);
+          alert(json[i].target_instance_id);
           var classList_hold = document.getElementById(json[i].target_instance_id).className.split(/\s+/);
           var concept_id_hold = classList_hold[classList_hold.length-1];
           var master_position_hold = classList_hold[classList_hold.length-2];
@@ -383,7 +389,7 @@ function APIflipnew(e){
       target_lang = "eng";
     }
 
-    var url = "http://diglot.it.et.byu.edu/loaduser/<user_id>";
+    var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
     console.log(url);
     fetch(url).then((response) => {
         return response.json().then((json) => {
