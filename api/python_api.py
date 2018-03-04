@@ -203,6 +203,7 @@ def flip_one_back():
     :param lang: (str) 3 character ISO 639-3 designation for the language
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :param concept_id: (str) concept identifier for the concept to be flipped
+    :param user_id: (int) user id number of user making the request
     :return query2_result: (list of dicts) list converted to JSON containing the instances to be flipped back
     """
     # Validating/Sanitizing data for the query
