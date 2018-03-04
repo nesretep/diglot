@@ -473,7 +473,21 @@ function APIflipnew(e){
   }
 }
 function APIuser_load(user_id){
-  var url = "diglot.it.et.byu.edu/flip?user_id=1";
+  var user_id_local = user_id;
+  var url = "http://diglot.it.et.byu.edu/loaduser/" +  user_id;
+  console.log(url);
+  fetch(url).then((response) => {
+      return response.json().then((json) => {
+        //console.log("JSON", json);
+        sessionStorage.setItem("current_position",json.current_position);
+        sessionStorage.setItem("level",json.level);
+        sessionStorage.setItem("rate",json.rate);
+        sessionStorage.setItem("origin_lang_id",json.origin_lang_id);
+        sessionStorage.setItem("target_lang_id",json.target_lang_id);
+        sessionStorage.setItem("target_lang_id",json.user_id);
+        window.location.replace("index.html");
+    });
+  });
 }
 
 function APIget_flipped_words(){
