@@ -20,9 +20,14 @@ function peek(instance_id){
   fetch(url).then((response) => {
     return response.json().then((json) => {
       //put text in pop up
-
-      var helper = document.getElementById("peek");
-      $(helper).text(json["instance_text"]);
+      if(json == null){
+        var helper = document.getElementById("peek");
+        $(helper).text("{No match}");
+      }
+      else{
+        var helper = document.getElementById("peek");
+        $(helper).text(json["instance_text"]);
+      }
       
     });
   }); 
@@ -279,14 +284,10 @@ function APIflip_backnew(e){
   var popupChunk = "myPopup" + chunk;
   var word = span.clone().children().remove();
   word = word.end().text().trim();
-  //alert(document.getElementById(id).className);
   var classList = document.getElementById(id).className.split(/\s+/);
-  //var classList = document.getElementById(id).className;
-  //classList = classList.split(" ");
 
-  id = id.split(":");
-  var lang = "eng";
-  var target_lang = "spa";
+
+  var target_lang = sessionStorage.getItem("target_lang_id");
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
 
@@ -374,11 +375,10 @@ function APIflipnew(e){
     var chapter = id[2];
     var verse = id[3];
     var pos = id[4];
-    var target_lang = "spa";
+    var target_lang = sessionStorage.getItem("target_lang_id");
     var concept_id = classList[classList.length-1];
     var master_position = classList[classList.length-2];
-    //alert(master_position);
-    //get from user preference
+
 
     if($(span).hasClass("spa")){
       target_lang = "eng";
