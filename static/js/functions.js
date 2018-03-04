@@ -280,9 +280,9 @@ function APIflip_backnew(e){
   var word = span.clone().children().remove();
   word = word.end().text().trim();
   //alert(document.getElementById(id).className);
-  //var classList = document.getElementById(id).className.split(/\s+/);
-  var classList = document.getElementById(id).className;
-  classList = classList.split(" ");
+  var classList = document.getElementById(id).className.split(/\s+/);
+  //var classList = document.getElementById(id).className;
+  //classList = classList.split(" ");
 
   id = id.split(":");
   var lang = "eng";
