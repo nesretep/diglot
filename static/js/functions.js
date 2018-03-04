@@ -290,12 +290,7 @@ function APIflip_backnew(e){
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
 
-  if($(span).hasClass("spa")){
-      target_lang = "eng";
-      lang = "spa";
-    }
-
-  var url = "http://diglot.it.et.byu.edu/flipback?lang=" + lang + "&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+  var url = "http://diglot.it.et.byu.edu/flipback?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
@@ -330,7 +325,7 @@ function APIflip_backnew(e){
         //change words
         for(i=0; i < json.length-1; i++){
           var instance = document.getElementById(json[i].target_instance_id);
-          alert(json[i].target_instance_id);
+          //alert(json[i].target_instance_id);
           var classList_hold = document.getElementById(json[i].target_instance_id).className.split(/\s+/);
           var concept_id_hold = classList_hold[classList_hold.length-1];
           var master_position_hold = classList_hold[classList_hold.length-2];
