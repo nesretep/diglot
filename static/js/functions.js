@@ -472,6 +472,7 @@ function APIflipnew(e){
     APIflip_backnew(e);
   }
 }
+
 function APIuser_load(user_id){
   var user_id_local = user_id;
   var url = "http://diglot.it.et.byu.edu/loaduser/" +  user_id;
