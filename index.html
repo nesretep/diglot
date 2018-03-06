@@ -6,7 +6,6 @@
       <link rel="stylesheet" href="static/css/popup.css">
       <link rel="stylesheet" href="static/css/style.css">
       <link rel="stylesheet" href="static/css/sideModal.css">
-
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
          crossorigin="anonymous"></script>
@@ -17,106 +16,180 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <!-- Optional theme -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-      
       <style type="text/css">
-      body{
-        font-size: 20px;
-        font-family: "Times New Roman", Georgia, Serif;
-      }
-      .breadcrumb{
+         body{
+         font-size: 20px;
+         font-family: "Times New Roman", Georgia, Serif;
+         }
+         .breadcrumb{
          background-color: inherit;
-      }
-      </style>   
+         }
+         .not-button{
+         padding-bottom: 10px;
+         border: none;
+         background: none;
+         font-size: 21px
+         }
+         .button-settings{
+         border-radius: 86px;
+         border-style: ridge;
+         border-color: gray;
+         }
+         input{
+         width: 42%;
+         }
+      </style>
    </head>
    <body>
       <!--
-      <nav class="nav navbar navbar-default">
-        <div class="container-fluid">
-          <ol class="navbar navbar-left breadcrumb">
-            <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">Book of Mormon</a></li>
-            <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">First Nephi</a></li>
-            <li class="breadcrumb-item" aria-current="page">Chapter 1</li>
-         </ol>
-         <ul class="nav navbar-nav navbar-right">
-           <li><a href="#">Settings</a></li>
-           <li></li>
-         </ul>
-        </div>
-      </nav>
-      -->
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <ol class="breadcrumb">
+         <nav class="nav navbar navbar-default">
+           <div class="container-fluid">
+             <ol class="navbar navbar-left breadcrumb">
                <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">Book of Mormon</a></li>
                <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">First Nephi</a></li>
                <li class="breadcrumb-item" aria-current="page">Chapter 1</li>
-              </ol>
-            </ul>
+            </ol>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Settings</a></li> 
+              <li><a href="#">Settings</a></li>
+              <li></li>
             </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+           </div>
+         </nav>
+         -->
+      <nav class="navbar navbar-default">
+         <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-nav">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">Book of Mormon</a></li>
+                     <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">First Nephi</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Chapter 1</li>
+                  </ol>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                  <li><a href="#" data-toggle="modal" data-target="#settings">Settings</a></li>
+               </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+         </div>
+         <!-- /.container-fluid -->
       </nav>
       <div id="platform-canvas-content" role="main">
          <div id="BookOfMormon">
             <!--Side Modal-->
-         <!-- Book Left Modal -->
-         <div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-               <div class="modal-content">
-
-                  <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                     <h4 class="modal-title" id="myModalLabel">Book</h4>
+            <!-- Book Left Modal -->
+            <div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Book</h4>
+                     </div>
+                     <div class="modal-body">
+                        <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                     </div>
                   </div>
-
-                  <div class="modal-body">
-                     <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
-                           </button>
-                           &nbsp;&nbsp;&nbsp;&nbsp;
+                  <!-- modal-content -->
+               </div>
+               <!-- modal-dialog -->
+            </div>
+            <!-- modal -->
+            <!--Left Chapter from Book-->
+            <div class="modal left fade" id="sideModalLeftChapter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
+                     </div>
+                     <div class="modal-body">
+                        <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                     </div>
                   </div>
-
-               </div><!-- modal-content -->
-            </div><!-- modal-dialog -->
-         </div><!-- modal -->
-         
-
-         <!--Left Chapter from Book-->
-         <div class="modal left fade" id="sideModalLeftChapter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-            <div class="modal-dialog" role="document">
-               <div class="modal-content">
-
-                  <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                     <h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
+                  <!-- modal-content -->
+               </div>
+               <!-- modal-dialog -->
+            </div>
+            <!-- modal -->
+            <!--Settings-->
+            <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel2">Settings</h4>
+                     </div>
+                     <div class="modal-body">
+                        <div class="container-fluid">
+                           <div class="row">
+                              <!--Levels-->
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                                 <h2>Difficulty Level</h2>
+                                 <br>
+                                 <button id="difficulty-button-decrement" class="button-settings">-</button>
+                                 <input id="difficulty" type="text" name="difficulty" class="text-center">
+                                 <button id="difficulty-button-increment" class="button-settings">+</button>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                                 <h2>Rate</h2>
+                                 <br>
+                                 <button id="rate-button-decrement" class="button-settings">-</button>
+                                 <input id="rate" type="text" name="rate" class="text-center">
+                                 <button id="rate-button-increment" class="button-settings">+</button>
+                              </div>
+                           </div>
+                           <br><br>
+                           <div class="row">
+                              <!--Language and Account-->
+                              <div id="source" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                                 <h2>Source Language</h2>
+                                 <br>
+                                 <button id="source-eng" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">English</button>
+                                 <button id="source-spa" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                                 <button id="source-mandarin" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                                 <button id="source-malay"type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                                 <button id="source-czech" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                              </div>
+                              <!--Language and Account-->
+                              <div id="target" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                                 <h2>Target Language</h2>
+                                 <br>
+                                 <button id="target-eng" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">English</button>
+                                 <button id="target-spa" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                                 <button id="target-mandarin" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                                 <button id="target-malay"type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                                 <button id="target-czech" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                              </div>
+                           </div>
+                           <br>
+                           <div class="row">
+                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                 <button class="btn btn-default"> Apply </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
-
-                  <div class="modal-body">
-                     <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
-                           &nbsp;&nbsp;&nbsp;&nbsp;
-                  </div>
-
-               </div><!-- modal-content -->
-            </div><!-- modal-dialog -->
-         </div><!-- modal -->
-      
-         </div><!--BOM object-->
-
+                  <!-- modal-content -->
+               </div>
+               <!-- modal-dialog -->
+            </div>
+            <!-- modal -->
+         </div>
+         <!--BOM object-->
          <div class="container">
             <!--Book Title and Introduction-->
             <div class="row">
@@ -152,12 +225,10 @@
          </div>
          <div id='demo'></div>
       </div>
-
       <!-- end #content -->
       <script src="static/js/loadChapter.js" ></script>
       <script src="static/js/chapters.js" ></script>
-      <script src="static/js/functions.js" >APIload_user(1);</script>
-
-
+      <script src="static/js/functions.js" >APIuser_load(1);</script>
+      <script src="static/js/settings.js" ></script>
    </body>
 </html>
