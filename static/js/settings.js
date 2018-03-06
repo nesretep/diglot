@@ -4,9 +4,19 @@ $("#rate").val(sessionStorage.getItem("rate"));
 var source_lang = sessionStorage.getItem("origin_lang_id");
 var target_lang = sessionStorage.getItem("target_lang_id");
 
+
 $("#source").children("#source-" + source_lang).addClass("active");
 $("#target").children("#target-" + target_lang).addClass("active");
 
+//revert state when close without apply
+$("button.close").click(function(){
+  var current_active = document.getElementsByClassName("active");
+  $(current_active).removeClass('active');
+  $("#source").children("#source-" + source_lang).addClass("active");
+  $("#target").children("#target-" + target_lang).addClass("active");
+  $("#difficulty").val(sessionStorage.getItem("level"));
+  $("#rate").val(sessionStorage.getItem("rate"));
+});
 //move active class
 $(".not-button").click(function(){
   var section = $(this).parent().attr("id");
