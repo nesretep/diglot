@@ -30,9 +30,10 @@
          background: none;
          font-size: 21px
          }
-         .button-increment{
+         .button-settings{
          border-radius: 86px;
-         border: 0;
+         border-style: ridge;
+         border-color: gray;
          }
          input{
          width: 42%;
@@ -138,37 +139,39 @@
                               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                  <h2>Difficulty Level</h2>
                                  <br>
-                                 <button id="difficulty-button-decrement">-</button>
+                                 <button id="difficulty-button-decrement" class="button-settings">-</button>
                                  <input id="difficulty" type="text" name="difficulty" class="text-center">
-                                 <button id="difficulty-button-increment">+</button>
+                                 <button id="difficulty-button-increment" class="button-settings">+</button>
                               </div>
                               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                  <h2>Rate</h2>
                                  <br>
-                                 <button id="rate-button-decrement">-</button>
+                                 <button id="rate-button-decrement" class="button-settings">-</button>
                                  <input id="rate" type="text" name="rate" class="text-center">
-                                 <button id="rate-button-increment">+</button>
+                                 <button id="rate-button-increment" class="button-settings">+</button>
                               </div>
                            </div>
                            <br><br>
                            <div class="row">
                               <!--Language and Account-->
-                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                              <div id="source_langs" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                  <h2>Source Language</h2>
                                  <br>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                                 <button id="source-eng" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">English</button>
+                                 <button id="source-spa" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                                 <button id="source-mandarin" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                                 <button id="source-malay"type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                                 <button id="source-czech" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
                               </div>
                               <!--Language and Account-->
-                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                              <div id="target_langs" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                  <h2>Target Language</h2>
                                  <br>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
-                                 <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                                 <button id="target-eng" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">English</button>
+                                 <button id="target-spa" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                                 <button id="target-mandarin" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                                 <button id="target-malay"type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                                 <button id="target-czech" type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
                               </div>
                            </div>
                            <br>
