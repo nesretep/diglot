@@ -27,6 +27,19 @@
       .breadcrumb{
          background-color: inherit;
       }
+      .not-button{
+        padding-bottom: 10px;
+        border: none;
+        background: none;
+        font-size: 21px
+      }
+      .button-increment{
+        border-radius: 86px;
+        border: 0;
+      }
+      input{
+        width: 42%;
+      }
       </style>   
    </head>
    <body>
@@ -67,14 +80,14 @@
               </ol>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Settings</a></li> 
+              <li><a href="#" data-toggle="modal" data-target="#settings">Settings</a></li> 
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
       <div id="platform-canvas-content" role="main">
          <div id="BookOfMormon">
-            <!--Side Modal-->
+         <!--Side Modal-->
          <!-- Book Left Modal -->
          <div class="modal left fade" id="sideModalLeftBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -109,6 +122,69 @@
                   <div class="modal-body">
                      <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
                            &nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+
+               </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+         </div><!-- modal -->
+
+         <!--Settings-->
+         <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel2">Settings</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     <div class="container-fluid">
+                        <div class="row">
+                          <!--sliders-->
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                            <h2>Difficulty Level</h2>
+                            <br>
+                            <button class="button-increment">-</button>
+                            <input type="text" name="fname" class="text-center">
+                            <button class="button-increment">+</button>
+                          </div>
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                            <h2>Rate</h2>
+                            <br>
+                            <button class="button-increment">-</button>
+                            <input type="text" name="fname" class="text-center">
+                            <button class="button-increment">+</button>
+                          </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                           <!--Language and Account-->
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                            <h2>Target Language</h2>
+                            <br>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                          </div>
+                          <!--Language and Account-->
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                            <h2>Target Language</h2>
+                            <br>
+                             <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Spanish</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Mandarin</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Malay</button>
+                            <button type="button" class="not-button btn btn-default col-xs-6 col-sm-6 col-md-6 col-lg-6">Czech</button>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                            <button class="btn btn-default"> Apply </button>
+                          </div>
+                        </div>
+                     </div>
                   </div>
 
                </div><!-- modal-content -->
