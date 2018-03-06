@@ -4,16 +4,30 @@ $("#rate").val(sessionStorage.getItem("rate"));
 var source_lang = sessionStorage.getItem("origin_lang_id");
 var target_lang = sessionStorage.getItem("target_lang_id");
 
-$("#source_langs").children("#source-" + source_lang).addClass("active");
-$("#target_langs").children("#target-" + target_lang).addClass("active");
+$("#source").children("#source-" + source_lang).addClass("active");
+$("#target").children("#target-" + target_lang).addClass("active");
 
-//buttons
+//move active class
+$(".not-button").click(function(){
+  var section = $(this).parent().attr("id");
+  var current_active = document.getElementsByClassName("active");
+  var id;
+  for(i = 0; i <current_active.length; i++){
+    id = $(current_active[i]).attr('id');
+    id= id.split("-");
+    if(section == id[0]){
+      $(current_active[i]).removeClass('active');
+    }
+  }
+  $(this).addClass('active');
+});
+
+//increment/decrement buttons
 $("#difficulty-button-increment").click(function(){
     var level = $("#difficulty").val();
     level = parseInt(level);
     level++;
     $("#difficulty").val(level);
-
 });
 $("#difficulty-button-decrement").click(function(){
     var level = $("#difficulty").val();
