@@ -20,7 +20,7 @@ dbconf = "conf/diglot.conf"
 
 
 @bottle.route('/')
-def index(filepath="../index.html"):
+def index(filepath="../login.html"):
     """
     Loads the page defined in the query string as "page"
 
@@ -40,10 +40,10 @@ def index(filepath="../index.html"):
         bottle.abort(404, "File not found")
 
 
-@bottle.route('/settings')
-def load_user_settings(filename="../settings.html"):
+@bottle.route('/main')
+def load_main(filename="../index.html"):
     """
-    Loads the settings page.
+    Loads the main page showing the Book of Mormon text.
 
     :param filename: (str) URL to load; defaults to the path specified above
     :return content: contents of the file loaded
