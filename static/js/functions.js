@@ -486,7 +486,7 @@ function APIuser_load(user_id){
         sessionStorage.setItem("origin_lang_id",json.origin_lang_id);
         sessionStorage.setItem("target_lang_id",json.target_lang_id);
         sessionStorage.setItem("user_id",json.user_id);
-        //window.location.replace("index.html");
+        window.location.replace("/main");
     });
   });
 }
