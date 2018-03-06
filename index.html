@@ -228,7 +228,25 @@
       <!-- end #content -->
       <script src="static/js/loadChapter.js" ></script>
       <script src="static/js/chapters.js" ></script>
-      <script src="static/js/functions.js" >APIuser_load(1);</script>
+      <script src="static/js/functions.js" ></script>
       <script src="static/js/settings.js" ></script>
+      <!--autoload-->
+      <script type="text/JavaScript ">
+         var user_id = 1;
+         var url = "http://diglot.it.et.byu.edu/loaduser/" +  user_id;
+         console.log(url);
+         fetch(url).then((response) => {
+               return response.json().then((json) => {
+               //console.log("JSON", json);
+                 sessionStorage.setItem("current_position",json.current_position);
+                 sessionStorage.setItem("level",json.level);
+                 sessionStorage.setItem("rate",json.rate);
+                 sessionStorage.setItem("origin_lang_id",json.origin_lang_id);
+                 sessionStorage.setItem("target_lang_id",json.target_lang_id);
+                 sessionStorage.setItem("user_id",json.user_id);
+                 //window.location.replace("/main");
+             });
+           });
+      </script>
    </body>
 </html>
