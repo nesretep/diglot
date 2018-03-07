@@ -1,3 +1,7 @@
+var current_position = sessionStorage.getItem("current_position");
+current_position = current_position.split(":");
+var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+
 new Vue({
   el: '#chapter',
   data: () => ({
@@ -5,7 +9,9 @@ new Vue({
     verses: []
   }),
   created: function() {
-    fetch('http://diglot.it.et.byu.edu/eng/1Nephi/01').then((response) => {
+    var url = 'http://diglot.it.et.byu.edu/'+ origin_lang_id +'/' + current_position[1] +'/'+ current_position[2];
+    console.log(url);
+    fetch(url).then((response) => {
       return response.json().then((json) => {
         console.log("JSON", json)
         this.json = json
