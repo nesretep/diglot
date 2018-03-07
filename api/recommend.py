@@ -6,14 +6,28 @@ import sys
 import pymysql as mariadb
 import logging
 
-# TODO: this needs to be inside the function
-db = helper.connect_to_db(dbconf)
-cursor = db.cursor(mariadb.cursors.DictCursor)
+# TODO: this needs to be inside the function-DONE
 
 @bottle.route('/recommender')
 def recommend:
-    # TODO: write a docstring outlining your parameters (what the front end will send you) and what this function returns
-    # TODO: implement logging in your code to log both successes and failures to the log file
+	db = helper.connect_to_db(dbconf)
+	cursor = db.cursor(mariadb.cursors.DictCursor)
+    # TODO: write a docstring outlining your parameters (what the front end will send you) and what this function returns-DONE
+    """ Front end sends the userid, level, rate, and origin language (origin_lang_id)
+		Function returns the user_id, level, rate, and score"""
+    # TODO: implement logging in your code to log both successes and failures to the log file-DONE, see below
+     try:
+        file = open(filepath, "r")
+        content = file.read()
+        file.close()
+        msg = "File ({}) loaded successfully.".format(filepath)
+        logging.info(msg)
+        return content
+    except Exception as file_error:
+        msg = "Unable to open file: {}".format(file_error)
+        logging.error(msg)
+		bottle.abort(404, "File not found")
+
 	query1 = "SELECT user_id, `level`, rate FROM user_info"
 	query2 = "SELECT score FROM (lang)_concept_data WHERE `level`.user_info == score"
 	
@@ -41,4 +55,4 @@ def recommend:
 		return json.dumps(query1_result)
 		#***Send the queried data back to the front end for which words to recommend***
 		cursor.close()
-		db.close()
+db.close()
