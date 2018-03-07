@@ -9,6 +9,7 @@ new Vue({
     verses: []
   }),
   created: function() {
+    
     var url = 'http://diglot.it.et.byu.edu/'+ origin_lang_id +'/' + current_position[1] +'/'+ current_position[2];
     console.log(url);
     fetch(url).then((response) => {

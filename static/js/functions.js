@@ -383,7 +383,6 @@ function APIflipnew(e){
     if($(span).hasClass("spa")){
       target_lang = "eng";
     }
-
     var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
     console.log(url);
     fetch(url).then((response) => {
