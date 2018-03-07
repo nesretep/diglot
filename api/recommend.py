@@ -16,7 +16,7 @@ def recommend:
 		query = "SELECT level, rate FROM user_info"
 		query2 = "SELECT score FROM (lang)_concept_data WHERE level.user_info == score"
 	
-	if helper.check_login = True #This helper thing to call in the user login info-I think?
+	if helper.check_login = True #This helper thing to call in the user login info
 		level = bottle.request.query.level
 
 		try:
