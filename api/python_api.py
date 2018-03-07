@@ -90,7 +90,7 @@ def get_chapter(lang, book, chapter):
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
     """
-    chap_uid = "{}:{}:{}{}".format(lang, books[book], chapter, "%")
+    chap_uid = "{}:{}:{}{}".format(lang, book, chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
