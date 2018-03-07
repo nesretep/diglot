@@ -483,7 +483,6 @@ def save_user_preferences():
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
             db.close()
-            return json.dumps(query_result)
         except mariadb.Error as query_error:
             db.rollback()
             msg = "Database peek query ({}) failed: {}".format(query, query_error)
@@ -493,7 +492,6 @@ def save_user_preferences():
     else:
         logging.debug("Possible SQL injection attempt: {}.").format(query)
         db.close()
-    return None
 
 
 # TODO: Be sure to turn off debug=True!!!
