@@ -12,11 +12,11 @@ cursor = db.cursor(mariadb.cursors.DictCursor)
 @bottle.route('/recommender')
 def recommend:
 
-	query1 = "SELECT level, rate FROM user_info"
+	query1 = "SELECT user_id, level, rate FROM user_info"
 	query2 = "SELECT score FROM (lang)_concept_data WHERE level.user_info == score"
 	
 	if helper.check_login = True #This helper thing to call in the user login info
-		level = bottle.request.query.level
+		fetchlevel = bottle.request.query.level
 
 		try:
 			cursor.execute(query1)#Run query1
@@ -33,6 +33,6 @@ def recommend:
 			#***Send request for the number of recommended words***
 			query1_result = score 
 			return json.dumps(query1_result)
-		#***Send the queried data back to the front end for which words to recommend***
+			#***Send the queried data back to the front end for which words to recommend***
 			cursor.close()
 			db.close()
