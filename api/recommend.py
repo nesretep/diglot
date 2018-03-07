@@ -18,6 +18,7 @@ def recommend:
 	query2 = "SELECT score FROM (lang)_concept_data WHERE `level`.user_info == score"
 	
     # TODO: write lines to retrieve the data you need from the query string (not from SQL queries)
+    # TODO: Make sure you validate any data you get from the query string
 	fetchlevel = bottle.request.query.level
 
     # TODO: fix the try/except blocks; they need an except for each try so they can gracefully handle the failure
