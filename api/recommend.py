@@ -28,17 +28,43 @@ def recommend:
         logging.error(msg)
 		bottle.abort(404, "File not found")
 
+
+	db = helper.connect_to_db(dbconf)	
+	cursor = db.cursor(mariadb.cursors.DictCursor)
 	query1 = "SELECT user_id, `level`, rate FROM user_info"
 	query2 = "SELECT score FROM (lang)_concept_data WHERE `level`.user_info == score"
 	
-    # TODO: write lines to retrieve the data you need from the query string (not from SQL queries)
-    # TODO: Make sure you validate any data you get from the query string
+	if helper.is_injection(query1) == False:
+	     try:
+	     cursor.execute(query1)
+	     db.commit()
+	     msg = "Query1 {} executed successfully.".format(query1)
+		 logging.info(msg)
+
+		 except mariadb.Error as query1_error:
+            # Check for error from database indicating a duplicate entry for that user with that concept_id
+            if query1_error[0] == 1062:
+                logging.debug("Unable to retrieve user info for userid {}.".format(user_id))
+            else:
+                db.rollback()
+                msg = "Database flip query1 failed: {}".format(query1_error)
+                logging.error(msg)
+				bottle.abort(500, "Database error.  See the log for details.")
+	 else
+	 	 msg = "Possible injection attempt: {}".format(query1)
+         logging.error(msg)
+		 bottle.abort(400, msg)
+
+    # TODO: write lines to retrieve the data you need from the query string (not from SQL queries)- DONE, see above.
+    # TODO: Make sure you validate any data you get from the query string- DONE, see above.
+
 	fetchlevel = bottle.request.query.level
 
     # TODO: fix the try/except blocks; they need an except for each try so they can gracefully handle the failure
 	try:
-		cursor.execute(query1)#Run query1
-        # TODO: you need to actually fetch the data from the cursor and store it before you can manipulate it
+		cursor.fetchall(query1)
+		#cursor.execute(query1)
+        # TODO: you need to actually fetch the data from the cursor and store it before you can manipulate it- DONE, see above.
         # Use cursor.fetchone() or cursor.fetchall()
 		query1_result = level + 1 #Add 1 to the user level
 		return json.dumps(query_result1) #JSON-ify the result from query
