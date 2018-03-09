@@ -120,7 +120,7 @@ def flip_one_concept():
     Parameters are retrieved from the query string of the HTTP request
 
     :param concept_id: (str) concept identifier for the concept to be flipped
-    :param instance_id: (str) unique id of the instance to be flipped
+    :param current_pos: (str) current position in the text
     :param user_id: (str) id of the user for which the concept is being flipped
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
@@ -147,10 +147,10 @@ def flip_one_concept():
         logging.error(msg)
         bottle.abort(400, msg)
 
-    if helper.is_valid_uid(bottle.request.query.instance_id):
-        instance_id = bottle.request.query.instance_id
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        instance_id = bottle.request.query.current_pos
     else:
-        msg = "Invalid instance identifier ({})."
+        msg = "Invalid instance identifier ({}).".format(current_pos)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -190,7 +190,7 @@ def flip_one_concept():
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
               WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}%' \
-              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id)
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, current_pos)
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
@@ -236,6 +236,14 @@ def flip_one_back():
         msg = "Invalid language identifier ({}) for origin language.".format(concept_id[:3])
         logging.error(msg)
         bottle.abort(400, msg)
+
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        instance_id = bottle.request.query.current_pos
+    else:
+        msg = "Invalid current position identifier ({}).".format(current_pos)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
     try:
         user_id = int(bottle.request.query.user_id)
     except ValueError as convert_error:
@@ -271,7 +279,8 @@ def flip_one_back():
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = '{}' ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+              WHERE con.concept_id = '{} AND instance_id LIKE '{}%' \
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id)
 
     if helper.is_injection(query2) == False:
         try:

@@ -501,42 +501,36 @@ function APIget_flipped_words(){
   }
   */
 }
-function defineVue(){
-       //get element that fired event, then get it's grandparent (the chunk value)
-       if($(event.target.id).parent().attr('id') == "myPopupchunk22"){
-              document.getElementById("vs19side").innerHTML = "n. a state of pain, distress,or grief; misery ";
-              var side = document.getElementById("vs19side");
-              $(side).append('<a class= "glyphicon glyphicon-volume-up" onclick="playMusic();"></a>');  
-       }
-       else{
-              document.getElementById("vs19side").innerHTML = "Define the phrase or word here from " + $(e).parent().attr("id");
-       }
-}
-/*@bottle.route('/prefs')
-def save_user_preferences():
-    """
-    Sets the user's language preferences.  Parameters are passed in a query string.
+function APIset_preference(){
+   var dict = {
+    English: "eng",
+    Czech: "ces",
+    Malay: "msa",
+    Spanish: "spa",
+    Chinese: "zho",
+   };
 
-    :param uid: (str) user id for the user whose preferences are being changed.
-    :param origin_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
-    :param target_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
-    :param rate: (int) number representing the rate at which new concepts will be flipped automatically
-    :param level: (int) number representing their skill level with the target language
-    :return success: (bool) Indicates a successful save of the data to the database*/
-function APIset_preferences(){
    var difficulty = document.getElementById("difficulty").value;
    var rate = document.getElementById("rate").value;//need to convert
    var langs = document.getElementsByClassName("active");
-   var source_lang = langs[0].textContent;
-   var target_lang = langs[1].textContent;
+   var source_lang = dict[langs[0].textContent];
+   var target_lang = dict[langs[1].textContent];
    var uid = sessionStorage.getItem("user_id");
    var url = "http://diglot.it.et.byu.edu/prefs?uid=" + uid + "&origin_lang=" + source_lang + "&target_lang="+ target_lang +"&rate=" + rate + "&level=" + difficulty;
    console.log(url);
    fetch(url).then((response) => {
       return response.json().then((json) => {
         console.log("JSON", json);
-
-    });
-  });
-   
+        if(json == true){
+          $('#settings').modal('toggle');
+        }
+        else{
+          $('.alert').show()
+        }
+      });
+    }); 
+}
+function logout(){
+  sessionStorage.clear();
+  window.location.replace("login.html");
 }

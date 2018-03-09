@@ -10,6 +10,7 @@ import datetime
 
 INSTANCE_REGEX = "[a-z]{3}:[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
 MP_REGEX = "[0-1]\d:[0-6]\d:[0-7]\d:\d{3}"
+CP_REGEX = "[a-z]{3}:[0-1]\d:[0-6]\d"
 
 
 def connect_to_db(config_path, adminuser=False):
@@ -70,10 +71,13 @@ def is_valid_uid(uid, type):
     """
     instance_pattern = re.compile(INSTANCE_REGEX)
     mp_pattern = re.compile(MP_REGEX)
+    cp_pattern = re.complile(CP_REGEX)
     if type.lower() == "instance":
         return bool(instance_pattern.match(uid))
     elif type.lower() == "mp":
         return bool(mp_pattern.match(uid))
+    elif type.lower() == "cp":
+        return bool(cp_pattern.match(uid))
     else:
         return None
 
