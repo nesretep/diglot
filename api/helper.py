@@ -71,7 +71,7 @@ def is_valid_uid(uid, type):
     """
     instance_pattern = re.compile(INSTANCE_REGEX)
     mp_pattern = re.compile(MP_REGEX)
-    cp_pattern = re.complile(CP_REGEX)
+    cp_pattern = re.compile(CP_REGEX)
     if type.lower() == "instance":
         return bool(instance_pattern.match(uid))
     elif type.lower() == "mp":
