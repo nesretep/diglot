@@ -58,5 +58,12 @@ $("#rate-button-decrement").click(function(){
     $("#rate").val(rate);
 });
 
+function applySettings(){
+  var user_id = sessionStorage.getItem("user_id");
+  var origin_lang = document.getElementById("");
+  var target_lang;
+  var rate;
+  var level;
 
+}
 

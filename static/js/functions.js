@@ -32,7 +32,6 @@ function peek(instance_id){
     });
   }); 
 }
-
 function popupVue(){
   var alreadyPopup = document.getElementsByClassName("popuptext");
   var exists = $(event.target).children().attr("id");
@@ -71,7 +70,6 @@ function popupVue(){
     span.children().remove();
   }
 }
-
 function APIflip_back(e){
 
   //get the instance id
@@ -154,7 +152,6 @@ function APIflip_back(e){
   });
   //change tags
 }
-
 function APIflip(e){
   //get the instance id
    var span = $(e).parent().parent();
@@ -471,7 +468,6 @@ function APIflipnew(e){
     APIflip_backnew(e);
   }
 }
-
 function APIuser_load(user_id){
   var user_id_local = user_id;
   var url = "http://diglot.it.et.byu.edu/loaduser/" +  user_id;
@@ -489,7 +485,6 @@ function APIuser_load(user_id){
     });
   });
 }
-
 function APIget_flipped_words(){
   //get JSON
   //var url = "http://diglot.it.et.byu.edu/flip?lang=" + lang + "&book=" + book + "&chapter=" + chapter + "&verse=" + verse + "&pos=" + pos + "&target_lang=" + target_lang + "&user_id=1";
@@ -506,7 +501,6 @@ function APIget_flipped_words(){
   }
   */
 }
-
 function defineVue(){
        //get element that fired event, then get it's grandparent (the chunk value)
        if($(event.target.id).parent().attr('id') == "myPopupchunk22"){
@@ -517,4 +511,32 @@ function defineVue(){
        else{
               document.getElementById("vs19side").innerHTML = "Define the phrase or word here from " + $(e).parent().attr("id");
        }
+}
+/*@bottle.route('/prefs')
+def save_user_preferences():
+    """
+    Sets the user's language preferences.  Parameters are passed in a query string.
+
+    :param uid: (str) user id for the user whose preferences are being changed.
+    :param origin_lang: (str) 3 character ISO 639-3 designation for the user's primary language.
+    :param target_lang: (str) 3 character ISO 639-3 designation for the user's secondary language.
+    :param rate: (int) number representing the rate at which new concepts will be flipped automatically
+    :param level: (int) number representing their skill level with the target language
+    :return success: (bool) Indicates a successful save of the data to the database*/
+function APIset_preferences(){
+   var difficulty = document.getElementById("difficulty").value;
+   var rate = document.getElementById("rate").value;//need to convert
+   var langs = document.getElementsByClassName("active");
+   var source_lang = langs[0].textContent;
+   var target_lang = langs[1].textContent;
+   var uid = sessionStorage.getItem("user_id");
+   var url = "http://diglot.it.et.byu.edu/prefs?uid=" + uid + "&origin_lang=" + source_lang + "&target_lang="+ target_lang +"&rate=" + rate + "&level=" + difficulty;
+   console.log(url);
+   fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json);
+
+    });
+  });
+   
 }
