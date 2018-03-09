@@ -32,31 +32,6 @@ $(".not-button").click(function(){
   $(this).addClass('active');
 });
 
-//increment/decrement buttons
-$("#difficulty-button-increment").click(function(){
-    var level = $("#difficulty").val();
-    level = parseInt(level);
-    level++;
-    $("#difficulty").val(level);
-});
-$("#difficulty-button-decrement").click(function(){
-    var level = $("#difficulty").val();
-    level = parseInt(level);
-    level--;
-    $("#difficulty").val(level);
-});
-$("#rate-button-increment").click(function(){
-    var rate = $("#rate").val();
-    rate = parseInt(rate);
-    rate++;
-    $("#rate").val(rate);
-});
-$("#rate-button-decrement").click(function(){
-    var rate = $("#rate").val();
-    rate = parseInt(rate);
-    rate--;
-    $("#rate").val(rate);
-});
 
 function applySettings(){
   var user_id = sessionStorage.getItem("user_id");
