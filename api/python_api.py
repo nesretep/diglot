@@ -120,7 +120,7 @@ def flip_one_concept():
     Parameters are retrieved from the query string of the HTTP request
 
     :param concept_id: (str) concept identifier for the concept to be flipped
-    :param instance_id: (str) unique id of the instance to be flipped
+    :param current_pos: (str) current position in the text
     :param user_id: (str) id of the user for which the concept is being flipped
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
