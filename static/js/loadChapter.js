@@ -64,6 +64,19 @@ new Vue({
     /*$("span:contains(()").html('&nbsp;(');
     var text = $("span:contains(()").next().text().trim();
     $("span:contains(()").next().text(text);
-    */  
+    */ 
+    var punctuation_spans = document.getElementsByClassName("punctuation");
+
+    var punctuation = punctuation_spans[0].textContent;
+    var clean_punctuation = punctuation.trim();
+    var previous_text = $(punctuation_spans[0]).parent().prev().children().text();
+    var new_string = previous_text.trim() + clean_punctuation;
+    $(punctuation_spans[0]).parent().prev().children().text(new_string);
+    //alert(previous_span);
+    punctuation_spans[0].remove();
+    /*
+    while(punctuation_spans.length > 0){
+
+    }*/ 
   }
 })
