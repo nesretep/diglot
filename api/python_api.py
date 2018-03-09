@@ -120,6 +120,7 @@ def flip_one_concept():
     Parameters are retrieved from the query string of the HTTP request
 
     :param concept_id: (str) concept identifier for the concept to be flipped
+    :param instance_id: (str) unique id of the instance to be flipped
     :param user_id: (str) id of the user for which the concept is being flipped
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
     :return query2_result: JSON-ified dict containing the instance requested for the flip
@@ -143,6 +144,13 @@ def flip_one_concept():
         lang = concept_id[:3]
     else:
         msg = "Invalid language identifier ({}) for origin language.".format(concept_id[:3])
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_uid(bottle.request.query.instance_id):
+        instance_id = bottle.request.query.instance_id
+    else:
+        msg = "Invalid instance identifier ({})."
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -181,7 +189,8 @@ def flip_one_concept():
     query2 = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = '{}' ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+              WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}%' \
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id)
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
@@ -472,29 +481,31 @@ def save_user_preferences():
         logging.error(msg)
         bottle.abort(400, msg)
     # TODO: Add code for handling changes to user's level (adding words to list of flipped words on level increase)
-    current_pos =  ""
-    query = "UPDATE user_info SET origin_lang_id = '{}', target_lang_id = '{}', `level` = '{}', \
-             current_position = '{}', rate = '{}' WHERE user_id = %s".format(origin_lang, target_lang, level, current_pos, rate)
+    query = "UPDATE user_settings SET origin_lang_id = '{}', target_lang_id = '{}', `level` = '{}', \
+             rate = '{}' WHERE user_id = %s".format(origin_lang, target_lang, level, rate)
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
     if helper.is_injection(query) == False:
         try:
             cursor.execute(query, (uid,))
+            query_result = cursor.fetchone()
             db.commit()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
             db.close()
+            return json.dumps(True)
         except mariadb.Error as query_error:
             db.rollback()
-            msg = "Database peek query ({}) failed: {}".format(query, query_error)
+            msg = "Database preference query ({}) failed: {}".format(query, query_error)
             logging.error(msg)
             db.close()
             bottle.abort(500, "Check the log for details.")
+            return json.dumps(False)
     else:
-        logging.debug("Possible SQL injection attempt: {}.").format(query)
+        logging.debug("Possible SQL injection attempt: {}.".format(query))
         db.close()
-
+        bottle.abort(400, "Possible SQL injection attempt: {}.".format(query))
 
 # TODO: Be sure to turn off debug=True!!!
 if __name__ == '__main__':
