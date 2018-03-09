@@ -472,6 +472,7 @@ def save_user_preferences():
         logging.error(msg)
         bottle.abort(400, msg)
     # TODO: Add code for handling changes to user's level (adding words to list of flipped words on level increase)
+    current_pos =  ""
     query = "UPDATE user_info SET origin_lang_id = '{}', target_lang_id = '{}', `level` = '{}', \
              current_position = '{}', rate = '{}' WHERE user_id = %s".format(origin_lang, target_lang, level, current_pos, rate)
     db = helper.connect_to_db(dbconf)
