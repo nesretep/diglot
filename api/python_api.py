@@ -147,10 +147,10 @@ def flip_one_concept():
         logging.error(msg)
         bottle.abort(400, msg)
 
-    if helper.is_valid_uid(bottle.request.query.instance_id):
-        instance_id = bottle.request.query.instance_id
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        instance_id = bottle.request.query.current_pos
     else:
-        msg = "Invalid instance identifier ({})."
+        msg = "Invalid instance identifier ({}).".format(current_pos)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -190,7 +190,7 @@ def flip_one_concept():
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
               WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}%' \
-              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id)
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, current_pos)
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
