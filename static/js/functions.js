@@ -283,12 +283,12 @@ function APIflip_backnew(e){
   word = word.end().text().trim();
   var classList = document.getElementById(id).className.split(/\s+/);
 
-
+  var current_position = sessionStorage.getItem("current_position");
   var target_lang = sessionStorage.getItem("target_lang_id");
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
 
-  var url = "http://diglot.it.et.byu.edu/flipback?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+  var url = "http://diglot.it.et.byu.edu/flipback?current_position="+current_position+"&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
@@ -375,12 +375,12 @@ function APIflipnew(e){
     var target_lang = sessionStorage.getItem("target_lang_id");
     var concept_id = classList[classList.length-1];
     var master_position = classList[classList.length-2];
-
+    var current_position = sessionStorage.getItem("current_position");
 
     if($(span).hasClass("spa")){
       target_lang = "eng";
     }
-    var url = "http://diglot.it.et.byu.edu/flip?target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
+    var url = "http://diglot.it.et.byu.edu/flip?current_position="+current_position+"&target_lang=" + target_lang + "&user_id=1&concept_id=" + concept_id;
     console.log(url);
     fetch(url).then((response) => {
         return response.json().then((json) => {
