@@ -150,7 +150,7 @@ def flip_one_concept():
     if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
         current_pos = bottle.request.query.current_pos
     else:
-        msg = "Invalid instance identifier ({}).".format(current_pos)
+        msg = "Invalid instance identifier ({}).".format(bottle.request.query.current_pos)
         logging.error(msg)
         bottle.abort(400, msg)
 
