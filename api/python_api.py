@@ -150,7 +150,7 @@ def flip_one_concept():
     if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
         current_pos = bottle.request.query.current_pos
     else:
-        msg = "Invalid instance identifier ({}).".format(bottle.request.query.current_pos)
+        msg = "Invalid current position identifier ({}).".format(bottle.request.query.current_pos)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -186,6 +186,7 @@ def flip_one_concept():
         logging.error(msg)
         bottle.abort(400, msg)
     # Grabs the info needed on the front end to complete the flipping of the concept
+    # TODO: fix SQL query around LIKE
     query2 = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
@@ -275,7 +276,7 @@ def flip_one_back():
         msg = "Possible injection attempt: {}".format(query1)
         logging.error(msg)
         bottle.abort(400, msg)
-
+    # TODO: fix SQL query around LIKE
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
