@@ -444,7 +444,7 @@ def load_user_data(user_id):
 
     if helper.is_injection(query) == False:
         try:
-            cursor.execute(query, (user_id))
+            cursor.execute(query, (user_id,))
             msg = "loaduser query '{}' was executed successfully.".format(query)
             query_result = cursor.fetchone()
             logging.info(msg)
