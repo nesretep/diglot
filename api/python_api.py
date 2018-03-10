@@ -86,20 +86,36 @@ def get_chapter(lang, book, chapter):
     To return all chunks for the given chapter in JSON format
 
     :param lang: (str) 3 character ISO 639-3 designation for the language
-    :param book: (str) the book requested in the format described by the dict 'books'
+    :param book: (str) the book requested as an integer indicating the order it appears in the Book of Mormon
     :param chapter: (str) the chapter in the book requested
-    :return: JSON-ified dict containing a list Instances for the chapter requested and a list of words flipped already
+    :param critical: (str) boolean as int that shows if we are at/past the critical point
+    :return: JSON-ified dict containing a list Instances for the chapter requested
     """
     chap_uid = "{}:{}:{}{}".format(lang, book, chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    # TODO: Write query for checking critical point
-    # TODO: Write code to handle critical point on chapter load
-    critical_point_query = ""
 
-    query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
-             LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE %s \
-             ORDER BY origin.instance_id".format(lang, lang)
+    try:
+        if critical = "" or critical = None:
+            critical = 0
+        else:
+            critical = int(bottle.request.query.critical)
+    except ValueError as convert_error:
+        msg = "Invalid critical point indicator ({}): {}".format(critical, convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if critical == 0:
+        query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
+                 LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE %s \
+                 ORDER BY origin.instance_id".format(lang, lang)
+    elif critical == 1:
+        query = ""
+    else:
+        msg = "Invalid critical point indicator ({}).".format(critical)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
     try:
         cursor.execute(query, (chap_uid,))
         query_result = cursor.fetchall()
@@ -113,7 +129,6 @@ def get_chapter(lang, book, chapter):
         logging.error(msg)
         db.close()
         bottle.abort(500, "Database error.  See the log for details.")
-
 
 @bottle.route('/flip')
 def flip_one_concept():
