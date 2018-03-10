@@ -20,7 +20,7 @@ dbconf = "conf/diglot.conf"
 
 
 @bottle.route('/')
-def index(filepath="../login.html"):
+def start(filepath="../login.html"):
     """
     Loads the page defined in the query string as "page"
 
@@ -93,6 +93,8 @@ def get_chapter(lang, book, chapter):
     chap_uid = "{}:{}:{}{}".format(lang, book, chapter, "%")
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
+    # TODO: Write query for checking critical point
+    # TODO: Write code to handle critical point on chapter load
     critical_point_query = ""
 
     query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
@@ -190,8 +192,8 @@ def flip_one_concept():
     query2 = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}%' \
-              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, current_pos)
+              WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}{}' \
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, current_pos, "%")
     if helper.is_injection(query2) == False:
         try:
             cursor.execute(query2)
@@ -218,19 +220,21 @@ def flip_one_back():
     :param user_id: (int) user id number of user making the request
     :return query2_result: (list of dicts) list converted to JSON containing the instances to be flipped back
     """
-    # Validating/Sanitizing data for the query
+    # Validating data for the query
     if helper.is_valid_lang(bottle.request.query.target_lang):
         target_lang = bottle.request.query.target_lang
     else:
         msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
         logging.error(msg)
         bottle.abort(400, msg)
+
     if helper.is_valid_concept(bottle.request.query.concept_id):
         concept_id = bottle.request.query.concept_id
     else:
         msg = "Invalid concept identifier ({})."
         logging.error(msg)
         bottle.abort(400, msg)
+
     if helper.is_valid_lang(concept_id[:3]):
         lang = concept_id[:3]
     else:
@@ -239,9 +243,9 @@ def flip_one_back():
         bottle.abort(400, msg)
 
     if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
-        instance_id = bottle.request.query.current_pos
+        current_pos = bottle.request.query.current_pos
     else:
-        msg = "Invalid current position identifier ({}).".format(current_pos)
+        msg = "Invalid current position identifier ({}).".format(bottle.request.query.current_pos)
         logging.error(msg)
         bottle.abort(400, msg)
 
@@ -280,8 +284,8 @@ def flip_one_back():
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = '{} AND instance_id LIKE '{}%' \
-              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id)
+              WHERE con.concept_id = '{} AND instance_id LIKE '{}{}' \
+              ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, instance_id, "%")
 
     if helper.is_injection(query2) == False:
         try:

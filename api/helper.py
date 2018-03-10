@@ -44,39 +44,22 @@ def connect_to_db(config_path, adminuser=False):
         bottle.response.status = 500
 
 
-def convert_url_to_uid(url):
-    """
-    Convert uids from the URL format to the normal format and verifies the uid is in the proper format
-
-    :param url: (str) The uid in URL format with the colons as %3A
-    :return uid: (str) Valid uid as long as url matches a proper uid once converted
-    :return: None is returned if url isn't formatted properly once converted
-    """
-    mylist = url.split("%3A")
-    uid = "{lang}:{book}:{chap}:{verse}:{pos}".format(lang=mylist[0], book=mylist[1], chap=mylist[2],
-                                                      verse=mylist[3], pos=mylist[4])
-    if is_valid_uid(uid) is True:
-        return uid
-    else:
-        return "Huh?"
-
-
-def is_valid_uid(uid, type):
+def is_valid_uid(uid, id_type):
     """
     Validator function to make sure uids are in the proper format
 
     :param uid: (str) the uid to validate
-    :param type: (str) type of uid pattern to check against - instance or master position (mp)
+    :param id_type: (str) type of uid pattern to check against - instance or master position (mp)
     :return: (bool) result of the regex pattern checking against the pattern specified by 'type'
     """
     instance_pattern = re.compile(INSTANCE_REGEX)
     mp_pattern = re.compile(MP_REGEX)
     cp_pattern = re.compile(CP_REGEX)
-    if type.lower() == "instance":
+    if id_type.lower() == "instance":
         return bool(instance_pattern.match(uid))
-    elif type.lower() == "mp":
+    elif id_type.lower() == "mp":
         return bool(mp_pattern.match(uid))
-    elif type.lower() == "cp":
+    elif id_type.lower() == "cp":
         return bool(cp_pattern.match(uid))
     else:
         return None
@@ -99,19 +82,5 @@ def is_injection(query):
     :param query: (str) The query being checked.
     :return: (bool) True if the unacceptable character are found, False if they are not found
     """
-    pattern = re.compile("^[^<>;]{0,}$")
+    pattern = re.compile("^[^<>;]*$")
     return not bool(pattern.match(query))
-
-
-def check_login(username, password):
-    """
-    This is a placeholder function for some sort af actual authentication setup.
-
-    :param username: username of user being authenticated
-    :param password: the user's password
-    :return: boolean indicating the success or failure of the login attempt
-    """
-    return True
-
-
-
