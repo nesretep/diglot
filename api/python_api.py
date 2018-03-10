@@ -96,7 +96,7 @@ def get_chapter(lang, book, chapter):
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
     try:
-        if critical = "" or critical = None:
+        if bottle.request.query.critical == "" or bottle.request.query.critical is None:
             critical = 0
         else:
             critical = int(bottle.request.query.critical)
@@ -107,9 +107,10 @@ def get_chapter(lang, book, chapter):
 
     if critical == 0:
         query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
-                 LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE %s \
-                 ORDER BY origin.instance_id".format(lang, lang)
+                 LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE {} \
+                 ORDER BY origin.instance_id".format(lang, lang, chap_uid)
     elif critical == 1:
+        # TODO: get the query for the critical point
         query = ""
     else:
         msg = "Invalid critical point indicator ({}).".format(critical)
@@ -117,7 +118,7 @@ def get_chapter(lang, book, chapter):
         bottle.abort(400, msg)
 
     try:
-        cursor.execute(query, (chap_uid,))
+        cursor.execute(query)
         query_result = cursor.fetchall()
         cursor.close()
         msg = "Query {} executed successfully.".format(query)
