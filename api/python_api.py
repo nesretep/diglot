@@ -113,6 +113,66 @@ def get_chapter(lang, book, chapter):
         db.close()
         bottle.abort(500, "Database error.  See the log for details.")
 
+# @bottle.route('/cp')
+def critical_get_chapter():
+    """
+    To return all chunks for the given chapter in JSON format after reaching the critical point
+    Parameters are passed to the function via a query string
+
+    :param lang: (str) 3 character ISO 639-3 designation for the origin language
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :param book: (str) the book requested as an integer indicating the order it appears in the Book of Mormon
+    :param chapter: (str) the chapter in the book requested
+    :return: JSON-ified dict containing a list Instances for the chapter requested
+    """
+    if helper.is_valid_lang(bottle.request.query.lang):
+        lang = bottle.request.query.lang
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    try:
+        book = int(bottle.request.query.book)
+        chapter = int(bottle.request.query.chapter)
+    except ValueError as convert_error:
+        msg = "Invalid value given for book or chapter: {}".format(convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    chap_uid = "{}:{}:{}{}".format(target_lang, book, chapter, "%")
+
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+
+    query = "SELECT target.instance_id AS target_instance_id, target.master_position AS target_master_position, \
+             target.instance_text AS target_instance_text, origin_concept.concept_id AS origin_concept_concept_id \
+             FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position \
+             LEFT JOIN {}_concept AS origin_concept ON orign.chunk_id = origin_concept.chunk_id \
+             WHERE target.instance_id LIKE '{}' ORDER BY target.instance_id".format(target_lang, lang, lang, chap_uid)
+
+    try:
+        cursor.execute(query, (chap_uid,))
+        query_result = cursor.fetchall()
+        cursor.close()
+        msg = "Query {} executed successfully.".format(query)
+        logging.info(msg)
+        db.close()
+        return json.dumps(query_result)
+    except mariadb.Error as query_error:
+        msg = "Database query failed: {}".format(query_error)
+        logging.error(msg)
+        db.close()
+        bottle.abort(500, "Database error.  See the log for details.")
+
+
 @bottle.route('/flip')
 def flip_one_concept():
     """
