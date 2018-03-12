@@ -41,6 +41,7 @@
         </style>
     </head>
     <body>
+        <!--navbar-->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -70,10 +71,25 @@
             </div>
             <!-- /.container-fluid -->
         </nav>
+        <!--Error for settings-->
         <div class="alert alert-warning alert-dismissible hide" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>Warning!</strong>There was an error while applying your settings. 
         </div>
+
+        <!--next chapter or previous chapter-->
+        <div class="container-fluid">
+            <div class="row text-right">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                </div>
+            </div>
+        </div>
+
         <div id="platform-canvas-content" role="main">
             <!--Modals-->
             <div id="BookOfMormon">
