@@ -533,7 +533,7 @@ function logout(){
   sessionStorage.clear();
   window.location.replace("login.html");
 }
-function getNextChapter(){
+function next_chapter(){
   var current_position = sessionStorage.getItem("current_position");
   current_position = current_position.split(":");
   var origin_lang_id = sessionStorage.getItem("origin_lang_id");
@@ -544,5 +544,20 @@ function getNextChapter(){
     next_chapter_string = "0" + next_chapter_string;
   }
   var new_current_position = current_position[0] + ":" + current_position[1] +":"+ next_chapter_string;
-  sessionStorage.setItem("current_position", new_current_position)
+  sessionStorage.setItem("current_position", new_current_position);
+  location.reload();
+}
+function previous_chapter(){
+  var current_position = sessionStorage.getItem("current_position");
+  current_position = current_position.split(":");
+  var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+  var previous_chapter = parseInt(current_position[2]);
+  previous_chapter--;
+  var previous_chapter_string = previous_chapter.toString();
+  if(previous_chapter_string.length == 1){
+    previous_chapter_string = "0" + previous_chapter_string;
+  }
+  var new_current_position = current_position[0] + ":" + current_position[1] +":"+ previous_chapter_string;
+  sessionStorage.setItem("current_position", new_current_position);
+  location.reload();
 }
