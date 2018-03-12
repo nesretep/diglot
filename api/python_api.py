@@ -105,17 +105,9 @@ def get_chapter(lang, book, chapter):
         logging.error(msg)
         bottle.abort(400, msg)
 
-    if critical == 0 or critical is None or critical == "":
-        query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
+    query = "SELECT origin.instance_id, origin.master_position, origin.instance_text, con.concept_id FROM {} AS origin \
                  LEFT JOIN {}_concept AS con ON origin.chunk_id = con.chunk_id WHERE origin.instance_id LIKE {} \
                  ORDER BY origin.instance_id".format(lang, lang, chap_uid)
-    elif critical == 1:
-        # TODO: get the query for the critical point
-        query = ""
-    else:
-        msg = "Invalid critical point indicator ({}).".format(critical)
-        logging.error(msg)
-        bottle.abort(400, msg)
 
     try:
         cursor.execute(query)
