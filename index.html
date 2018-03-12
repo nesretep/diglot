@@ -86,6 +86,7 @@
                     </button>
                     <button class="btn btn-default btn-xs" onclick="next_chapter()">
                         <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -231,6 +232,12 @@
                         </div>
                     </div>
                 </div>
+                <nav aria-label="...">
+                  <ul class="pager">
+                    <li class="previous" onclick="previous_chapter()"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                    <li class="next" onclick="next_chapter()"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                  </ul>
+                </nav>
             </div>
         </div>
         <!-- end #content -->
