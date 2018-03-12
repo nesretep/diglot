@@ -533,3 +533,16 @@ function logout(){
   sessionStorage.clear();
   window.location.replace("login.html");
 }
+function getNextChapter(){
+  var current_position = sessionStorage.getItem("current_position");
+  current_position = current_position.split(":");
+  var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+  var next_chapter = parseInt(current_position[2]);
+  next_chapter++;
+  var next_chapter_string = next_chapter.toString();
+  if(next_chapter_string.length == 1){
+    next_chapter_string = "0" + next_chapter_string;
+  }
+  var new_current_position = current_position[0] + ":" + current_position[1] +":"+ next_chapter_string;
+  sessionStorage.setItem("current_position", new_current_position)
+}

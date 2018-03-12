@@ -6,7 +6,8 @@ new Vue({
   el: '#chapter',
   data: () => ({
     json: {},
-    verses: []
+    verses: [],
+    chapter: ""
   }),
   created: function() {
     
@@ -16,7 +17,7 @@ new Vue({
       return response.json().then((json) => {
         console.log("JSON", json)
         this.json = json
-        
+        this.json.chapter = current_position[2];
         //mark punctuation
         for (i = 0; i < this.json.length; i++) {
               var position = this.json[i].master_position;

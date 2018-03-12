@@ -84,7 +84,7 @@
                     <button class="btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </button>
-                    <button class="btn btn-default btn-xs">
+                    <button class="btn btn-default btn-xs" onclick="getNextChapter()">
                         <span class="glyphicon glyphicon-chevron-right"></span>
                 </div>
             </div>
@@ -205,7 +205,7 @@
                 <!--Chapter and summary-->
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 wrap">
-                        <h2 class="title-number" data-aid="128342698" id="title_number1">Chapter 1</h2>
+                        <h2 class="title-number" id="title_number">Chapter</h2>
                     </div>
                 </div>
                 <!--Verses-->
@@ -233,5 +233,15 @@
         <script src="static/js/chapters.js" ></script>
         <script src="static/js/functions.js" ></script>
         <script src="static/js/settings.js" ></script>
+        <script type="text/javascript">
+            var current_position = sessionStorage.getItem("current_position");
+            current_position = current_position.split(":");
+            var chapter_num = current_position[2];
+            var chapter = document.getElementById("title_number");
+            if(chapter_num[0]=="0"){
+                chapter_num = chapter_num[1];
+            }
+            $(chapter).append(" " + chapter_num);
+        </script>
     </body>
 </html>
