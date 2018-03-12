@@ -282,7 +282,7 @@ def flip_one_back():
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
-              WHERE con.concept_id = '{}' AND user_settings.current_pos LIKE '{}{}' \
+              WHERE con.concept_id = '{}' AND origin.instance_id LIKE '{}{}' \
               ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id, current_pos, "%")
 
     if helper.is_injection(query2) == False:
