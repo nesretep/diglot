@@ -531,7 +531,7 @@ function APIset_preference(){
 }
 function logout(){
   sessionStorage.clear();
-  window.location.replace("login.html");
+  window.location.replace("/");
 }
 function next_chapter(){
   var current_position = sessionStorage.getItem("current_position");
