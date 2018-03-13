@@ -88,7 +88,6 @@ def get_chapter(lang, book, chapter):
     :param lang: (str) 3 character ISO 639-3 designation for the language
     :param book: (str) the book requested as an integer indicating the order it appears in the Book of Mormon
     :param chapter: (str) the chapter in the book requested
-    :param critical: (str) boolean as int that shows if we are at/past the critical point
     :return: JSON-ified dict containing a list Instances for the chapter requested
     """
     chap_uid = "{}:{}:{}{}".format(lang, book, chapter, "%")
@@ -139,13 +138,16 @@ def critical_get_chapter():
         logging.error(msg)
         bottle.abort(400, msg)
 
-    try:
-        book = int(bottle.request.query.book)
-        chapter = int(bottle.request.query.chapter)
-    except ValueError as convert_error:
-        msg = "Invalid value given for book or chapter: {}".format(convert_error)
-        logging.error(msg)
-        bottle.abort(400, msg)
+    book = bottle.request.query.book
+    chapter = bottle.request.query.chapter
+
+    # try:
+    #     book = int(bottle.request.query.book)
+    #     chapter = int(bottle.request.query.chapter)
+    # except ValueError as convert_error:
+    #     msg = "Invalid value given for book or chapter: {}".format(convert_error)
+    #     logging.error(msg)
+    #     bottle.abort(400, msg)
 
     chap_uid = "{}:{}:{}{}".format(target_lang, book, chapter, "%")
 
@@ -155,7 +157,7 @@ def critical_get_chapter():
     query = "SELECT target.instance_id AS target_instance_id, target.master_position AS target_master_position, \
              target.instance_text AS target_instance_text, origin_concept.concept_id AS origin_concept_concept_id \
              FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position \
-             LEFT JOIN {}_concept AS origin_concept ON orign.chunk_id = origin_concept.chunk_id \
+             LEFT JOIN {}_concept AS origin_concept ON origin.chunk_id = origin_concept.chunk_id \
              WHERE target.instance_id LIKE '{}' ORDER BY target.instance_id".format(target_lang, lang, lang, chap_uid)
 
     try:
