@@ -213,7 +213,7 @@ def cp_all_flipped():
         msg = "Database connection error: {}".format(db_connect_error)
         logging.info(msg)
         bottle.abort(500, "Check the log for details.")
-        
+
     ####### Constructing and executing the query ######
     query = "SELECT target.instance_id AS target_instance_id FROM {} AS target LEFT JOIN {} AS origin \
               ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept \
@@ -223,7 +223,7 @@ def cp_all_flipped():
 
     if helper.is_injection(query) == False:
         try:
-            cursor.execute(query, (user_id,))
+            cursor.execute(query)
             query_result = cursor.fetchall()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
