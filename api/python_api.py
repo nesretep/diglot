@@ -218,7 +218,7 @@ def cp_all_flipped():
     query = "SELECT target.instance_id AS target_instance_id FROM {} AS target LEFT JOIN {} AS origin \
               ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept \
               ON origin.chunk_id = origin_concept.chunk_id LEFT JOIN flipped_list \
-              ON origin_concept.concept_id = flipped_list.concept_id WHERE flipped_list = '{}' \
+              ON origin_concept.concept_id = flipped_list.concept_id WHERE user_id = '{}' \
               ORDER BY target.instance_id".format(target_lang, lang, lang, user_id)
 
     if helper.is_injection(query) == False:
