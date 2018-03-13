@@ -14,9 +14,8 @@ def recommend():
     """
     Sends to the front end the next group of concepts to auto-flip for the user based on the user's level and rate
     Parameters will be send via a query string in the API call
-
     :param user_id: (str converted to int) user id number of the user getting the recommendations
-    :return:
+    :return: origin lang and instance id, target lang and its instance id, target text
     """
     try:
         user_id = int(bottle.request.query.user_id)
@@ -49,10 +48,11 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
+  # Also need to validate this data.
+    fetchlang = bottle.request.query.lang
+    fetchscore = bottle.request.query.score
+    fetchrate = bottle.requrest.query.rate
 
-    # If we aren't getting sent the lang, rate, and level in the API call we'll need to query for it
-    # We may need different queries
-    query1 = "SELECT `level`, rate, lang FROM user_info WHERE user_id = %s"
 
     if helper.is_injection(query1) == False:
         try:
@@ -66,8 +66,6 @@ def recommend():
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-            bottle.abort(500, "Database error.  See the log for details.")
-
-
-
-
+bottle.abort(500, "Database error.  See the log for details.")
+#Starting with an 'if'...
+#if rate ==
