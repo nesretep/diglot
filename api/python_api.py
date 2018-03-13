@@ -112,8 +112,8 @@ def get_chapter(lang, book, chapter):
         db.close()
         bottle.abort(500, "Database error.  See the log for details.")
 
-@bottle.route('/cp')
-def critical_get_chapter():
+@bottle.route('/<lang>/<target_lang>/<book>/<chapter>')
+def cp_get_chapter(lang, target_lang, book, chapter):
     """
     To return all chunks for the given chapter in JSON format after reaching the critical point
     Parameters are passed to the function via a query string
@@ -124,30 +124,23 @@ def critical_get_chapter():
     :param chapter: (str) the chapter in the book requested
     :return: JSON-ified dict containing a list Instances for the chapter requested
     """
-    if helper.is_valid_lang(bottle.request.query.lang):
-        lang = bottle.request.query.lang
-    else:
+    if not helper.is_valid_lang(lang):
         msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
         logging.error(msg)
         bottle.abort(400, msg)
 
-    if helper.is_valid_lang(bottle.request.query.target_lang):
-        target_lang = bottle.request.query.target_lang
-    else:
+    if not helper.is_valid_lang(target_lang):
         msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
         logging.error(msg)
         bottle.abort(400, msg)
 
-    book = bottle.request.query.book
-    chapter = bottle.request.query.chapter
-
-    # try:
-    #     book = int(bottle.request.query.book)
-    #     chapter = int(bottle.request.query.chapter)
-    # except ValueError as convert_error:
-    #     msg = "Invalid value given for book or chapter: {}".format(convert_error)
-    #     logging.error(msg)
-    #     bottle.abort(400, msg)
+    if bottle.request.query.book.isdigit() is False or bottle.request.query.chapter.isdigit() is False:
+        msg = "Invalid value given for book or chapter.  Data was not numeric."
+        logging.error(msg)
+        bottle.abort(400, msg)
+    else:
+        book = bottle.request.query.book
+        chapter = bottle.request.query.chapter
 
     chap_uid = "{}:{}:{}{}".format(target_lang, book, chapter, "%")
 
@@ -159,20 +152,91 @@ def critical_get_chapter():
              FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position \
              LEFT JOIN {}_concept AS origin_concept ON origin.chunk_id = origin_concept.chunk_id \
              WHERE target.instance_id LIKE '{}' ORDER BY target.instance_id".format(target_lang, lang, lang, chap_uid)
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query)
+            query_result = cursor.fetchall()
+            cursor.close()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            db.close()
+            return json.dumps(query_result)
+        except mariadb.Error as query_error:
+            msg = "Database query failed: {}".format(query_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Database error.  See the log for details.")
+    else:
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
 
+
+@bottle.route('/cp/flipped')
+def cp_all_flipped():
+    """
+    Get list of all the words for the chapter that have already been flipped by the user who is logged in.
+    Function for use in conjunction with cp_get_chapter()
+    Parameters are obtained via the query string for the API call
+
+    :param user_id: (str) id of the user the flipped concepts are being requested for
+    :param lang: (str) 3 character ISO 639-3 designation for the language
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :return query_result: (list of dicts) Instances to flip
+    """
+    # Validating/Sanitizing data for the query ######
     try:
-        cursor.execute(query)
-        query_result = cursor.fetchall()
-        cursor.close()
-        msg = "Query {} executed successfully.".format(query)
-        logging.info(msg)
-        db.close()
-        return json.dumps(query_result)
-    except mariadb.Error as query_error:
-        msg = "Database query failed: {}".format(query_error)
+        user_id = int(bottle.request.query.user_id)
+    except ValueError as convert_error:
+        msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
         logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.lang):
+        lang = bottle.request.query.lang
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    ######## Connecting to the Database ########
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except mariadb.Error as db_connect_error:
+        msg = "Database connection error: {}".format(db_connect_error)
+        logging.info(msg)
+        bottle.abort(500, "Check the log for details.")
+        
+    ####### Constructing and executing the query ######
+    query = "SELECT target.instance_id AS target_instance_id FROM {} AS target LEFT JOIN {} AS origin \
+              ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept \
+              ON origin.chunk_id = origin_concept.chunk_id LEFT JOIN flipped_list \
+              ON origin_concept.concept_id = flipped_list.concept_id WHERE flipped_list = '{}' \
+              ORDER BY target.instance_id".format(target_lang, lang, lang, user_id)
+
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query, (user_id,))
+            query_result = cursor.fetchall()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            db.close()
+            return json.dumps(query_result)
+        except mariadb.Error as query_error:
+            msg = "Database query for cp_all_flipped ({}) failed: {}".format(query, query_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Check the log for details.")
+    else:
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
         db.close()
-        bottle.abort(500, "Database error.  See the log for details.")
 
 
 @bottle.route('/flip')
@@ -418,7 +482,7 @@ def peek():
 def get_all_flipped():
     """
     Get list of all the words for the chapter that have already been flipped by the user who is logged in.
-    Helper function for use in conjunction with get_chapter()
+    Function for use in conjunction with get_chapter()
     Parameters are obtained via the query string for the API call
 
     :param user_id: (str) id of the user the flipped concepts are being requested for
@@ -472,7 +536,7 @@ def get_all_flipped():
             db.close()
             return json.dumps(query_result)
         except mariadb.Error as query_error:
-            msg = "Database peek query ({}) failed: {}".format(query, query_error)
+            msg = "Database query for all flipped ({}) failed: {}".format(query, query_error)
             logging.error(msg)
             db.close()
             bottle.abort(500, "Check the log for details.")
