@@ -113,7 +113,7 @@ def get_chapter(lang, book, chapter):
         db.close()
         bottle.abort(500, "Database error.  See the log for details.")
 
-# @bottle.route('/cp')
+@bottle.route('/cp')
 def critical_get_chapter():
     """
     To return all chunks for the given chapter in JSON format after reaching the critical point
@@ -159,7 +159,7 @@ def critical_get_chapter():
              WHERE target.instance_id LIKE '{}' ORDER BY target.instance_id".format(target_lang, lang, lang, chap_uid)
 
     try:
-        cursor.execute(query, (chap_uid,))
+        cursor.execute(query)
         query_result = cursor.fetchall()
         cursor.close()
         msg = "Query {} executed successfully.".format(query)
