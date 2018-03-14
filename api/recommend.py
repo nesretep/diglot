@@ -67,20 +67,31 @@ def recommend():
             db.close()
             bottle.abort(500, "Database error.  See the log for details.")
 
-    if fetchrate == True: #If there's something there to fetch
-        query_result = fetchrate
+    if fetchuser_id == True:
+        query_result1 = fetchuser_id
         db.close()
-        return json.dumps(query_result)
+        return json.dumps(query_result1)
+    else:
+        msg = "Invalid user id ({})".format(bottle.request.query.user_id)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if fetchrate == True: #If there's something there to fetch
+        query_result2 = fetchrate
+        db.close()
+        return json.dumps(query_result2)
     else:
        msg = "Invalid rate ({})".format(bottle.request.query.rate)
        logging.error(msg)
        bottle.abort(400, msg)
 
-   if fetchlang == True:
-       query_result2 = fetchlang
+    if fetchlang == True:
+       query_result3 = fetchlang
        db.close()
-       return json.dumps(query_result2)
-   else:
+       return json.dumps(query_result3)
+    else:
        msg = "Invalid language ({})".format(bottle.request.query.lang)
        logging.error(msg)
        bottle.abort(400, msg)
+
+
