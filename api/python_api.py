@@ -112,6 +112,57 @@ def get_chapter(lang, book, chapter):
         db.close()
         bottle.abort(500, "Database error.  See the log for details.")
 
+
+@bottle.route("/updateposition")
+def update_current_position():
+    """
+
+    :param user_id: (str) the uid number of the user whose data were passing to the front end
+    :param current_pos: (str) the id for the current position of the user/reader
+    :return: (bool) Indicator of success of the query
+    """
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        current_pos = bottle.request.query.current_pos
+    else:
+        msg = "Invalid current position identifier ({}).".format(bottle.request.query.current_pos)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    try:
+        user_id = int(bottle.request.query.user_id)
+    except ValueError as convert_error:
+        msg = "Invalid value for user_id ({}): {}".format(user_id, convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    query = "UPDATE user_settings SET current_position = '{}' WHERE user_id = '{}'".format(current_pos, user_id)
+
+    db = helper.connect_to_db(dbconf)
+    cursor = db.cursor(mariadb.cursors.DictCursor)
+
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query)
+            query_result = cursor.fetchone()
+            db.commit()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            db.close()
+            return json.dumps(True)
+        except mariadb.Error as query_error:
+            db.rollback()
+            msg = "Database current position update query ({}) failed: {}".format(query, query_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Check the log for details.")
+            return json.dumps(False)
+    else:
+        msg = "Possible SQL injection attempt: {}.".format(query)
+        logging.debug(msg)
+        db.close()
+        bottle.abort(400, msg)
+
+
 @bottle.route('/<lang>/<target_lang>/<book>/<chapter>')
 def cp_get_chapter(lang, target_lang, book, chapter):
     """
