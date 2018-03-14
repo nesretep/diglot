@@ -56,27 +56,16 @@ def recommend():
 
     if helper.is_injection(query1) == False:
         try:
-            cursor.execute(query1, (user_id,))
-            query1_result = cursor.fetchall()
+            cursor.execute(query1) # <--- query runs here
+            query1_result = cursor.fetchall() # <--- grab the result
             msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
             db.close()
-            return json.dumps(query1_result)
+            return json.dumps(query1_result) # <--- Return JSON-ified result to the front-end
         except mariadb.Error as query1_error:
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-bottle.abort(500, "Database error.  See the log for details.")
+            bottle.abort(500, "Database error.  See the log for details.")
 
-   if fetchrate == True: #If there's something there to fetch
-        query_result = fetchrate
-        db.close()
-        return json.dumps(query_result)
-   else:
-       msg = "Invalid rate ({})".format(bottle.request.query.rate)
-       logging.error(msg)
-       bottle.abort(400, msg)
-       
-    #Run the query from the db
-    #And return the JSONified to front end
     #And do this same thing with score
