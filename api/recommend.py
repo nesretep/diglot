@@ -87,13 +87,3 @@ bottle.abort(500, "Database error.  See the log for details.")
        msg = "Invalid rate ({})".format(bottle.request.query.lang)
        logging.error(msg)
        bottle.abort(400, msg)
-
-
-   if fetchscore == True:
-       query_result3 = fetchscore
-       db.close
-       return json.dumps(query_result3)
-   else:
-       msg = "Invalid rate ({})".format(bottle.request.query.score)
-       logging.error(msg)
-       bottle.abort(400, msg)
