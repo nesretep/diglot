@@ -113,9 +113,10 @@ def get_chapter(lang, book, chapter):
         bottle.abort(500, "Database error.  See the log for details.")
 
 
-@bottle.route("/updateposition")
+@bottle.route("/update_position")
 def update_current_position():
     """
+    Updates the users current position within the Book of Mormon text
 
     :param user_id: (str) the uid number of the user whose data were passing to the front end
     :param current_pos: (str) the id for the current position of the user/reader
