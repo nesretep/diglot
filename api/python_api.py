@@ -291,6 +291,80 @@ def cp_all_flipped():
         db.close()
 
 
+@bottle.route('/cp/yet_to_flip')
+def cp_yet_to_flip():
+    """
+
+
+    :param lang: (str) 3 character ISO 639-3 designation for the origin language
+    :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :param user_id: (str) id of the user for which the concept is being flipped
+    :param current_pos: (str) current position in the text
+    :return query_result: (list of dicts) Instances to flip
+    """
+    # Validating/Sanitizing data for the query
+    if helper.is_valid_lang(bottle.request.query.target_lang):
+        target_lang = bottle.request.query.target_lang
+    else:
+        msg = "Invalid language identifier ({}) for target language.".format(bottle.request.query.target_lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_lang(bottle.request.query.lang):
+        lang = bottle.request.query.lang
+    else:
+        msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    try:
+        user_id = int(bottle.request.query.user_id)
+    except ValueError as convert_error:
+        msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        current_pos = bottle.request.query.current_pos
+    else:
+        msg = "Invalid current position identifier ({}).".format(bottle.request.query.current_pos)
+        logging.error(msg)
+        bottle.abort(400, msg)
+
+    ######## Connecting to the Database ########
+    try:
+        db = helper.connect_to_db(dbconf)
+        cursor = db.cursor(mariadb.cursors.DictCursor)
+    except mariadb.Error as db_connect_error:
+        msg = "Database connection error: {}".format(db_connect_error)
+        logging.info(msg)
+        bottle.abort(500, "Check the log for details.")
+
+    query = "SELECT target.instance_id AS target_instance_ID, origin.instance_id AS origin_instance_id, \
+             origin.instance_text AS origin_instance_text FROM {} AS target LEFT JOIN {} AS origin ON \
+             target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept ON \
+             origin.chunk_id = orign_concept.chunk_id LEFT JOIN (SELECT * FROM flipped_list \
+             WHERE flipped_list.user_id = '{}') AS fl ON origin_concept.concept_id = fl.concept_id \
+             WHERE origin.instance_id LIKE '{}' AND fl.user_id IS NULL".format(target_lang, lang, lang, user_id, current_pos)
+
+    if helper.is_injection(query) == False:
+        try:
+            cursor.execute(query)
+            query_result = cursor.fetchall()
+            msg = "Query {} executed successfully.".format(query)
+            logging.info(msg)
+            db.close()
+            return json.dumps(query_result)
+        except mariadb.Error as query_error:
+            msg = "Database query for cp_all_flipped ({}) failed: {}".format(query, query_error)
+            logging.error(msg)
+            db.close()
+            bottle.abort(500, "Check the log for details.")
+    else:
+        logging.debug("Possible SQL injection attempt: {}.").format(query)
+        db.close()
+
+
 @bottle.route('/flip')
 def flip_one_concept():
     """
