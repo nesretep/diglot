@@ -48,10 +48,10 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-  # Also need to validate this data.
-    fetchlang = bottle.request.query.lang
-    fetchscore = bottle.request.query.score
-    fetchrate = bottle.requrest.query.rate
+    # Also need to validate this data.
+    #fetchlang = bottle.request.query.lang
+    #fetchscore = bottle.request.query.score
+    #fetchrate = bottle.request.query.rate
 
 
     if helper.is_injection(query1) == False:
@@ -68,6 +68,7 @@ def recommend():
             db.close()
 bottle.abort(500, "Database error.  See the log for details.")
 
+
    if fetchrate == True: #If there's something there to fetch
         query_result = fetchrate
         db.close()
@@ -76,7 +77,3 @@ bottle.abort(500, "Database error.  See the log for details.")
        msg = "Invalid rate ({})".format(bottle.request.query.rate)
        logging.error(msg)
        bottle.abort(400, msg)
-       
-    #Run the query from the db
-    #And return the JSONified to front end
-    #And do this same thing with score
