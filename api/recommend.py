@@ -27,6 +27,7 @@ def recommend():
     # If API will get sent this info below, we need the lines to grab them and validate the info
     if helper.is_valid_lang(bottle.request.query.lang):
         lang = bottle.request.query.lang
+
     else:
         msg = "Invalid language identifier ({}) for origin language.".format(bottle.request.query.lang)
         logging.error(msg)
@@ -48,6 +49,7 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
+    query1 = "SELECT user_id, origin_lang_id, 'level', rate FROM user_info"
 
     if helper.is_injection(query1) == False:
         try:
@@ -61,4 +63,5 @@ def recommend():
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-            bottle.abort(500, "Database error.  See the log for details.")
+bottle.abort(500, "Database error.  See the log for details.")
+
