@@ -48,11 +48,6 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-  # Also need to validate this data.
-    fetchlang = bottle.request.query.lang
-    fetchscore = bottle.request.query.score
-    fetchrate = bottle.requrest.query.rate
-
 
     if helper.is_injection(query1) == False:
         try:
