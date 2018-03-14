@@ -67,5 +67,16 @@ def recommend():
             logging.error(msg)
             db.close()
 bottle.abort(500, "Database error.  See the log for details.")
-#Starting with an 'if'...
-#if rate ==
+
+   if fetchrate == True: #If there's something there to fetch
+        query_result = fetchrate
+        db.close()
+        return json.dumps(query_result)
+   else:
+       msg = "Invalid rate ({})".format(bottle.request.query.rate)
+       logging.error(msg)
+       bottle.abort(400, msg)
+       
+    #Run the query from the db
+    #And return the JSONified to front end
+    #And do this with the rest of the junk
