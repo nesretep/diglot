@@ -84,6 +84,6 @@ bottle.abort(500, "Database error.  See the log for details.")
        db.close()
        return json.dumps(query_result2)
    else:
-       msg = "Invalid rate ({})".format(bottle.request.query.lang)
+       msg = "Invalid language ({})".format(bottle.request.query.lang)
        logging.error(msg)
        bottle.abort(400, msg)
