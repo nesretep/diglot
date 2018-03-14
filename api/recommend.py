@@ -53,7 +53,6 @@ def recommend():
     #fetchscore = bottle.request.query.score
     #fetchrate = bottle.request.query.rate
 
-
     if helper.is_injection(query1) == False:
         try:
             cursor.execute(query1, (user_id,))
@@ -66,8 +65,7 @@ def recommend():
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-bottle.abort(500, "Database error.  See the log for details.")
-
+            bottle.abort(500, "Database error.  See the log for details.")
 
     if fetchrate == True: #If there's something there to fetch
         query_result = fetchrate
@@ -77,7 +75,6 @@ bottle.abort(500, "Database error.  See the log for details.")
        msg = "Invalid rate ({})".format(bottle.request.query.rate)
        logging.error(msg)
        bottle.abort(400, msg)
-
 
    if fetchlang == True:
        query_result2 = fetchlang
