@@ -48,19 +48,52 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
+    # Also need to validate this data.
+    #fetchlang = bottle.request.query.lang
+    #fetchscore = bottle.request.query.score
+    #fetchrate = bottle.request.query.rate
+
 
     if helper.is_injection(query1) == False:
         try:
-            cursor.execute(query1) # <--- query runs here
-            query1_result = cursor.fetchall() # <--- grab the result
+            cursor.execute(query1, (user_id,))
+            query1_result = cursor.fetchall()
             msg = "Query1 {} executed successfully.".format(query1)
             logging.info(msg)
             db.close()
-            return json.dumps(query1_result) # <--- Return JSON-ified result to the front-end
+            return json.dumps(query1_result)
         except mariadb.Error as query1_error:
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-            bottle.abort(500, "Database error.  See the log for details.")
+bottle.abort(500, "Database error.  See the log for details.")
 
-    #And do this same thing with score
+
+    if fetchrate == True: #If there's something there to fetch
+        query_result = fetchrate
+        db.close()
+        return json.dumps(query_result)
+    else:
+       msg = "Invalid rate ({})".format(bottle.request.query.rate)
+       logging.error(msg)
+       bottle.abort(400, msg)
+
+
+   if fetchlang == True:
+       query_result2 = fetchlang
+       db.close()
+       return json.dumps(query_result2)
+   else:
+       msg = "Invalid rate ({})".format(bottle.request.query.lang)
+       logging.error(msg)
+       bottle.abort(400, msg)
+
+
+   if fetchscore == True:
+       query_result3 = fetchscore
+       db.close
+       return json.dumps(query_result3)
+   else:
+       msg = "Invalid rate ({})".format(bottle.request.query.score)
+       logging.error(msg)
+       bottle.abort(400, msg)
