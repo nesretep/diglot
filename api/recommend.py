@@ -49,7 +49,7 @@ def recommend():
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
-    query1 = "SELECT user_id, origin_lang_id, 'level', rate FROM user_info"
+    query1 = "SELECT user_info.origin_lang_id, language_tag.instance_id, user_info.target_lang_id, language_tag.instance_id, language.instance_text WHERE user_info.user_id = ({}) ".format(bottle.request.query.user_id)
 
     if helper.is_injection(query1) == False:
         try:
