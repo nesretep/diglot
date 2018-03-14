@@ -79,4 +79,4 @@ bottle.abort(500, "Database error.  See the log for details.")
        
     #Run the query from the db
     #And return the JSONified to front end
-    #And do this with the rest of the junk
+    #And do this same thing with score
