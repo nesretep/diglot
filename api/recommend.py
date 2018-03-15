@@ -14,7 +14,6 @@ def recommend():
     """
     Sends to the front end the next group of concepts to auto-flip for the user based on the user's level and rate
     Parameters will be send via a query string in the API call
-
     :param user_id: (str converted to int) user id number of the user getting the recommendations
     :return: origin lang and instance id, target lang and its instance id, target text
     """
@@ -53,8 +52,9 @@ def recommend():
 
     # TODO: What tables are you referring to by language_tag or language and why?
     query1 = "SELECT user_settings.origin_lang_id, language_tag.instance_id, user_settings.target_lang_id, \
-              language_tag.instance_id, `language`.instance_text FROM user_settings, `language`, language_tag \
+              language_tag.instance_id, `language`.instance_text, concept_id.lang_concept_tag FROM user_settings, `language`, language_tag, lang_concept_tag \
               WHERE user_settings.user_id = %s".format(bottle.request.query.user_id)
+
 
     if helper.is_injection(query1) == False:
         try:
@@ -68,5 +68,4 @@ def recommend():
             msg = "Recommend query1 failed: {}".format(query1_error)
             logging.error(msg)
             db.close()
-            bottle.abort(500, "Database error.  See the log for details.")
-
+bottle.abort(500, "Database error.  See the log for details.")
