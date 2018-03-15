@@ -50,9 +50,12 @@ def recommend():
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
-    # TODO: What tables are you referring to by language_tag or language and why?
     query1 = "SELECT user_settings.origin_lang_id, language_tag.instance_id, user_settings.target_lang_id, \
-              language_tag.instance_id, `language`.instance_text, concept_id.lang_concept_tag FROM user_settings, `language`, language_tag, lang_concept_tag \
+              language_tag.instance_id, `language`.instance_text, concept_id.lang_concept_tag \
+              FROM user_settings, `language`, language_tag, lang_concept_tag \
+              JOIN lang_concept ON lang_concept_data.concept_id=lang_concept.concept_id \
+              JOIN `language` ON lang_concept.chunk_id=`language`.chunk_id \
+              JOIN language_media ON `language`.instance_id=language_media.instance_id\
               WHERE user_settings.user_id = %s".format(bottle.request.query.user_id)
 
 
