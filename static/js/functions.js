@@ -423,7 +423,7 @@ function APIflipnew(e){
 
           }
           //change words  2 0 1 2 3
-          for(i=0; i < json.length-1; i++){
+          for(i=0; i < json.length; i++){
 
             var instance = document.getElementById(json[i].origin_instance_id);
             var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);

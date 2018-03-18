@@ -19,7 +19,9 @@ $("button.close").click(function(){
   $("#difficulty").val(sessionStorage.getItem("level"));
   $("#rate").val(sessionStorage.getItem("rate"));
 });
-
+$("#difficulty").change(function() {
+  $("#difficulty").append(" %");
+});
 function applySettings(){
   var user_id = sessionStorage.getItem("user_id");
   var origin_lang = document.getElementById("");
