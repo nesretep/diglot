@@ -925,11 +925,11 @@ master_position,instance_id,instance_text,chunk_id
 01:02:07:010,spa:01:02:07:010,una ofrenda,spa_chk_00560
 01:02:07:012,spa:01:02:07:011,al Señor,spa_chk_00026
 00:00:00:002,spa:01:02:07:012,",",spa_chk_00004
-01:02:07:009,spa:01:02:07:013,y,spa_chk_00337
-01:02:07:010,spa:01:02:07:014,dio,spa_chk_00381
-01:02:07:011,spa:01:02:07:015,gracias,spa_chk_00413
-01:02:07:013,spa:01:02:07:016,al Señor,spa_chk_00026
-01:02:07:014,spa:01:02:07:017,nuestro Dios,spa_chk_00485
+01:02:07:013,spa:01:02:07:013,y,spa_chk_00337
+01:02:07:014,spa:01:02:07:014,dio,spa_chk_00381
+01:02:07:015,spa:01:02:07:015,gracias,spa_chk_00413
+01:02:07:016,spa:01:02:07:016,al Señor,spa_chk_00026
+01:02:07:017,spa:01:02:07:017,nuestro Dios,spa_chk_00485
 00:00:00:002,spa:01:02:07:018,.,spa_chk_00005
 01:02:08:001,spa:01:02:08:001,Y,spa_chk_00337
 01:02:08:003,spa:01:02:08:003,que,spa_chk_00257

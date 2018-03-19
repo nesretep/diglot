@@ -1,570 +1,841 @@
-chunk_id,concept_id
-spa_chk_00001,spa_con_00001
-spa_chk_00002,spa_con_00001
-spa_chk_00003,spa_con_00001
-spa_chk_00004,spa_con_00001
-spa_chk_00005,spa_con_00001
-spa_chk_00006,spa_con_00001
-spa_chk_00007,spa_con_00001
-spa_chk_00008,spa_con_00001
-spa_chk_00009,spa_con_00002
-spa_chk_00010,spa_con_00003
-spa_chk_00011,spa_con_00004
-spa_chk_00014,spa_con_00004
-spa_chk_00085,spa_con_00004
-spa_chk_00289,spa_con_00004
-spa_chk_00012,spa_con_00005
-spa_chk_00023,spa_con_00005
-spa_chk_00013,spa_con_00006
-spa_chk_00015,spa_con_00008
-spa_chk_00016,spa_con_00009
-spa_chk_00319,spa_con_00009
-spa_chk_00017,spa_con_00010
-spa_chk_00018,spa_con_00011
-spa_chk_00019,spa_con_00012
-spa_chk_00020,spa_con_00013
-spa_chk_00021,spa_con_00014
-spa_chk_00022,spa_con_00015
-spa_chk_00024,spa_con_00017
-spa_chk_00026,spa_con_00019
-spa_chk_00078,spa_con_00019
-spa_chk_00103,spa_con_00019
-spa_chk_00277,spa_con_00019
-spa_chk_00027,spa_con_00020
-spa_chk_00028,spa_con_00021
-spa_chk_00029,spa_con_00022
-spa_chk_00030,spa_con_00023
-spa_chk_00031,spa_con_00024
-spa_chk_00032,spa_con_00025
-spa_chk_00033,spa_con_00026
-spa_chk_00034,spa_con_00027
-spa_chk_00035,spa_con_00028
-spa_chk_00036,spa_con_00029
-spa_chk_00037,spa_con_00030
-spa_chk_00038,spa_con_00031
-spa_chk_00039,spa_con_00032
-spa_chk_00040,spa_con_00033
-spa_chk_00041,spa_con_00034
-spa_chk_00042,spa_con_00035
-spa_chk_00043,spa_con_00036
-spa_chk_00156,spa_con_00036
-spa_chk_00044,spa_con_00037
-spa_chk_00045,spa_con_00038
-spa_chk_00046,spa_con_00039
-spa_chk_00047,spa_con_00040
-spa_chk_00048,spa_con_00041
-spa_chk_00049,spa_con_00042
-spa_chk_00050,spa_con_00043
-spa_chk_00051,spa_con_00044
-spa_chk_00052,spa_con_00045
-spa_chk_00053,spa_con_00046
-spa_chk_00054,spa_con_00047
-spa_chk_00055,spa_con_00047
-spa_chk_00056,spa_con_00049
-spa_chk_00057,spa_con_00050
-spa_chk_00211,spa_con_00050
-spa_chk_00058,spa_con_00051
-spa_chk_00059,spa_con_00052
-spa_chk_00288,spa_con_00052
-spa_chk_00060,spa_con_00053
-spa_chk_00170,spa_con_00053
-spa_chk_00062,spa_con_00055
-spa_chk_00128,spa_con_00055
-spa_chk_00129,spa_con_00055
-spa_chk_00063,spa_con_00056
-spa_chk_00064,spa_con_00057
-spa_chk_00065,spa_con_00058
-spa_chk_00066,spa_con_00059
-spa_chk_00067,spa_con_00060
-spa_chk_00069,spa_con_00062
-spa_chk_00172,spa_con_00062
-spa_chk_00188,spa_con_00062
-spa_chk_00257,spa_con_00062
-spa_chk_00070,spa_con_00063
-spa_chk_00310,spa_con_00063
-spa_chk_00071,spa_con_00064
-spa_chk_00072,spa_con_00065
-spa_chk_00068,spa_con_00066
-spa_chk_00073,spa_con_00066
-spa_chk_00191,spa_con_00066
-spa_chk_00074,spa_con_00067
-spa_chk_00093,spa_con_00067
-spa_chk_00094,spa_con_00067
-spa_chk_00075,spa_con_00068
-spa_chk_00076,spa_con_00069
-spa_chk_00077,spa_con_00070
-spa_chk_00079,spa_con_00072
-spa_chk_00080,spa_con_00073
-spa_chk_00081,spa_con_00074
-spa_chk_00082,spa_con_00075
-spa_chk_00083,spa_con_00076
-spa_chk_00084,spa_con_00077
-spa_chk_00086,spa_con_00079
-spa_chk_00087,spa_con_00080
-spa_chk_00088,spa_con_00081
-spa_chk_00089,spa_con_00082
-spa_chk_00090,spa_con_00083
-spa_chk_00091,spa_con_00083
-spa_chk_00092,spa_con_00085
-spa_chk_00095,spa_con_00088
-spa_chk_00096,spa_con_00089
-spa_chk_00097,spa_con_00090
-spa_chk_00098,spa_con_00091
-spa_chk_00099,spa_con_00092
-spa_chk_00323,spa_con_00092
-spa_chk_00100,spa_con_00093
-spa_chk_00317,spa_con_00093
-spa_chk_00104,spa_con_00097
-spa_chk_00105,spa_con_00098
-spa_chk_00106,spa_con_00099
-spa_chk_00108,spa_con_00099
-spa_chk_00107,spa_con_00100
-spa_chk_00109,spa_con_00102
-spa_chk_00110,spa_con_00103
-spa_chk_00111,spa_con_00104
-spa_chk_00112,spa_con_00105
-spa_chk_00113,spa_con_00106
-spa_chk_00114,spa_con_00107
-spa_chk_00115,spa_con_00107
-spa_chk_00159,spa_con_00107
-spa_chk_00116,spa_con_00109
-spa_chk_00117,spa_con_00110
-spa_chk_00118,spa_con_00111
-spa_chk_00119,spa_con_00112
-spa_chk_00120,spa_con_00113
-spa_chk_00121,spa_con_00114
-spa_chk_00122,spa_con_00115
-spa_chk_00123,spa_con_00116
-spa_chk_00124,spa_con_00117
-spa_chk_00125,spa_con_00118
-spa_chk_00126,spa_con_00119
-spa_chk_00127,spa_con_00120
-spa_chk_00130,spa_con_00123
-spa_chk_00131,spa_con_00124
-spa_chk_00148,spa_con_00124
-spa_chk_00132,spa_con_00125
-spa_chk_00133,spa_con_00126
-spa_chk_00134,spa_con_00127
-spa_chk_00135,spa_con_00128
-spa_chk_00136,spa_con_00129
-spa_chk_00137,spa_con_00130
-spa_chk_00138,spa_con_00131
-spa_chk_00139,spa_con_00132
-spa_chk_00140,spa_con_00133
-spa_chk_00141,spa_con_00134
-spa_chk_00142,spa_con_00135
-spa_chk_00143,spa_con_00136
-spa_chk_00144,spa_con_00137
-spa_chk_00145,spa_con_00138
-spa_chk_00146,spa_con_00139
-spa_chk_00147,spa_con_00140
-spa_chk_00149,spa_con_00142
-spa_chk_00174,spa_con_00142
-spa_chk_00150,spa_con_00143
-spa_chk_00151,spa_con_00144
-spa_chk_00152,spa_con_00145
-spa_chk_00153,spa_con_00146
-spa_chk_00154,spa_con_00147
-spa_chk_00168,spa_con_00147
-spa_chk_00186,spa_con_00147
-spa_chk_00189,spa_con_00147
-spa_chk_00155,spa_con_00148
-spa_chk_00157,spa_con_00150
-spa_chk_00158,spa_con_00151
-spa_chk_00160,spa_con_00153
-spa_chk_00161,spa_con_00154
-spa_chk_00162,spa_con_00155
-spa_chk_00163,spa_con_00156
-spa_chk_00164,spa_con_00157
-spa_chk_00326,spa_con_00157
-spa_chk_00165,spa_con_00158
-spa_chk_00166,spa_con_00159
-spa_chk_00167,spa_con_00160
-spa_chk_00208,spa_con_00160
-spa_chk_00295,spa_con_00160
-spa_chk_00332,spa_con_00160
-spa_chk_00169,spa_con_00162
-spa_chk_00171,spa_con_00164
-spa_chk_00173,spa_con_00166
-spa_chk_00381,spa_con_00166
-spa_chk_00176,spa_con_00169
-spa_chk_00177,spa_con_00170
-spa_chk_00178,spa_con_00171
-spa_chk_00179,spa_con_00172
-spa_chk_00309,spa_con_00172
-spa_chk_00180,spa_con_00173
-spa_chk_00181,spa_con_00174
-spa_chk_00182,spa_con_00175
-spa_chk_00183,spa_con_00176
-spa_chk_00184,spa_con_00177
-spa_chk_00185,spa_con_00178
-spa_chk_00187,spa_con_00180
-spa_chk_00190,spa_con_00183
-spa_chk_00192,spa_con_00185
-spa_chk_00193,spa_con_00186
-spa_chk_00300,spa_con_00186
-spa_chk_00194,spa_con_00187
-spa_chk_00195,spa_con_00188
-spa_chk_00196,spa_con_00189
-spa_chk_00197,spa_con_00190
-spa_chk_00249,spa_con_00190
-spa_chk_00198,spa_con_00191
-spa_chk_00199,spa_con_00192
-spa_chk_00200,spa_con_00192
-spa_chk_00201,spa_con_00194
-spa_chk_00202,spa_con_00195
-spa_chk_00203,spa_con_00196
-spa_chk_00204,spa_con_00197
-spa_chk_00205,spa_con_00198
-spa_chk_00206,spa_con_00199
-spa_chk_00207,spa_con_00200
-spa_chk_00209,spa_con_00202
-spa_chk_00210,spa_con_00203
-spa_chk_00212,spa_con_00205
-spa_chk_00213,spa_con_00206
-spa_chk_00214,spa_con_00207
-spa_chk_00215,spa_con_00208
-spa_chk_00216,spa_con_00209
-spa_chk_00217,spa_con_00210
-spa_chk_00219,spa_con_00210
-spa_chk_00218,spa_con_00211
-spa_chk_00220,spa_con_00213
-spa_chk_00221,spa_con_00214
-spa_chk_00222,spa_con_00215
-spa_chk_00223,spa_con_00216
-spa_chk_00224,spa_con_00217
-spa_chk_00225,spa_con_00218
-spa_chk_00226,spa_con_00219
-spa_chk_00227,spa_con_00220
-spa_chk_00228,spa_con_00221
-spa_chk_00229,spa_con_00222
-spa_chk_00230,spa_con_00223
-spa_chk_00231,spa_con_00224
-spa_chk_00232,spa_con_00225
-spa_chk_00233,spa_con_00226
-spa_chk_00234,spa_con_00227
-spa_chk_00235,spa_con_00228
-spa_chk_00236,spa_con_00229
-spa_chk_00237,spa_con_00230
-spa_chk_00238,spa_con_00230
-spa_chk_00239,spa_con_00232
-spa_chk_00240,spa_con_00233
-spa_chk_00241,spa_con_00234
-spa_chk_00242,spa_con_00235
-spa_chk_00243,spa_con_00236
-spa_chk_00245,spa_con_00236
-spa_chk_00244,spa_con_00237
-spa_chk_00246,spa_con_00237
-spa_chk_00101,spa_con_00240
-spa_chk_00247,spa_con_00240
-spa_chk_00248,spa_con_00241
-spa_chk_00250,spa_con_00243
-spa_chk_00251,spa_con_00243
-spa_chk_00252,spa_con_00243
-spa_chk_00253,spa_con_00246
-spa_chk_00254,spa_con_00246
-spa_chk_00255,spa_con_00248
-spa_chk_00256,spa_con_00249
-spa_chk_00258,spa_con_00251
-spa_chk_00259,spa_con_00252
-spa_chk_00260,spa_con_00253
-spa_chk_00261,spa_con_00254
-spa_chk_00262,spa_con_00255
-spa_chk_00263,spa_con_00256
-spa_chk_00264,spa_con_00257
-spa_chk_00265,spa_con_00258
-spa_chk_00266,spa_con_00259
-spa_chk_00267,spa_con_00260
-spa_chk_00268,spa_con_00261
-spa_chk_00269,spa_con_00262
-spa_chk_00270,spa_con_00263
-spa_chk_00271,spa_con_00264
-spa_chk_00272,spa_con_00265
-spa_chk_00273,spa_con_00266
-spa_chk_00274,spa_con_00267
-spa_chk_00275,spa_con_00268
-spa_chk_00276,spa_con_00269
-spa_chk_00278,spa_con_00271
-spa_chk_00279,spa_con_00272
-spa_chk_00280,spa_con_00272
-spa_chk_00281,spa_con_00274
-spa_chk_00282,spa_con_00275
-spa_chk_00283,spa_con_00276
-spa_chk_00284,spa_con_00277
-spa_chk_00285,spa_con_00278
-spa_chk_00286,spa_con_00279
-spa_chk_00287,spa_con_00280
-spa_chk_00290,spa_con_00283
-spa_chk_00291,spa_con_00284
-spa_chk_00293,spa_con_00286
-spa_chk_00294,spa_con_00287
-spa_chk_00318,spa_con_00287
-spa_chk_00296,spa_con_00289
-spa_chk_00297,spa_con_00289
-spa_chk_00298,spa_con_00291
-spa_chk_00299,spa_con_00292
-spa_chk_00301,spa_con_00294
-spa_chk_00302,spa_con_00295
-spa_chk_00303,spa_con_00296
-spa_chk_00304,spa_con_00296
-spa_chk_00305,spa_con_00298
-spa_chk_00306,spa_con_00299
-spa_chk_00307,spa_con_00300
-spa_chk_00308,spa_con_00301
-spa_chk_00311,spa_con_00304
-spa_chk_00312,spa_con_00305
-spa_chk_00313,spa_con_00306
-spa_chk_00315,spa_con_00306
-spa_chk_00314,spa_con_00307
-spa_chk_00316,spa_con_00309
-spa_chk_00320,spa_con_00313
-spa_chk_00321,spa_con_00314
-spa_chk_00322,spa_con_00315
-spa_chk_00324,spa_con_00317
-spa_chk_00325,spa_con_00318
-spa_chk_00327,spa_con_00320
-spa_chk_00328,spa_con_00321
-spa_chk_00329,spa_con_00322
-spa_chk_00330,spa_con_00323
-spa_chk_00331,spa_con_00324
-spa_chk_00333,spa_con_00326
-spa_chk_00334,spa_con_00327
-spa_chk_00335,spa_con_00328
-spa_chk_00336,spa_con_00329
-spa_chk_00337,spa_con_00330
-spa_chk_00338,spa_con_00331
-spa_chk_00339,spa_con_00332
-spa_chk_00340,spa_con_00333
-spa_chk_00562,spa_con_00333
-spa_chk_00341,spa_con_00334
-spa_chk_00342,spa_con_00335
-spa_chk_00343,spa_con_00336
-spa_chk_00344,spa_con_00337
-spa_chk_00346,spa_con_00339
-spa_chk_00347,spa_con_00340
-spa_chk_00371,spa_con_00340
-spa_chk_00405,spa_con_00340
-spa_chk_00557,spa_con_00340
-spa_chk_00348,spa_con_00341
-spa_chk_00349,spa_con_00342
-spa_chk_00350,spa_con_00343
-spa_chk_00351,spa_con_00344
-spa_chk_00352,spa_con_00345
-spa_chk_00353,spa_con_00346
-spa_chk_00354,spa_con_00347
-spa_chk_00355,spa_con_00348
-spa_chk_00356,spa_con_00349
-spa_chk_00357,spa_con_00350
-spa_chk_00358,spa_con_00351
-spa_chk_00359,spa_con_00352
-spa_chk_00360,spa_con_00353
-spa_chk_00361,spa_con_00354
-spa_chk_00362,spa_con_00355
-spa_chk_00363,spa_con_00356
-spa_chk_00364,spa_con_00357
-spa_chk_00365,spa_con_00358
-spa_chk_00366,spa_con_00359
-spa_chk_00367,spa_con_00360
-spa_chk_00368,spa_con_00361
-spa_chk_00369,spa_con_00362
-spa_chk_00387,spa_con_00362
-spa_chk_00370,spa_con_00363
-spa_chk_00372,spa_con_00365
-spa_chk_00373,spa_con_00366
-spa_chk_00374,spa_con_00367
-spa_chk_00375,spa_con_00368
-spa_chk_00376,spa_con_00369
-spa_chk_00377,spa_con_00370
-spa_chk_00378,spa_con_00371
-spa_chk_00379,spa_con_00372
-spa_chk_00445,spa_con_00372
-spa_chk_00380,spa_con_00373
-spa_chk_00382,spa_con_00375
-spa_chk_00061,spa_con_00376
-spa_chk_00383,spa_con_00376
-spa_chk_00345,spa_con_00377
-spa_chk_00384,spa_con_00377
-spa_chk_00385,spa_con_00378
-spa_chk_00175,spa_con_00379
-spa_chk_00386,spa_con_00379
-spa_chk_00388,spa_con_00381
-spa_chk_00389,spa_con_00382
-spa_chk_00390,spa_con_00383
-spa_chk_00406,spa_con_00383
-spa_chk_00559,spa_con_00383
-spa_chk_00391,spa_con_00384
-spa_chk_00392,spa_con_00385
-spa_chk_00393,spa_con_00386
-spa_chk_00394,spa_con_00387
-spa_chk_00395,spa_con_00388
-spa_chk_00396,spa_con_00389
-spa_chk_00397,spa_con_00390
-spa_chk_00398,spa_con_00391
-spa_chk_00399,spa_con_00392
-spa_chk_00400,spa_con_00393
-spa_chk_00401,spa_con_00394
-spa_chk_00402,spa_con_00395
-spa_chk_00403,spa_con_00396
-spa_chk_00025,spa_con_00397
-spa_chk_00102,spa_con_00397
-spa_chk_00292,spa_con_00397
-spa_chk_00404,spa_con_00397
-spa_chk_00407,spa_con_00400
-spa_chk_00408,spa_con_00401
-spa_chk_00409,spa_con_00402
-spa_chk_00410,spa_con_00403
-spa_chk_00411,spa_con_00403
-spa_chk_00412,spa_con_00405
-spa_chk_00413,spa_con_00406
-spa_chk_00414,spa_con_00407
-spa_chk_00415,spa_con_00408
-spa_chk_00416,spa_con_00409
-spa_chk_00417,spa_con_00410
-spa_chk_00418,spa_con_00411
-spa_chk_00419,spa_con_00412
-spa_chk_00420,spa_con_00413
-spa_chk_00421,spa_con_00414
-spa_chk_00422,spa_con_00415
-spa_chk_00423,spa_con_00416
-spa_chk_00424,spa_con_00417
-spa_chk_00425,spa_con_00418
-spa_chk_00426,spa_con_00419
-spa_chk_00427,spa_con_00420
-spa_chk_00428,spa_con_00421
-spa_chk_00429,spa_con_00422
-spa_chk_00430,spa_con_00423
-spa_chk_00431,spa_con_00424
-spa_chk_00432,spa_con_00425
-spa_chk_00433,spa_con_00426
-spa_chk_00434,spa_con_00427
-spa_chk_00435,spa_con_00428
-spa_chk_00436,spa_con_00429
-spa_chk_00437,spa_con_00430
-spa_chk_00438,spa_con_00431
-spa_chk_00439,spa_con_00432
-spa_chk_00440,spa_con_00433
-spa_chk_00441,spa_con_00434
-spa_chk_00442,spa_con_00435
-spa_chk_00443,spa_con_00436
-spa_chk_00444,spa_con_00437
-spa_chk_00446,spa_con_00439
-spa_chk_00447,spa_con_00440
-spa_chk_00448,spa_con_00441
-spa_chk_00449,spa_con_00442
-spa_chk_00450,spa_con_00443
-spa_chk_00451,spa_con_00444
-spa_chk_00452,spa_con_00445
-spa_chk_00453,spa_con_00446
-spa_chk_00454,spa_con_00447
-spa_chk_00455,spa_con_00448
-spa_chk_00456,spa_con_00449
-spa_chk_00457,spa_con_00450
-spa_chk_00458,spa_con_00451
-spa_chk_00459,spa_con_00452
-spa_chk_00460,spa_con_00453
-spa_chk_00461,spa_con_00454
-spa_chk_00462,spa_con_00455
-spa_chk_00463,spa_con_00456
-spa_chk_00464,spa_con_00457
-spa_chk_00465,spa_con_00458
-spa_chk_00466,spa_con_00459
-spa_chk_00467,spa_con_00460
-spa_chk_00468,spa_con_00461
-spa_chk_00469,spa_con_00462
-spa_chk_00470,spa_con_00463
-spa_chk_00471,spa_con_00464
-spa_chk_00472,spa_con_00465
-spa_chk_00473,spa_con_00466
-spa_chk_00474,spa_con_00467
-spa_chk_00475,spa_con_00468
-spa_chk_00476,spa_con_00469
-spa_chk_00477,spa_con_00470
-spa_chk_00478,spa_con_00471
-spa_chk_00479,spa_con_00472
-spa_chk_00480,spa_con_00473
-spa_chk_00481,spa_con_00474
-spa_chk_00482,spa_con_00475
-spa_chk_00483,spa_con_00476
-spa_chk_00484,spa_con_00477
-spa_chk_00485,spa_con_00478
-spa_chk_00486,spa_con_00479
-spa_chk_00487,spa_con_00480
-spa_chk_00488,spa_con_00481
-spa_chk_00489,spa_con_00482
-spa_chk_00490,spa_con_00483
-spa_chk_00491,spa_con_00484
-spa_chk_00492,spa_con_00485
-spa_chk_00493,spa_con_00486
-spa_chk_00494,spa_con_00487
-spa_chk_00495,spa_con_00488
-spa_chk_00496,spa_con_00489
-spa_chk_00497,spa_con_00490
-spa_chk_00498,spa_con_00491
-spa_chk_00499,spa_con_00492
-spa_chk_00500,spa_con_00493
-spa_chk_00501,spa_con_00494
-spa_chk_00502,spa_con_00495
-spa_chk_00503,spa_con_00496
-spa_chk_00504,spa_con_00497
-spa_chk_00505,spa_con_00498
-spa_chk_00506,spa_con_00499
-spa_chk_00507,spa_con_00500
-spa_chk_00508,spa_con_00501
-spa_chk_00509,spa_con_00502
-spa_chk_00510,spa_con_00503
-spa_chk_00511,spa_con_00504
-spa_chk_00512,spa_con_00505
-spa_chk_00513,spa_con_00506
-spa_chk_00514,spa_con_00507
-spa_chk_00515,spa_con_00508
-spa_chk_00516,spa_con_00509
-spa_chk_00517,spa_con_00510
-spa_chk_00518,spa_con_00511
-spa_chk_00519,spa_con_00512
-spa_chk_00520,spa_con_00513
-spa_chk_00521,spa_con_00514
-spa_chk_00522,spa_con_00515
-spa_chk_00523,spa_con_00516
-spa_chk_00524,spa_con_00517
-spa_chk_00525,spa_con_00518
-spa_chk_00526,spa_con_00519
-spa_chk_00527,spa_con_00520
-spa_chk_00528,spa_con_00521
-spa_chk_00529,spa_con_00522
-spa_chk_00530,spa_con_00523
-spa_chk_00531,spa_con_00524
-spa_chk_00532,spa_con_00525
-spa_chk_00533,spa_con_00526
-spa_chk_00534,spa_con_00527
-spa_chk_00535,spa_con_00528
-spa_chk_00536,spa_con_00529
-spa_chk_00537,spa_con_00530
-spa_chk_00538,spa_con_00531
-spa_chk_00539,spa_con_00532
-spa_chk_00540,spa_con_00533
-spa_chk_00541,spa_con_00534
-spa_chk_00542,spa_con_00535
-spa_chk_00543,spa_con_00536
-spa_chk_00544,spa_con_00537
-spa_chk_00545,spa_con_00538
-spa_chk_00546,spa_con_00539
-spa_chk_00547,spa_con_00540
-spa_chk_00548,spa_con_00541
-spa_chk_00549,spa_con_00542
-spa_chk_00550,spa_con_00543
-spa_chk_00551,spa_con_00544
-spa_chk_00552,spa_con_00545
-spa_chk_00553,spa_con_00546
-spa_chk_00554,spa_con_00547
-spa_chk_00555,spa_con_00548
-spa_chk_00556,spa_con_00549
-spa_chk_00558,spa_con_00551
-spa_chk_00560,spa_con_00553
-spa_chk_00561,spa_con_00554
-spa_chk_00563,spa_con_00556
-spa_chk_00564,spa_con_00557
-spa_chk_00565,spa_con_00558
-spa_chk_00566,spa_con_00559
-spa_chk_00567,spa_con_00560
-spa_chk_00568,spa_con_00561
-spa_chk_00569,spa_con_00562
+master_position,instance_id,instance_text
+01:03:01:001,spa:01:03:01:001,Y
+01:03:01:002,spa:01:03:01:002,aconteció
+01:03:01:003,spa:01:03:01:003,que
+01:03:01:004,spa:01:03:01:010,yo
+10:00:00:002,spa:01:03:01:004,después
+10:00:00:002,spa:01:03:01:005,de
+00:00:00:002,spa:01:03:01:011,","
+00:00:00:002,spa:01:03:01:009,","
+01:03:01:005,spa:01:03:01:012,Nefi
+01:03:01:006,spa:01:03:01:014,volví
+01:03:01:008,spa:01:03:01:006,hablar
+01:03:01:009,spa:01:03:01:007,con
+01:03:01:010,spa:01:03:01:008,el Señor
+,spa:01:03:01:013,","
+01:03:01:011,spa:01:03:01:015,a
+01:03:01:012,spa:01:03:01:016,la tienda
+01:03:01:013,spa:01:03:01:017,de
+01:03:01:014,spa:01:03:01:018,mi padre
+,spa:01:03:01:019,.
+01:03:02:001,spa:01:03:02:001,Y
+01:03:02:002,spa:01:03:02:002,sucedió
+01:03:02:003,spa:01:03:02:003,que
+01:03:02:004,spa:01:03:02:004,me habló
+,spa:01:03:02:005,","
+01:03:02:005,spa:01:03:02:006,diciendo
+,spa:01:03:02:007,:
+01:03:02:006,spa:01:03:02:008,He aquí
+,spa:01:03:02:009,","
+01:03:02:007,spa:01:03:02:010,he soñado
+01:03:02:008,spa:01:03:02:011,un sueño
+,spa:01:03:02:012,","
+01:03:02:009,spa:01:03:02:013,en
+01:03:02:010,spa:01:03:02:014,el que
+01:03:02:011,spa:01:03:02:015,el Señor
+01:03:02:012,spa:01:03:02:016,me ha mandado
+01:03:02:013,spa:01:03:02:017,que
+01:03:02:014,spa:01:03:02:018,tú
+01:03:02:015,spa:01:03:02:019,y
+01:03:02:016,spa:01:03:02:020,tus hermanos
+01:03:02:017,spa:01:03:02:021,volváis
+01:03:02:018,spa:01:03:02:022,a
+01:03:02:019,spa:01:03:02:023,Jerusalén
+,spa:01:03:02:024,.
+01:03:03:001,spa:01:03:03:001,Pues
+01:03:03:002,spa:01:03:03:002,he aquí
+,spa:01:03:03:003,","
+01:03:03:003,spa:01:03:03:004,Labán
+01:03:03:004,spa:01:03:03:005,tiene
+01:03:03:005,spa:01:03:03:006,los anales
+01:03:03:006,spa:01:03:03:007,de
+01:03:03:007,spa:01:03:03:008,los judíos
+,spa:01:03:03:009,","
+01:03:03:008,spa:01:03:03:010,así
+01:03:03:009,spa:01:03:03:011,como
+01:03:03:010,spa:01:03:03:012,una genealogía
+01:03:03:011,spa:01:03:03:013,de
+01:03:03:012,spa:01:03:03:014,mis antepasados
+,spa:01:03:03:015,;
+01:03:03:013,spa:01:03:03:016,y
+01:03:03:014,spa:01:03:03:017,están
+01:03:03:015,spa:01:03:03:018,grabados
+01:03:03:016,spa:01:03:03:019,sobre
+01:03:03:017,spa:01:03:03:020,planchas
+01:03:03:018,spa:01:03:03:021,de
+01:03:03:019,spa:01:03:03:022,bronce
+,spa:01:03:03:023,.
+01:03:04:001,spa:01:03:04:001,Por lo que
+01:03:04:002,spa:01:03:04:002,el Señor
+01:03:04:003,spa:01:03:04:003,me ha mandado
+01:03:04:004,spa:01:03:04:004,que
+01:03:04:005,spa:01:03:04:005,tú
+01:03:04:006,spa:01:03:04:006,y
+01:03:04:007,spa:01:03:04:007,tus hermanos
+01:03:04:008,spa:01:03:04:008,vayáis
+01:03:04:009,spa:01:03:04:009,a
+01:03:04:010,spa:01:03:04:010,la casa
+01:03:04:011,spa:01:03:04:011,de
+01:03:04:012,spa:01:03:04:012,Labán
+,spa:01:03:04:013,","
+01:03:04:013,spa:01:03:04:014,y
+01:03:04:014,spa:01:03:04:015,procuréis
+01:03:04:015,spa:01:03:04:016,los anales
+01:03:04:016,spa:01:03:04:017,y
+01:03:04:017,spa:01:03:04:018,los traigáis
+01:03:04:018,spa:01:03:04:019,aquí
+01:03:04:020,spa:01:03:04:020,al desierto
+,spa:01:03:04:021,.
+01:03:05:001,spa:01:03:05:001,Y
+01:03:05:003,spa:01:03:05:002,he aquí
+,spa:01:03:05:003,","
+01:03:05:004,spa:01:03:05:004,tus hermanos
+01:03:05:005,spa:01:03:05:005,murmuran
+,spa:01:03:05:006,","
+01:03:05:006,spa:01:03:05:007,diciendo que
+01:03:05:007,spa:01:03:05:010,es
+01:03:05:009,spa:01:03:05:012,difícil
+01:03:05:010,spa:01:03:05:011,cosa
+01:03:05:011,spa:01:03:05:008,lo que
+01:03:05:012,spa:01:03:05:009,yo les he requerido
+,spa:01:03:05:013,;
+01:03:05:015,spa:01:03:05:014,pero
+01:03:05:017,spa:01:03:05:015,no soy yo quien se lo requiere
+,spa:01:03:05:016,","
+01:03:05:018,spa:01:03:05:017,sino que
+01:03:05:019,spa:01:03:05:018,es
+01:03:05:020,spa:01:03:05:019,un mandamiento
+01:03:05:022,spa:01:03:05:020,del Señor
+,spa:01:03:05:021,.
+01:03:06:001,spa:01:03:06:001,Por lo tanto
+,spa:01:03:06:002,","
+01:03:06:002,spa:01:03:06:003,ve tú
+,spa:01:03:06:004,","
+01:03:06:003,spa:01:03:06:005,hijo mío
+,spa:01:03:06:006,","
+01:03:06:004,spa:01:03:06:007,y
+01:03:06:006,spa:01:03:06:009,te favorecerá
+01:03:06:008,spa:01:03:06:008,el Señor
+01:03:06:009,spa:01:03:06:010,porque
+01:03:06:010,spa:01:03:06:011,no has murmurado
+,spa:01:03:06:012,.
+01:03:07:001,spa:01:03:07:001,Y
+01:03:07:002,spa:01:03:07:002,sucedió
+01:03:07:003,spa:01:03:07:003,que
+01:03:07:004,spa:01:03:07:004,yo
+,spa:01:03:07:005,","
+01:03:07:005,spa:01:03:07:006,Nefi
+,spa:01:03:07:007,","
+01:03:07:006,spa:01:03:07:008,dije
+01:03:07:007,spa:01:03:07:009,a
+01:03:07:008,spa:01:03:07:010,mi padre
+,spa:01:03:07:011,:
+01:03:07:009,spa:01:03:07:012,Iré
+01:03:07:010,spa:01:03:07:013,y
+01:03:07:011,spa:01:03:07:014,haré
+01:03:07:012,spa:01:03:07:015,lo
+01:03:07:013,spa:01:03:07:016,que
+01:03:07:014,spa:01:03:07:017,el Señor
+01:03:07:015,spa:01:03:07:018,ha mandado
+,spa:01:03:07:019,","
+01:03:07:016,spa:01:03:07:020,porque
+01:03:07:017,spa:01:03:07:021,sé
+01:03:07:018,spa:01:03:07:022,que
+01:03:07:019,spa:01:03:07:023,él
+01:03:07:020,spa:01:03:07:024,nunca da
+01:03:07:021,spa:01:03:07:025,mandamientos
+01:03:07:022,spa:01:03:07:026,a
+01:03:07:023,spa:01:03:07:027,los hijos
+01:03:07:024,spa:01:03:07:028,de
+01:03:07:025,spa:01:03:07:029,los hombres
+01:03:07:026,spa:01:03:07:030,sin
+01:03:07:027,spa:01:03:07:031,prepararles
+01:03:07:028,spa:01:03:07:032,una vía
+01:03:07:031,spa:01:03:07:033,para que
+01:03:07:032,spa:01:03:07:034,cumplan
+01:03:07:033,spa:01:03:07:035,lo
+01:03:07:034,spa:01:03:07:036,que
+01:03:07:035,spa:01:03:07:037,les ha mandado
+,spa:01:03:07:038,.
+01:03:08:001,spa:01:03:08:001,Y
+01:03:08:002,spa:01:03:08:002,aconteció
+01:03:08:003,spa:01:03:08:003,que
+01:03:08:004,spa:01:03:08:008,al
+01:03:08:005,spa:01:03:08:004,mi padre
+01:03:08:006,spa:01:03:08:009,oír
+01:03:08:007,spa:01:03:08:010,estas palabras
+01:03:08:008,spa:01:03:08:005,quedó
+01:03:08:009,spa:01:03:08:006,altamente
+01:03:08:010,spa:01:03:08:007,complacido
+,spa:01:03:08:011,","
+01:03:08:011,spa:01:03:08:012,porque
+01:03:08:012,spa:01:03:08:013,comprendió
+01:03:08:013,spa:01:03:08:014,que
+01:03:08:015,spa:01:03:08:016,me había bendecido
+01:03:08:017,spa:01:03:08:015,el Señor
+,spa:01:03:08:017,.
+01:03:09:001,spa:01:03:09:001,Y
+01:03:09:002,spa:01:03:09:002,yo
+,spa:01:03:09:003,","
+01:03:09:003,spa:01:03:09:004,Nefi
+,spa:01:03:09:005,","
+01:03:09:004,spa:01:03:09:006,y
+01:03:09:005,spa:01:03:09:007,mis hermanos
+01:03:09:006,spa:01:03:09:008,emprendimos
+01:03:09:007,spa:01:03:09:009,la marcha
+01:03:09:008,spa:01:03:09:010,por
+01:03:09:009,spa:01:03:09:011,el desierto
+,spa:01:03:09:012,","
+01:03:09:010,spa:01:03:09:013,con
+01:03:09:011,spa:01:03:09:014,nuestras tiendas
+,spa:01:03:09:015,","
+01:03:09:012,spa:01:03:09:016,para
+01:03:09:013,spa:01:03:09:017,subir
+01:03:09:014,spa:01:03:09:018,a
+01:03:09:015,spa:01:03:09:019,la tierra
+01:03:09:016,spa:01:03:09:020,de
+01:03:09:017,spa:01:03:09:021,Jerusalén
+,spa:01:03:09:022,.
+01:03:10:001,spa:01:03:10:001,Y
+01:03:10:002,spa:01:03:10:002,aconteció
+01:03:10:003,spa:01:03:10:003,que
+01:03:10:004,spa:01:03:10:004,cuando
+01:03:10:005,spa:01:03:10:005,hubimos subido
+01:03:10:006,spa:01:03:10:006,a
+01:03:10:007,spa:01:03:10:007,la tierra
+01:03:10:008,spa:01:03:10:008,de
+01:03:10:009,spa:01:03:10:009,Jerusalén
+,spa:01:03:10:010,","
+01:03:10:010,spa:01:03:10:011,yo
+01:03:10:011,spa:01:03:10:012,y
+01:03:10:012,spa:01:03:10:013,mis hermanos
+01:03:10:013,spa:01:03:10:014,deliberamos
+01:03:10:014,spa:01:03:10:015,unos con otros
+,spa:01:03:10:016,.
+01:03:11:001,spa:01:03:11:001,Y
+01:03:11:002,spa:01:03:11:002,echamos suertes
+,spa:01:03:11:003,para
+,spa:01:03:11:004,ver
+01:03:11:003,spa:01:03:11:005,cuál
+01:03:11:004,spa:01:03:11:006,de
+01:03:11:005,spa:01:03:11:007,nosotros
+01:03:11:006,spa:01:03:11:008,iría
+01:03:11:007,spa:01:03:11:009,a
+01:03:11:008,spa:01:03:11:010,la casa
+01:03:11:009,spa:01:03:11:011,de
+01:03:11:010,spa:01:03:11:012,Labán
+,spa:01:03:11:013,.
+01:03:11:011,spa:01:03:11:014,Y
+01:03:11:012,spa:01:03:11:015,sucedió
+01:03:11:013,spa:01:03:11:016,que
+01:03:11:014,spa:01:03:11:017,la suerte
+01:03:11:015,spa:01:03:11:018,cayó
+01:03:11:016,spa:01:03:11:019,sobre
+01:03:11:017,spa:01:03:11:020,Lamán
+,spa:01:03:11:021,","
+01:03:11:018,spa:01:03:11:022,y
+01:03:11:020,spa:01:03:11:023,fue y entró
+01:03:11:021,spa:01:03:11:024,en
+01:03:11:022,spa:01:03:11:025,la casa
+01:03:11:023,spa:01:03:11:026,de
+01:03:11:024,spa:01:03:11:027,Labán
+,,
+01:03:11:025,spa:01:03:11:028,y
+01:03:11:026,spa:01:03:11:029,habló
+01:03:11:027,spa:01:03:11:030,con
+01:03:11:028,spa:01:03:11:031,él
+01:03:11:029,spa:01:03:11:032,mientras
+01:03:11:030,spa:01:03:11:033,estaba sentado
+01:03:11:031,spa:01:03:11:034,en
+01:03:11:032,spa:01:03:11:035,su casa
+,spa:01:03:11:036,.
+01:03:12:001,spa:01:03:12:001,Y
+01:03:12:002,spa:01:03:12:002,le pidió
+01:03:12:003,spa:01:03:12:003,a
+01:03:12:004,spa:01:03:12:004,Labán
+01:03:12:005,spa:01:03:12:005,los anales
+01:03:12:006,spa:01:03:12:006,que
+01:03:12:007,spa:01:03:12:007,estaban
+01:03:12:008,spa:01:03:12:008,grabados
+01:03:12:009,spa:01:03:12:009,sobre
+01:03:12:010,spa:01:03:12:010,las planchas
+01:03:12:011,spa:01:03:12:011,de
+01:03:12:012,spa:01:03:12:012,bronce
+,,
+01:03:12:013,spa:01:03:12:013,que
+01:03:12:014,spa:01:03:12:014,contenían
+01:03:12:015,spa:01:03:12:015,la genealogía
+01:03:12:016,spa:01:03:12:016,de
+01:03:12:017,spa:01:03:12:017,mi padre
+,spa:01:03:12:018,.
+01:03:13:001,spa:01:03:13:001,Y
+01:03:13:002,spa:01:03:13:002,he aquí
+,spa:01:03:13:003,","
+01:03:13:003,spa:01:03:13:004,aconteció
+01:03:13:004,spa:01:03:13:005,que
+01:03:13:005,spa:01:03:13:006,Labán
+01:03:13:006,spa:01:03:13:007,se llenó de
+01:03:13:007,spa:01:03:13:008,ira
+,,
+01:03:13:008,spa:01:03:13:009,y
+01:03:13:009,spa:01:03:13:010,lo echó
+01:03:13:010,spa:01:03:13:011,de
+01:03:13:011,spa:01:03:13:012,su presencia
+,spa:01:03:13:013,;
+01:03:13:012,spa:01:03:13:014,y
+01:03:13:013,spa:01:03:13:015,no quiso
+01:03:13:014,spa:01:03:13:016,que
+01:03:13:015,spa:01:03:13:017,él tuviera
+01:03:13:016,spa:01:03:13:018,los anales
+,spa:01:03:13:019,.
+01:03:13:017,spa:01:03:13:020,Por tanto
+,spa:01:03:13:021,","
+01:03:13:018,spa:01:03:13:022,le dijo
+,spa:01:03:13:023,:
+01:03:13:019,spa:01:03:13:024,He aquí
+,spa:01:03:13:025,","
+01:03:13:020,spa:01:03:13:026,tú eres
+01:03:13:021,spa:01:03:13:027,un ladrón
+,spa:01:03:13:028,","
+01:03:13:022,spa:01:03:13:029,y
+01:03:13:023,spa:01:03:13:030,te voy a matar
+,spa:01:03:13:031,.
+01:03:14:001,spa:01:03:14:001,Pero
+01:03:14:002,spa:01:03:14:002,Lamán
+01:03:14:003,spa:01:03:14:003,huyó
+,,
+01:03:14:005,spa:01:03:14:004,de
+01:03:14:006,spa:01:03:14:005,su presencia
+,spa:01:03:14:006,","
+01:03:14:007,spa:01:03:14:007,y
+01:03:14:008,spa:01:03:14:008,nos contó
+01:03:14:009,spa:01:03:14:009,lo
+01:03:14:010,spa:01:03:14:010,que
+01:03:14:011,spa:01:03:14:011,Labán
+01:03:14:012,spa:01:03:14:012,había hecho
+,,
+,,
+,,
+,spa:01:03:14:013,.
+01:03:14:015,spa:01:03:14:014,Y
+01:03:14:016,spa:01:03:14:015,empezamos
+01:03:14:017,spa:01:03:14:016,a
+,,
+01:03:14:019,spa:01:03:14:017,en extremo
+01:03:14:020,spa:01:03:14:018,afligirnos
+,spa:01:03:14:019,","
+01:03:14:021,spa:01:03:14:020,y
+01:03:14:022,spa:01:03:14:021,mis hermanos
+01:03:14:023,spa:01:03:14:022,estaban
+01:03:14:024,spa:01:03:14:023,a punto
+01:03:14:025,spa:01:03:14:024,de
+01:03:14:026,spa:01:03:14:025,volver
+01:03:14:027,spa:01:03:14:026,a
+01:03:14:028,spa:01:03:14:027,mi padre
+01:03:14:029,spa:01:03:14:028,en
+01:03:14:030,spa:01:03:14:029,el desierto
+,spa:01:03:14:030,.
+01:03:15:001,spa:01:03:15:001,Pero
+01:03:15:002,spa:01:03:15:002,he aquí
+,spa:01:03:15:003,","
+01:03:15:003,spa:01:03:15:004,yo les dije
+,,
+,spa:01:03:15:005,:
+01:03:15:005,spa:01:03:15:006,Así como
+01:03:15:006,spa:01:03:15:007,el Señor
+01:03:15:007,spa:01:03:15:008,vive
+,spa:01:03:15:009,","
+01:03:15:008,spa:01:03:15:010,y
+01:03:15:009,spa:01:03:15:011,como
+01:03:15:010,spa:01:03:15:012,nosotros vivimos
+,spa:01:03:15:013,","
+01:03:15:011,spa:01:03:15:014,no descenderemos
+01:03:15:012,spa:01:03:15:015,hasta
+01:03:15:013,spa:01:03:15:016,nuestro padre
+01:03:15:014,spa:01:03:15:017,en
+01:03:15:015,spa:01:03:15:018,el desierto
+01:03:15:016,spa:01:03:15:019,hasta
+01:03:15:017,spa:01:03:15:020,que
+01:03:15:018,spa:01:03:15:021,hayamos cumplido
+01:03:15:019,spa:01:03:15:022,lo que
+01:03:15:020,spa:01:03:15:023,el Señor
+01:03:15:021,spa:01:03:15:024,nos ha mandado
+,spa:01:03:15:025,.
+01:03:16:001,spa:01:03:16:001,Por tanto
+,spa:01:03:16:002,","
+01:03:16:002,spa:01:03:16:003,seamos
+01:03:16:003,spa:01:03:16:004,fieles
+01:03:16:004,spa:01:03:16:005,en
+01:03:16:005,spa:01:03:16:006,guardar
+01:03:16:006,spa:01:03:16:007,los mandamientos
+,,
+01:03:16:008,spa:01:03:16:008,del Señor
+,spa:01:03:16:009,.
+01:03:16:009,spa:01:03:16:012,pues
+,spa:01:03:16:013,","
+01:03:16:010,spa:01:03:16:010,Descendamos
+,spa:01:03:16:011,","
+01:03:16:011,spa:01:03:16:014,a
+01:03:16:012,spa:01:03:16:015,la tierra
+01:03:16:013,spa:01:03:16:016,de
+01:03:16:014,spa:01:03:16:017,de nuestro padre
+01:03:16:015,spa:01:03:16:018,la herencia
+,spa:01:03:16:019,","
+01:03:16:016,spa:01:03:16:020,pues
+01:03:16:017,spa:01:03:16:021,he aquí
+,spa:01:03:16:022,","
+01:03:16:018,spa:01:03:16:023,él dejó
+01:03:16:019,spa:01:03:16:024,oro
+01:03:16:020,spa:01:03:16:025,y
+01:03:16:021,spa:01:03:16:026,plata
+,,
+01:03:16:022,spa:01:03:16:027,y
+01:03:16:023,spa:01:03:16:028,toda
+01:03:16:024,spa:01:03:16:029,clase
+01:03:16:025,spa:01:03:16:030,de
+01:03:16:026,spa:01:03:16:031,riquezas
+,spa:01:03:16:032,;
+01:03:16:027,spa:01:03:16:033,y
+01:03:16:028,spa:01:03:16:035,todo
+01:03:16:029,spa:01:03:16:036,esto
+01:03:16:030,spa:01:03:16:034,ha hecho
+01:03:16:031,spa:01:03:16:037,a causa
+01:03:16:032,spa:01:03:16:038,de
+01:03:16:033,spa:01:03:16:039,los mandamientos
+,,
+01:03:16:035,spa:01:03:16:040,del Señor
+,spa:01:03:16:041,.
+01:03:17:001,spa:01:03:17:001,Porque
+01:03:17:002,spa:01:03:17:002,sabía
+01:03:17:003,spa:01:03:17:003,que
+01:03:17:004,spa:01:03:17:004,Jerusalén
+01:03:17:005,spa:01:03:17:005,debe ser
+01:03:17:006,spa:01:03:17:006,destruida
+,,
+01:03:17:007,spa:01:03:17:007,a causa
+01:03:17:008,spa:01:03:17:008,de
+01:03:17:009,spa:01:03:17:009,la iniquidad
+,,
+01:03:17:011,spa:01:03:17:010,del pueblo
+,spa:01:03:17:011,.
+01:03:18:001,spa:01:03:18:001,Pues
+01:03:18:002,spa:01:03:18:002,he aquí
+,spa:01:03:18:003,","
+01:03:18:003,spa:01:03:18:004,han rechazado
+01:03:18:004,spa:01:03:18:005,las palabras
+01:03:18:005,spa:01:03:18:006,de
+01:03:18:006,spa:01:03:18:007,los profetas
+,spa:01:03:18:008,.
+01:03:18:007,spa:01:03:18:009,Por tanto
+,spa:01:03:18:010,","
+01:03:18:008,spa:01:03:18:011,si
+01:03:18:009,spa:01:03:18:012,mi padre
+01:03:18:010,spa:01:03:18:013,hubiera permanecido
+01:03:18:011,spa:01:03:18:014,en
+01:03:18:012,spa:01:03:18:015,el país
+01:03:18:013,spa:01:03:18:016,después de
+01:03:18:014,spa:01:03:18:017,habérsele
+01:03:18:015,spa:01:03:18:018,mandado
+01:03:18:016,spa:01:03:18:019,salir
+,,
+01:03:18:018,spa:01:03:18:020,de
+01:03:18:019,spa:01:03:18:021,él
+,spa:01:03:18:022,","
+,,
+,,
+01:03:18:021,spa:01:03:18:023,habría perecido
+01:03:18:022,spa:01:03:18:024,también
+,,
+,spa:01:03:18:025,.
+01:03:18:024,spa:01:03:18:026,Por lo que
+,,
+01:03:18:025,spa:01:03:18:027,ha sido necesario
+01:03:18:026,spa:01:03:18:028,que
+01:03:18:027,spa:01:03:18:029,salga
+,,
+01:03:18:029,spa:01:03:18:030,del país
+,spa:01:03:18:031,.
+01:03:19:001,spa:01:03:19:001,Y
+01:03:19:002,spa:01:03:19:002,he aquí
+,spa:01:03:19:003,","
+01:03:19:003,spa:01:03:19:004,es
+01:03:19:004,spa:01:03:19:005,prudente
+01:03:19:005,spa:01:03:19:006,para
+01:03:19:006,spa:01:03:19:007,Dios
+01:03:19:007,spa:01:03:19:008,que
+01:03:19:008,spa:01:03:19:009,obtengamos
+01:03:19:009,spa:01:03:19:010,estos anales
+,,
+01:03:19:010,spa:01:03:19:011,a fin de que
+01:03:19:011,spa:01:03:19:012,preservemos
+01:03:19:012,spa:01:03:19:013,para
+01:03:19:013,spa:01:03:19:014,nuestros hijos
+01:03:19:014,spa:01:03:19:015,el idioma
+01:03:19:015,spa:01:03:19:016,de
+01:03:19:016,spa:01:03:19:017,nuestros padres
+,spa:01:03:19:018,;
+01:03:20:001,spa:01:03:20:001,y
+01:03:20:002,spa:01:03:20:002,también
+01:03:20:003,spa:01:03:20:003,para
+01:03:20:004,spa:01:03:20:004,preservarles
+01:03:20:005,spa:01:03:20:005,las palabras
+01:03:20:006,spa:01:03:20:006,que
+01:03:20:007,spa:01:03:20:007,han
+01:03:20:008,spa:01:03:20:008,salido
+01:03:20:009,spa:01:03:20:009,de
+01:03:20:010,spa:01:03:20:010,la boca
+01:03:20:011,spa:01:03:20:011,de
+01:03:20:012,spa:01:03:20:012,todos
+01:03:20:013,spa:01:03:20:013,los
+01:03:20:014,spa:01:03:20:014,santos
+01:03:20:015,spa:01:03:20:015,profetas
+,spa:01:03:20:016,","
+01:03:20:016,spa:01:03:20:017,las cuales
+01:03:20:017,spa:01:03:20:018,les han sido
+01:03:20:018,spa:01:03:20:019,dadas
+01:03:20:019,spa:01:03:20:020,por
+01:03:20:020,spa:01:03:20:021,el Espíritu
+01:03:20:021,spa:01:03:20:022,y
+01:03:20:022,spa:01:03:20:023,poder
+01:03:20:023,spa:01:03:20:024,de
+01:03:20:024,spa:01:03:20:025,Dios
+,spa:01:03:20:026,","
+01:03:20:025,spa:01:03:20:027,desde
+01:03:20:026,spa:01:03:20:028,el principio
+01:03:20:027,spa:01:03:20:029,del mundo
+,spa:01:03:20:030,","
+,,
+,,
+01:03:20:030,spa:01:03:20:031,hasta
+01:03:20:031,spa:01:03:20:032,el día de hoy
+,spa:01:03:20:033,.
+01:03:21:001,spa:01:03:21:001,Y
+01:03:21:002,spa:01:03:21:002,aconteció
+01:03:21:003,spa:01:03:21:003,que
+,spa:01:03:21:004,","
+,,
+01:03:21:005,spa:01:03:21:007,este modo
+01:03:21:006,spa:01:03:21:006,de
+01:03:21:007,spa:01:03:21:005,hablando
+,spa:01:03:21:008,","
+01:03:21:008,spa:01:03:21:009,persuadí
+01:03:21:009,spa:01:03:21:010,a mis hermanos
+,,
+01:03:21:010,spa:01:03:21:011,a que
+01:03:21:011,spa:01:03:21:012,fueran
+01:03:21:012,spa:01:03:21:013,fieles
+01:03:21:013,spa:01:03:21:014,en
+01:03:21:014,spa:01:03:21:015,guardar
+01:03:21:015,spa:01:03:21:016,los mandamientos
+01:03:21:016,spa:01:03:21:017,de
+01:03:21:017,spa:01:03:21:018,Dios
+,spa:01:03:21:019,.
+01:03:22:001,spa:01:03:22:001,Y
+01:03:22:002,spa:01:03:22:002,sucedió
+01:03:22:003,spa:01:03:22:003,que
+01:03:22:004,spa:01:03:22:004,descendimos
+01:03:22:005,spa:01:03:22:005,a
+01:03:22:006,spa:01:03:22:006,la tierra
+01:03:22:007,spa:01:03:22:007,de
+01:03:22:008,spa:01:03:22:008,nuestra herencia
+,,
+01:03:22:009,spa:01:03:22:009,y
+01:03:22:010,spa:01:03:22:010,recogimos
+01:03:22:011,spa:01:03:22:011,nuestro oro
+,spa:01:03:22:012,","
+01:03:22:012,spa:01:03:22:013,y
+01:03:22:013,spa:01:03:22:014,nuestra plata
+,,
+01:03:22:014,spa:01:03:22:015,y
+,spa:01:03:22:016,todos
+01:03:22:015,spa:01:03:22:017,nuestros
+01:03:22:016,spa:01:03:22:019,preciosos
+01:03:22:017,spa:01:03:22:018,objetos
+,spa:01:03:22:020,.
+01:03:23:001,spa:01:03:23:001,Y
+01:03:23:002,spa:01:03:23:002,después de
+01:03:23:003,spa:01:03:23:003,haber recogido
+01:03:23:004,spa:01:03:23:004,estas cosas
+,,
+,spa:01:03:23:005,","
+01:03:23:006,spa:01:03:23:006,volvimos
+,,
+01:03:23:008,spa:01:03:23:007,a
+01:03:23:009,spa:01:03:23:008,la casa
+01:03:23:010,spa:01:03:23:009,de
+01:03:23:011,spa:01:03:23:010,Labán
+,spa:01:03:23:011,.
+01:03:24:001,spa:01:03:24:001,Y
+01:03:24:002,spa:01:03:24:002,acaeció
+01:03:24:003,spa:01:03:24:003,que
+01:03:24:004,spa:01:03:24:004,entramos
+01:03:24:005,spa:01:03:24:005,donde estaba
+01:03:24:006,spa:01:03:24:006,Labán
+,spa:01:03:24:007,","
+01:03:24:007,spa:01:03:24:008,y
+01:03:24:008,spa:01:03:24:009,le pedimos
+01:03:24:009,spa:01:03:24:010,que
+01:03:24:010,spa:01:03:24:011,nos diera
+01:03:24:011,spa:01:03:24:012,los anales
+01:03:24:012,spa:01:03:24:013,que
+01:03:24:013,spa:01:03:24:014,estaban
+01:03:24:014,spa:01:03:24:015,grabados
+01:03:24:015,spa:01:03:24:016,sobre
+01:03:24:016,spa:01:03:24:017,las planchas
+01:03:24:017,spa:01:03:24:018,de
+01:03:24:018,spa:01:03:24:019,bronce
+,spa:01:03:24:020,","
+01:03:24:019,spa:01:03:24:021,a cambio de
+01:03:24:020,spa:01:03:24:022,los cuales
+01:03:24:021,spa:01:03:24:023,le entregaríamos
+01:03:24:022,spa:01:03:24:024,nuestro oro
+,spa:01:03:24:025,","
+01:03:24:023,spa:01:03:24:026,y
+01:03:24:024,spa:01:03:24:027,nuestra plata
+,spa:01:03:24:028,","
+01:03:24:025,spa:01:03:24:029,y
+01:03:24:026,spa:01:03:24:030,todas
+01:03:24:027,spa:01:03:24:031,nuestras
+01:03:24:028,spa:01:03:24:033,preciosas
+01:03:24:029,spa:01:03:24:032,cosas
+,spa:01:03:24:034,.
+01:03:25:001,spa:01:03:25:001,Y
+01:03:25:002,spa:01:03:25:002,aconteció
+01:03:25:003,spa:01:03:25:003,que
+01:03:25:004,spa:01:03:25:004,cuando
+01:03:25:005,spa:01:03:25:005,Labán
+01:03:25:006,spa:01:03:25:006,vio
+01:03:25:007,spa:01:03:25:007,nuestros bienes
+,spa:01:03:25:008,","
+01:03:25:008,spa:01:03:25:009,y
+01:03:25:009,spa:01:03:25:010,que
+01:03:25:010,spa:01:03:25:011,eran
+01:03:25:011,spa:01:03:25:013,en extremo
+01:03:25:012,spa:01:03:25:012,grandes
+,spa:01:03:25:014,","
+01:03:25:013,spa:01:03:25:015,él los codició
+,spa:01:03:25:016,;
+01:03:25:014,spa:01:03:25:017,por lo que
+,,
+01:03:25:016,spa:01:03:25:018,nos echó fuera
+,,
+01:03:25:017,spa:01:03:25:019,y
+01:03:25:018,spa:01:03:25:020,mandó
+01:03:25:019,spa:01:03:25:021,a sus siervos
+01:03:25:020,spa:01:03:25:022,que
+01:03:25:021,spa:01:03:25:023,nos mataran
+,spa:01:03:25:024,","
+01:03:25:022,spa:01:03:25:025,a fin de
+01:03:25:023,spa:01:03:25:026,apoderarse de
+01:03:25:024,spa:01:03:25:027,nuestros bienes
+,spa:01:03:25:028,.
+,,
+01:03:26:002,spa:01:03:26:001,"Sucedió, pues,"
+01:03:26:003,spa:01:03:26:002,que
+01:03:26:004,spa:01:03:26:003,huimos
+01:03:26:005,spa:01:03:26:004,delante de
+01:03:26:006,spa:01:03:26:005,los siervos
+01:03:26:007,spa:01:03:26:006,de
+01:03:26:008,spa:01:03:26:007,Labán
+,spa:01:03:26:008,","
+01:03:26:009,spa:01:03:26:009,y
+01:03:26:010,spa:01:03:26:010,nos vimos
+01:03:26:011,spa:01:03:26:011,obligados
+01:03:26:012,spa:01:03:26:012,a
+01:03:26:013,spa:01:03:26:013,abandonar
+01:03:26:014,spa:01:03:26:014,nuestros bienes
+,spa:01:03:26:015,","
+01:03:26:015,spa:01:03:26:016,que
+01:03:26:016,spa:01:03:26:017,cayeron
+01:03:26:017,spa:01:03:26:018,en
+01:03:26:018,spa:01:03:26:019,manos
+01:03:26:019,spa:01:03:26:020,de
+01:03:26:020,spa:01:03:26:021,Labán
+,spa:01:03:26:022,.
+01:03:27:001,spa:01:03:27:001,Y
+,,
+,,
+01:03:27:004,spa:01:03:27:002,huimos
+,,
+01:03:27:006,spa:01:03:27:003,al desierto
+,,
+,,
+01:03:27:008,spa:01:03:27:005,los siervos
+01:03:27:009,spa:01:03:27:006,de
+01:03:27:010,spa:01:03:27:007,Labán
+01:03:27:011,spa:01:03:27:004,sin que nos alcanzaran
+,spa:01:03:27:008,","
+01:03:27:012,spa:01:03:27:009,y
+01:03:27:013,spa:01:03:27:010,nos escondimos
+01:03:27:014,spa:01:03:27:011,en
+01:03:27:015,spa:01:03:27:012,la oquedad
+01:03:27:016,spa:01:03:27:013,de
+01:03:27:017,spa:01:03:27:014,una roca
+,spa:01:03:27:015,.
+01:03:28:001,spa:01:03:28:001,Y
+01:03:28:002,spa:01:03:28:002,aconteció
+01:03:28:003,spa:01:03:28:003,que
+01:03:28:004,spa:01:03:28:004,Lamán
+,,
+01:03:28:006,spa:01:03:28:005,se irritó
+,,
+01:03:28:008,spa:01:03:28:006,conmigo
+,,
+01:03:28:009,spa:01:03:28:007,y
+01:03:28:010,spa:01:03:28:008,también
+01:03:28:011,spa:01:03:28:009,con
+01:03:28:012,spa:01:03:28:010,mi padre
+,spa:01:03:28:011,;
+01:03:28:013,spa:01:03:28:012,y
+01:03:28:014,spa:01:03:28:013,lo mismo
+01:03:28:015,spa:01:03:28:014,hizo
+01:03:28:016,spa:01:03:28:015,Lemuel
+,spa:01:03:28:016,","
+01:03:28:017,spa:01:03:28:017,porque
+01:03:28:018,spa:01:03:28:018,se dejó llevar por
+01:03:28:019,spa:01:03:28:019,las palabras
+01:03:28:020,spa:01:03:28:020,de
+01:03:28:021,spa:01:03:28:021,Lamán
+,spa:01:03:28:022,.
+01:03:28:022,spa:01:03:28:023,Por tanto
+,spa:01:03:28:024,","
+01:03:28:023,spa:01:03:28:025,Lamán
+01:03:28:024,spa:01:03:28:026,y
+01:03:28:025,spa:01:03:28:027,Lemuel
+01:03:28:026,spa:01:03:28:028,nos hablaron
+01:03:28:027,spa:01:03:28:029,muchas
+01:03:28:028,spa:01:03:28:031,ásperas
+01:03:28:029,spa:01:03:28:030,palabras
+01:03:28:030,spa:01:03:28:032,a
+01:03:28:031,spa:01:03:28:033,nosotros
+,spa:01:03:28:034,","
+01:03:28:032,spa:01:03:28:035,sus
+01:03:28:033,spa:01:03:28:037,menores
+01:03:28:034,spa:01:03:28:036,hermanos
+,spa:01:03:28:038,","
+01:03:28:035,spa:01:03:28:039,y
+01:03:28:036,spa:01:03:28:040,nos golpearon
+01:03:28:037,spa:01:03:28:041,hasta
+01:03:28:038,spa:01:03:28:042,con
+01:03:28:039,spa:01:03:28:043,una vara
+,spa:01:03:28:044,.
+01:03:29:001,spa:01:03:29:001,Y
+01:03:29:002,spa:01:03:29:002,sucedió que
+01:03:29:003,spa:01:03:29:003,mientras
+01:03:29:004,spa:01:03:29:004,nos golpeaban
+01:03:29:005,spa:01:03:29:005,con
+01:03:29:006,spa:01:03:29:006,la vara
+,spa:01:03:29:007,","
+01:03:29:007,spa:01:03:29:008,he aquí
+,spa:01:03:29:009,","
+01:03:29:008,spa:01:03:29:010,un ángel
+,,
+01:03:29:010,spa:01:03:29:011,del Señor
+01:03:29:011,spa:01:03:29:012,vino
+01:03:29:012,spa:01:03:29:013,y
+01:03:29:013,spa:01:03:29:014,se puso
+01:03:29:014,spa:01:03:29:015,ante
+01:03:29:015,spa:01:03:29:016,ellos
+,spa:01:03:29:017,","
+01:03:29:016,spa:01:03:29:018,y
+01:03:29:017,spa:01:03:29:019,les habló
+,spa:01:03:29:020,","
+01:03:29:018,spa:01:03:29:021,diciendo
+,spa:01:03:29:022,:
+,spa:01:03:29:023,¿
+01:03:29:019,spa:01:03:29:024,Por qué
+01:03:29:020,spa:01:03:29:025,golpeáis
+01:03:29:021,spa:01:03:29:026,a vuestro
+01:03:29:022,spa:01:03:29:028,menor
+01:03:29:023,spa:01:03:29:027,hermano
+01:03:29:024,spa:01:03:29:030,con
+01:03:29:025,spa:01:03:29:031,una vara
+,spa:01:03:29:032,?
+,spa:01:03:29:033,¿
+01:03:29:026,spa:01:03:29:034,No sabéis
+01:03:29:027,spa:01:03:29:035,que
+01:03:29:028,spa:01:03:29:036,el Señor
+01:03:29:029,spa:01:03:29:037,lo ha escogido
+01:03:29:030,spa:01:03:29:038,para
+01:03:29:031,spa:01:03:29:039,ser
+01:03:29:032,spa:01:03:29:040,gobernante
+01:03:29:033,spa:01:03:29:041,sobre
+01:03:29:034,spa:01:03:29:042,vosotros
+,spa:01:03:29:043,","
+01:03:29:035,spa:01:03:29:044,y
+01:03:29:036,spa:01:03:29:045,esto
+01:03:29:037,spa:01:03:29:046,a causa de
+01:03:29:038,spa:01:03:29:047,vuestras iniquidades
+,spa:01:03:29:048,?
+01:03:29:039,spa:01:03:29:049,He aquí
+,spa:01:03:29:050,","
+01:03:29:040,spa:01:03:29:051,subiréis
+01:03:29:041,spa:01:03:29:052,a
+01:03:29:042,spa:01:03:29:053,Jerusalén
+01:03:29:043,spa:01:03:29:054,de nuevo
+,,
+01:03:29:044,spa:01:03:29:055,y
+01:03:29:045,spa:01:03:29:056,el Señor
+01:03:29:046,spa:01:03:29:057,entregará
+01:03:29:047,spa:01:03:29:058,a Labán
+01:03:29:048,spa:01:03:29:059,en
+01:03:29:049,spa:01:03:29:060,vuestras manos
+,spa:01:03:29:061,.
+01:03:30:001,spa:01:03:30:001,Y
+01:03:30:002,spa:01:03:30:002,luego que
+01:03:30:003,spa:01:03:30:003,el ángel
+,spa:01:03:30:005,","
+01:03:30:004,spa:01:03:30:004,nos hubo hablado
+,,
+01:03:30:005,spa:01:03:30:006,se fue
+,spa:01:03:30:007,.
+01:03:31:001,spa:01:03:31:001,Y
+01:03:31:002,spa:01:03:31:002,después que
+01:03:31:003,spa:01:03:31:003,el ángel
+01:03:31:004,spa:01:03:31:004,hubo partido
+,spa:01:03:31:005,","
+01:03:31:005,spa:01:03:31:006,Lamán
+01:03:31:006,spa:01:03:31:007,y
+01:03:31:007,spa:01:03:31:008,Lemuel
+01:03:31:008,spa:01:03:31:009,otra vez
+01:03:31:009,spa:01:03:31:010,empezaron
+01:03:31:010,spa:01:03:31:011,a
+01:03:31:011,spa:01:03:31:012,murmurar
+,spa:01:03:31:013,","
+01:03:31:012,spa:01:03:31:014,diciendo
+,spa:01:03:31:015,:
+,spa:01:03:31:016,¿
+01:03:31:013,spa:01:03:31:017,Cómo
+01:03:31:014,spa:01:03:31:018,es
+01:03:31:015,spa:01:03:31:019,posible
+01:03:31:016,spa:01:03:31:020,que
+01:03:31:017,spa:01:03:31:021,el Señor
+01:03:31:018,spa:01:03:31:022,entregue
+01:03:31:019,spa:01:03:31:023,a Labán
+01:03:31:020,spa:01:03:31:024,en
+01:03:31:021,spa:01:03:31:025,nuestras manos
+,spa:01:03:31:026,?
+01:03:31:022,spa:01:03:31:027,He aquí
+,spa:01:03:31:028,","
+01:03:31:023,spa:01:03:31:029,es
+01:03:31:024,spa:01:03:31:030,un
+01:03:31:025,spa:01:03:31:031,poderoso
+01:03:31:026,spa:01:03:31:032,hombre
+,spa:01:03:31:033,","
+01:03:31:027,spa:01:03:31:034,y
+01:03:31:028,spa:01:03:31:035,puede mandar
+01:03:31:029,spa:01:03:31:036,a cincuenta
+,spa:01:03:31:037,","
+01:03:31:030,spa:01:03:31:038,sí
+,spa:01:03:31:039,","
+01:03:31:031,spa:01:03:31:040,y aun
+01:03:31:032,spa:01:03:31:041,puede matar
+01:03:31:033,spa:01:03:31:042,a cincuenta
+,spa:01:03:31:043,;
+01:03:31:034,spa:01:03:31:044,luego
+,spa:01:03:31:045,","
+,spa:01:03:31:046,¿
+01:03:31:035,spa:01:03:31:047,por qué
+01:03:31:036,spa:01:03:31:048,no
+01:03:31:037,spa:01:03:31:049,a nosotros
+,spa:01:03:31:050,?
