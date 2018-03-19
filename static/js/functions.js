@@ -550,6 +550,17 @@ function next_chapter(){
   }
   var new_current_position = current_position[0] + ":" + current_position[1] +":"+ next_chapter_string;
   sessionStorage.setItem("current_position", new_current_position);
+
+  var uid = sessionStorage.getItem("user_id");
+
+  var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
+   console.log(url);
+   fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json);
+      });
+    }); 
+
   location.reload();
 }
 function previous_chapter(){
@@ -564,5 +575,27 @@ function previous_chapter(){
   }
   var new_current_position = current_position[0] + ":" + current_position[1] +":"+ previous_chapter_string;
   sessionStorage.setItem("current_position", new_current_position);
+  var uid = sessionStorage.getItem("user_id");
+
+  var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
+   console.log(url);
+   fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json);
+      });
+    }); 
+
   location.reload();
+}
+function get_all_flipped(){
+  var uid = sessionStorage.getItem("user_id");
+  var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+  var target_lang_id = sessionStorage.getItem("target_lang_id");
+  var url = "http://diglot.it.et.byu.edu/flipped?user_id=" + uid + "&lang=" + origin_lang_id + "&target_lang=" + target_lang_id;
+   console.log(url);
+   fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json);
+      });
+    }); 
 }
