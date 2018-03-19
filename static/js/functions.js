@@ -587,3 +587,15 @@ function previous_chapter(){
 
   location.reload();
 }
+function get_all_flipped(){
+  var uid = sessionStorage.getItem("user_id");
+  var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+  var target_lang_id = sessionStorage.getItem("target_lang_id");
+  var url = "http://diglot.it.et.byu.edu/flipped?user_id=" + uid + "&lang=" + origin_lang_id + "&target_lang=" + target_lang_id;
+   console.log(url);
+   fetch(url).then((response) => {
+      return response.json().then((json) => {
+        console.log("JSON", json);
+      });
+    }); 
+}
