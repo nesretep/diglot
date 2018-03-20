@@ -614,6 +614,7 @@ def get_all_flipped():
     :param user_id: (str) id of the user the flipped concepts are being requested for
     :param lang: (str) 3 character ISO 639-3 designation for the language
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
+    :param current_pos: (str) indicator of user's current position in text so we can filter results to one chapter
     :return query_result: (list of dicts) Instances to flip
     """
     # Validating/Sanitizing data for the query
