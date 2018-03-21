@@ -298,7 +298,9 @@ def cp_all_flipped():
 @bottle.route('/cp/yet_to_flip')
 def cp_yet_to_flip():
     """
-
+    Function that returns all of the chunks yet to be flipped in a single chapter.
+    For use after reaching the critical point where we are switching to the target language
+    sentence structure.
 
     :param lang: (str) 3 character ISO 639-3 designation for the origin language
     :param target_lang: (str) 3 character ISO 639-3 designation for the target language
