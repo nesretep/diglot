@@ -12,9 +12,9 @@ import logging
 
 sys.path.extend(['/git/diglot/api'])
 
-books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
-         "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
-         "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
+# books = {"1Nephi": "01", "2Nephi": "02", "Jacob": "03", "Enos": "04", "Jarom": "05",
+#          "Omni": "06", "Words of Mormon": "7", "Mosiah": "08", "Alma": "09", "Helaman": "10",
+#          "3Nephi": "11", "4Nephi": "12", "Mormon": "13", "Ether": "14", "Moroni": "15"}
 
 dbconf = "conf/diglot.conf"
 
@@ -64,7 +64,8 @@ def load_main(filename="../index.html"):
 @bottle.route('/login')
 def load_login_page(filename="../login.html"):
     """
-    Loads the login page.
+    Loads the login page.  Not really necessary, but left in so stuff didn't break.
+    As long as the references to it are fixed, you can remove it.
 
     :param filename: (str) URL to load; defaults to the path specified above
     :return content: contents of the file loaded
@@ -116,12 +117,13 @@ def get_chapter(lang, book, chapter):
 @bottle.route("/update_position")
 def update_current_position():
     """
-    Updates the users current position within the Book of Mormon text
+    Updates the database with the users current position within the Book of Mormon text
 
     :param user_id: (str) the uid number of the user whose data were passing to the front end
     :param current_pos: (str) the id for the current position of the user/reader
     :return: (bool) Indicator of success of the query
     """
+    # # Data validation # #
     if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
         current_pos = bottle.request.query.current_pos
     else:
@@ -135,12 +137,14 @@ def update_current_position():
         msg = "Invalid value for user_id ({}): {}".format(user_id, convert_error)
         logging.error(msg)
         bottle.abort(400, msg)
+    # # END Data validation # #
 
     query = "UPDATE user_settings SET current_position = '{}' WHERE user_id = '{}'".format(current_pos, user_id)
 
     db = helper.connect_to_db(dbconf)
     cursor = db.cursor(mariadb.cursors.DictCursor)
 
+    # # Basic injection check before query execution # #
     if helper.is_injection(query) == False:
         try:
             cursor.execute(query)
@@ -412,6 +416,7 @@ def flip_one_concept():
         msg = "Invalid user_id ({}): {}".format(user_id, convert_error)
         logging.error(msg)
         bottle.abort(400, msg)
+    # END Validating/Sanitizing of data ###
 
     # Query database for chunk
     db = helper.connect_to_db(dbconf)
@@ -437,8 +442,8 @@ def flip_one_concept():
         msg = "Possible injection attempt: {}".format(query1)
         logging.error(msg)
         bottle.abort(400, msg)
+
     # Grabs the info needed on the front end to complete the flipping of the concept
-    # TODO: fix SQL query around LIKE
     query2 = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
               target.instance_text AS target_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON \
               origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
@@ -530,7 +535,7 @@ def flip_one_back():
         msg = "Possible injection attempt: {}".format(query1)
         logging.error(msg)
         bottle.abort(400, msg)
-    # TODO: fix SQL query around LIKE
+
     query2 = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, \
               origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin \
               ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position \
@@ -680,7 +685,6 @@ def load_user_data(user_id):
     :param user_id: the uid number of the user whose data were passing to the front end
     :return:
     """
-    # TODO: Test function to pass user data to front end
     # Verifies that the thing being passed as the uid is actually a number or string representation of such
     try:
         user_id = int(user_id)
@@ -722,8 +726,6 @@ def save_user_preferences():
     :param level: (int) number representing their skill level with the target language
     :return success: (bool) Indicates a successful save of the data to the database
     """
-
-    # TODO: Write query/code to set a user's preferences
     if helper.is_valid_lang(bottle.request.query.origin_lang):
         origin_lang = bottle.request.query.origin_lang
     else:

@@ -46,7 +46,7 @@ def connect_to_db(config_path, adminuser=False):
 
 def is_valid_uid(uid, id_type):
     """
-    Validator function to make sure uids are in the proper format
+    Validator function to make sure uids are in the proper format by checking against regex
 
     :param uid: (str) the uid to validate
     :param id_type: (str) type of uid pattern to check against - instance or master position (mp)
@@ -66,18 +66,30 @@ def is_valid_uid(uid, id_type):
 
 
 def is_valid_lang(lang_id):
+    """
+    Validates language ids against the specified regex
+
+    :param lang_id: (str) the language id passed in to the function to be validated
+    :return: (bool) result of the regex checking against the pattern
+    """
     lang_id_pattern = re.compile("[a-z]{3}")
     return bool(lang_id_pattern.match(lang_id))
 
 
 def is_valid_concept(concept_id):
+    """
+    Validates concept ids against their matching regex
+
+    :param concept_id: (str) the concept id to validate
+    :return: (bool) result of the regex checking against the pattern
+    """
     concept_id_pattern = re.compile("[a-z]{3}_con_[0-9]{5}")
     return bool(concept_id_pattern.match(concept_id))
 
 
 def is_injection(query):
     """
-    Checks id character commonly used in SQL injection attacks appear in the query.
+    Checks query for characters commonly used in SQL injection attacks.
 
     :param query: (str) The query being checked.
     :return: (bool) True if the unacceptable character are found, False if they are not found
