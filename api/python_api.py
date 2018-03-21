@@ -644,6 +644,13 @@ def get_all_flipped():
         logging.error(msg)
         bottle.abort(400, msg)
 
+    if helper.is_valid_uid(bottle.request.query.current_pos, "cp"):
+        current_pos = bottle.request.query.current_pos
+    else:
+        msg = "Invalid current position identifier ({}).".format(bottle.request.query.current_pos)
+        logging.error(msg)
+        bottle.abort(400, msg)
+        
     # Query database for uids of words already flipped
     query = "SELECT origin.instance_id AS origin_instance_id, target.instance_id AS target_instance_id, \
              target.instance_text AS target_instance_text FROM user_settings AS u \
