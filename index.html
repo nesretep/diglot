@@ -59,7 +59,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftBook">Book of Mormon</a></li>
                             <li class="breadcrumb-item" aria-current="page"><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">First Nephi</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Chapter 1</li>
+                            <li class="breadcrumb-item" aria-current="page" id="nav_chapter">Chapter</li>
                         </ol>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -254,6 +254,7 @@
                 chapter_num = chapter_num[1];
             }
             $(chapter).append(" " + chapter_num);
+            $(nav_chapter).append(" " + chapter_num);
         </script>
     </body>
 </html>
