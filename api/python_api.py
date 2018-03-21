@@ -658,8 +658,8 @@ def get_all_flipped():
              target.instance_text AS target_instance_text FROM user_settings AS u \
              INNER JOIN flipped_list AS f on u.user_id = f.user_id INNER JOIN {}_concept AS con ON \
              con.concept_id = f.concept_id INNER JOIN {} origin ON origin.chunk_id = con.chunk_id INNER JOIN {} \
-             AS target ON origin.master_position = target.master_position WHERE u.user_id = %s AND origin.instance_id \
-             LIKE '{}{}' ORDER BY origin.instance_id".format(lang, lang, target_lang, current_pos, "%")
+             AS target ON origin.master_position = target.master_position WHERE u.user_id = '{}' AND origin.instance_id \
+             LIKE '{}%' ORDER BY origin.instance_id".format(lang, lang, target_lang, user_id, current_pos)
     
     try:
         db = helper.connect_to_db(dbconf)
@@ -671,7 +671,7 @@ def get_all_flipped():
 
     if helper.is_injection(query) == False:
         try:
-            cursor.execute(query, (user_id,))
+            cursor.execute(query)
             query_result = cursor.fetchall()
             msg = "Query {} executed successfully.".format(query)
             logging.info(msg)
