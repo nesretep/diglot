@@ -545,24 +545,27 @@ function next_chapter(){
   var origin_lang_id = sessionStorage.getItem("origin_lang_id");
   var next_chapter = parseInt(current_position[2]);
   next_chapter++;
-  var next_chapter_string = next_chapter.toString();
-  if(next_chapter_string.length == 1){
-    next_chapter_string = "0" + next_chapter_string;
+  if(next_chapter==2){
+    var next_chapter_string = next_chapter.toString();
+    if(next_chapter_string.length == 1){
+      next_chapter_string = "0" + next_chapter_string;
+    }
+    var new_current_position = current_position[0] + ":" + current_position[1] +":"+ next_chapter_string;
+    sessionStorage.setItem("current_position", new_current_position);
+
+    var uid = sessionStorage.getItem("user_id");
+
+    var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
+     console.log(url);
+     fetch(url).then((response) => {
+        return response.json().then((json) => {
+          console.log("JSON", json);
+        });
+      }); 
+
+    location.reload();
   }
-  var new_current_position = current_position[0] + ":" + current_position[1] +":"+ next_chapter_string;
-  sessionStorage.setItem("current_position", new_current_position);
 
-  var uid = sessionStorage.getItem("user_id");
-
-  var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
-   console.log(url);
-   fetch(url).then((response) => {
-      return response.json().then((json) => {
-        console.log("JSON", json);
-      });
-    }); 
-
-  location.reload();
 }
 function previous_chapter(){
   var current_position = sessionStorage.getItem("current_position");
@@ -570,23 +573,25 @@ function previous_chapter(){
   var origin_lang_id = sessionStorage.getItem("origin_lang_id");
   var previous_chapter = parseInt(current_position[2]);
   previous_chapter--;
-  var previous_chapter_string = previous_chapter.toString();
-  if(previous_chapter_string.length == 1){
-    previous_chapter_string = "0" + previous_chapter_string;
+  if(previous_chapter == 1){
+    var previous_chapter_string = previous_chapter.toString();
+    if(previous_chapter_string.length == 1){
+      previous_chapter_string = "0" + previous_chapter_string;
+    }
+    var new_current_position = current_position[0] + ":" + current_position[1] +":"+ previous_chapter_string;
+    sessionStorage.setItem("current_position", new_current_position);
+    var uid = sessionStorage.getItem("user_id");
+
+    var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
+     console.log(url);
+     fetch(url).then((response) => {
+        return response.json().then((json) => {
+          console.log("JSON", json);
+        });
+      }); 
+
+    location.reload();
   }
-  var new_current_position = current_position[0] + ":" + current_position[1] +":"+ previous_chapter_string;
-  sessionStorage.setItem("current_position", new_current_position);
-  var uid = sessionStorage.getItem("user_id");
-
-  var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
-   console.log(url);
-   fetch(url).then((response) => {
-      return response.json().then((json) => {
-        console.log("JSON", json);
-      });
-    }); 
-
-  location.reload();
 }
 function get_all_flipped(){
   var uid = sessionStorage.getItem("user_id");

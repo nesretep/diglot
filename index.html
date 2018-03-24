@@ -123,8 +123,9 @@
                                 <h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
                             </div>
                             <div class="modal-body">
-                                <div v-for='chapter in BOM[Active_Chapter]' class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center"> {{chapter}}</div>
+                                <div v-for='chapter in BOM[Active_Chapter]' v-bind:id="chapter" class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center" onclick="chapternav()">{{chapter}}</div>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
+
                             </div>
                         </div>
                         <!-- modal-content -->
@@ -255,6 +256,35 @@
             }
             $(chapter).append(" " + chapter_num);
             $(nav_chapter).append(" " + chapter_num);
+
+            function chapternav(){
+                
+                var id = event.target.id;
+                id = id.split(" ");
+                if(id[1] == "1" || id[1] == "2"){
+                    var current_position = sessionStorage.getItem("current_position");
+                    current_position = current_position.split(":");
+                    var origin_lang_id = sessionStorage.getItem("origin_lang_id");
+                    var new_chapter = "0" + id[1];
+                    var next_chapter_string = next_chapter.toString();
+                    var uid = sessionStorage.getItem("user_id");
+
+                    var new_current_position = current_position[0] + ":" + current_position[1] +":"+ new_chapter;
+                    sessionStorage.setItem("current_position", new_current_position);
+
+                    var url = "http://diglot.it.et.byu.edu/update_position?user_id=" + uid + "&current_pos=" + new_current_position;
+                    console.log(url);
+                    fetch(url).then((response) => {
+                      return response.json().then((json) => {
+                        console.log("JSON", json);
+                      });
+                    }); 
+
+                    location.reload();
+                }//end if
+            }
+
+
         </script>
     </body>
 </html>
