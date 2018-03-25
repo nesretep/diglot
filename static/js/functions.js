@@ -22,7 +22,8 @@ function peek(instance_id){
       //put text in pop up
       if(json == null){
         var helper = document.getElementById("peek");
-        $(helper).text("{No match}");
+        $(helper).text("No target language match");
+        $(helper).attr("id", "peekNone");
       }
       else{
         var helper = document.getElementById("peek");
@@ -69,6 +70,7 @@ function popupVue(){
     var span = $(event.target);
     span.children().remove();
   }
+
 }
 function APIflip_back(e){
 
@@ -288,7 +290,7 @@ function APIflip_backnew(e){
   var concept_id = classList[classList.length-1];
   var master_position = classList[classList.length-2];
   var user_id = sessionStorage.getItem("user_id");
-  var url = "http://diglot.it.et.byu.edu/flipback?current_pos="+current_position+"&target_lang=" + target_lang + "&user_id="+ user_id+" &concept_id=" + concept_id;
+  var url = "http://diglot.it.et.byu.edu/flipback?current_pos="+current_position+"&target_lang=" + target_lang + "&user_id="+ user_id+"&concept_id=" + concept_id;
   console.log(url);
   fetch(url).then((response) => {
       return response.json().then((json) => {
@@ -354,123 +356,127 @@ function APIflip_backnew(e){
 function APIflipnew(e){
   //get the instance id
 
-   var span = $(e).parent();
+  var span = $(e).parent();
+  var text = $(e).parent().text();
+  var no_match = text.includes("No target language match");
 
-  if(span.hasClass("flipped")==false){
-    var id = span.attr("id");
-    var chunk = span.attr("id");
-    var popupChunk = "myPopup" + chunk;
-    //window.alert(chunk);
-    var word = span.clone().children().remove();
-    word = word.end().text().trim();
+  if(no_match==false){
+    if(span.hasClass("flipped")==false){
+      var id = span.attr("id");
+      var chunk = span.attr("id");
+      var popupChunk = "myPopup" + chunk;
+      //window.alert(chunk);
+      var word = span.clone().children().remove();
+      word = word.end().text().trim();
 
-    var classList = document.getElementById(id).className.split(/\s+/);
+      var classList = document.getElementById(id).className.split(/\s+/);
 
-    id = id.split(":");
-    var lang = id[0];
-    var book = "1Nephi";
-    var chapter = id[2];
-    var verse = id[3];
-    var pos = id[4];
-    var target_lang = sessionStorage.getItem("target_lang_id");
-    var concept_id = classList[classList.length-1];
-    var master_position = classList[classList.length-2];
-    var current_position = sessionStorage.getItem("current_position");
-    var user_id = sessionStorage.getItem("user_id");
-    if($(span).hasClass("spa")){
-      target_lang = "eng";
-    }
-    var url = "http://diglot.it.et.byu.edu/flip?current_pos="+current_position+"&target_lang=" + target_lang + "&user_id="+user_id+"&concept_id=" + concept_id;
-    console.log(url);
-    fetch(url).then((response) => {
-        return response.json().then((json) => {
-          //console.log("JSON", json);
+      id = id.split(":");
+      var lang = id[0];
+      var book = "1Nephi";
+      var chapter = id[2];
+      var verse = id[3];
+      var pos = id[4];
+      var target_lang = sessionStorage.getItem("target_lang_id");
+      var concept_id = classList[classList.length-1];
+      var master_position = classList[classList.length-2];
+      var current_position = sessionStorage.getItem("current_position");
+      var user_id = sessionStorage.getItem("user_id");
+      if($(span).hasClass("spa")){
+        target_lang = "eng";
+      }
+      var url = "http://diglot.it.et.byu.edu/flip?current_pos="+current_position+"&target_lang=" + target_lang + "&user_id="+user_id+"&concept_id=" + concept_id;
+      console.log(url);
+      fetch(url).then((response) => {
+          return response.json().then((json) => {
+            //console.log("JSON", json);
 
-          if(json.length <= 2 ){
-            for(i=0; i < json.length; i++){
+            if(json.length <= 2 ){
+              for(i=0; i < json.length; i++){
 
-              var instance = document.getElementById(json[i].origin_instance_id);
-              var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
-              var concept_id_hold = classList_hold[classList_hold.length-1];
-              var master_position_hold = classList_hold[classList_hold.length-2];
+                var instance = document.getElementById(json[i].origin_instance_id);
+                var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
+                var concept_id_hold = classList_hold[classList_hold.length-1];
+                var master_position_hold = classList_hold[classList_hold.length-2];
 
-              //change language class tag
-              if(target_lang == "spa"){
-                $(instance).addClass("spa");
-                $(instance).removeClass("eng");
-              }
-              else{
-                $(instance).addClass("eng");
-                $(instance).removeClass("spa");
-              }
+                //change language class tag
+                if(target_lang == "spa"){
+                  $(instance).addClass("spa");
+                  $(instance).removeClass("eng");
+                }
+                else{
+                  $(instance).addClass("eng");
+                  $(instance).removeClass("spa");
+                }
 
-              //flipped flag
-              $(instance).addClass("flipped");
+                //flipped flag
+                $(instance).addClass("flipped");
 
-              //place concept id on the end of the list
-              $(instance).removeClass(master_position_hold);
-              $(instance).addClass(master_position_hold);
-              $(instance).removeClass(concept_id_hold);
-              $(instance).addClass(concept_id_hold);
-              
+                //place concept id on the end of the list
+                $(instance).removeClass(master_position_hold);
+                $(instance).addClass(master_position_hold);
+                $(instance).removeClass(concept_id_hold);
+                $(instance).addClass(concept_id_hold);
+                
 
-              //fade out, text change, id change
-              $(instance).fadeOut('fast');
-              $(instance).html('&nbsp;');
-              $(instance).append(json[i].target_instance_text);
-              $(instance).attr("id", json[i].target_instance_id);
-              $(instance).fadeIn();
+                //fade out, text change, id change
+                $(instance).fadeOut('fast');
+                $(instance).html('&nbsp;');
+                $(instance).append(json[i].target_instance_text);
+                $(instance).attr("id", json[i].target_instance_id);
+                $(instance).fadeIn();
 
-            }//end for of if
+              }//end for of if
 
-          }
-          else{
-            //change words  2 0 1 2 3
-            for(i=0; i < json.length; i++){
+            }
+            else{
+              //change words  2 0 1 2 3
+              for(i=0; i < json.length; i++){
 
-              var instance = document.getElementById(json[i].origin_instance_id);
-              //alert(i + " " + json[i].origin_instance_id);
-              var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
-              var concept_id_hold = classList_hold[classList_hold.length-1];
-              var master_position_hold = classList_hold[classList_hold.length-2];
+                var instance = document.getElementById(json[i].origin_instance_id);
+                //alert(i + " " + json[i].origin_instance_id);
+                var classList_hold = document.getElementById(json[i].origin_instance_id).className.split(/\s+/);
+                var concept_id_hold = classList_hold[classList_hold.length-1];
+                var master_position_hold = classList_hold[classList_hold.length-2];
 
-              //change language class tag
-              if(target_lang == "spa"){
-                $(instance).addClass("spa");
-                $(instance).removeClass("eng");
-              }
-              else{
-                $(instance).addClass("eng");
-                $(instance).removeClass("spa");
-              }
+                //change language class tag
+                if(target_lang == "spa"){
+                  $(instance).addClass("spa");
+                  $(instance).removeClass("eng");
+                }
+                else{
+                  $(instance).addClass("eng");
+                  $(instance).removeClass("spa");
+                }
 
-              //flipped flag
-              $(instance).addClass("flipped");
+                //flipped flag
+                $(instance).addClass("flipped");
 
-              //place concept id on the end of the list
-              $(instance).removeClass(master_position_hold);
-              $(instance).addClass(master_position_hold);
-              $(instance).removeClass(concept_id_hold);
-              $(instance).addClass(concept_id_hold);
-              
+                //place concept id on the end of the list
+                $(instance).removeClass(master_position_hold);
+                $(instance).addClass(master_position_hold);
+                $(instance).removeClass(concept_id_hold);
+                $(instance).addClass(concept_id_hold);
+                
 
-              //fade out, text change, id change
-              $(instance).fadeOut('fast');
-              $(instance).html('&nbsp;');
-              $(instance).append(json[i].target_instance_text);
-              $(instance).attr("id", json[i].target_instance_id);
-              $(instance).fadeIn();
-            }//end for loop
-          }
+                //fade out, text change, id change
+                $(instance).fadeOut('fast');
+                $(instance).html('&nbsp;');
+                $(instance).append(json[i].target_instance_text);
+                $(instance).attr("id", json[i].target_instance_id);
+                $(instance).fadeIn();
+              }//end for loop
+            }
 
 
 
+        });
       });
-    });
-    //change tags
-  }
-  else{
-    APIflip_backnew(e);
+      //change tags
+    }
+    else{
+      APIflip_backnew(e);
+    }
   }
 }
 function APIuser_load(user_id){

@@ -77,21 +77,10 @@
             <strong>Warning!</strong>There was an error while applying your settings. 
         </div>
 
-        <!--next chapter or previous chapter-->
-        <div class="container-fluid">
-            <div class="row text-right">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="btn btn-default btn-xs" onclick="previous_chapter()">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </button>
-                    <button class="btn btn-default btn-xs" onclick="next_chapter()">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
+
 
         <div id="platform-canvas-content" role="main">
+
             <!--Modals-->
             <div id="BookOfMormon">
                 <!--Side Modal-->
@@ -202,6 +191,13 @@
             </div>
             <!--Chapter-->
             <div class="container">
+                <!--next chapter or previous chapter-->
+                <nav aria-label="...">
+                  <ul class="pager">
+                    <li class="previous" onclick="previous_chapter()"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                    <li class="next" onclick="next_chapter()"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                  </ul>
+                </nav>
                 <!--Book Title and Introduction-->
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center;">
