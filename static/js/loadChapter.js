@@ -108,7 +108,7 @@ new Vue({
             }
 
             //flipped flag
-            $(instance).addClass("flipped");
+            $(instance).addClass("flipped-original");
 
             //place concept id on the end of the list
             $(instance).removeClass(master_position_hold);
@@ -146,7 +146,7 @@ new Vue({
             }
 
             //flipped flag
-            $(instance).addClass("flipped");
+            $(instance).addClass("flipped-original");
 
             //place concept id on the end of the list
             $(instance).removeClass(master_position_hold);
