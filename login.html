@@ -42,8 +42,11 @@
     if(user == "user1"){
       user_id = 1;
     }
-    else{
+    else if(user == "user2"){
       user_id = 2;
+    }
+    else if(user == "user3"){
+      user_id = 3;
     }
     sessionStorage.setItem("user_id",user_id);
     //alert(sessionStorage.getItem("user_id"));
