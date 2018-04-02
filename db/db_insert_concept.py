@@ -22,6 +22,7 @@ def get_language(chunk_id):
     # iterate through the natural position id and get the language
     chunk_list = chunk_id.split(":")
     lang = chunk_list[0]
+    pprint(lang)
     lang_concept = lang + "_concept"
     # return the language to indicate where to insert the data.
     return lang_concept
