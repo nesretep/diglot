@@ -18,11 +18,12 @@ def csv_dict_list(variables_file):
     return dict_list
 
 
-def get_language(natual_position):
+def get_language(instance_id):
     # iterate through the natural position id and get the language
-
+    instance_list = instance_id.split(":")
+    lang = instance_list[0]
     # return the language to indicate where to insert the data.
-    return "spa"
+    return lang
 
 
 def add_to_db(data):
