@@ -1,12 +1,4 @@
 master_position,instance_id,instance_text,chunk_id
-10:00:00:003,mas:01:01:08:032,jumlahnya,msa_chk_00122
-01:01:08:029,mas:01:01:08:033,dalam,msa_chk_00064
-01:01:08:030,mas:01:01:08:034,sikap,msa_chk_00241
-01:01:08:032,mas:01:01:08:035,bernyanyi,msa_chk_00054
-01:01:08:033,mas:01:01:08:036,dan,msa_chk_00065
-01:01:08:034,mas:01:01:08:037,memuji,msa_chk_00166
-01:01:08:035,mas:01:01:08:038,Tuhan mereka,msa_chk_00273
-00:00:00:003,mas:01:01:08:039,.,msa_chk_00007
 01:01:01:001,msa:01:01:01:001,Aku,msa_chk_00001
 00:00:00:003,msa:01:01:01:002,",",msa_chk_00002
 01:01:01:002,msa:01:01:01:003,Nefi,msa_chk_00187
@@ -258,6 +250,14 @@ master_position,instance_id,instance_text,chunk_id
 01:01:08:026,msa:01:01:08:029,kumpulan-kumpulan,msa_chk_00146
 01:01:08:028,msa:01:01:08:030,malaikat,msa_chk_00155
 01:01:08:025,msa:01:01:08:031,yang tak terbilang,msa_chk_00291
+10:00:00:003,msa:01:01:08:032,jumlahnya,msa_chk_00122
+01:01:08:029,msa:01:01:08:033,dalam,msa_chk_00064
+01:01:08:030,msa:01:01:08:034,sikap,msa_chk_00241
+01:01:08:032,msa:01:01:08:035,bernyanyi,msa_chk_00054
+01:01:08:033,msa:01:01:08:036,dan,msa_chk_00065
+01:01:08:034,msa:01:01:08:037,memuji,msa_chk_00166
+01:01:08:035,msa:01:01:08:038,Tuhan mereka,msa_chk_00273
+00:00:00:003,msa:01:01:08:039,.,msa_chk_00007
 01:01:09:001,msa:01:01:09:001,Dan,msa_chk_00065
 01:01:09:002,msa:01:01:09:002,terjadilah,msa_chk_00267
 01:01:09:003,msa:01:01:09:003,bahawa,msa_chk_00037
