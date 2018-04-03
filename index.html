@@ -93,8 +93,8 @@
                                 <h4 class="modal-title" id="myModalLabel">Book</h4>
                             </div>
                             <div class="modal-body">
-                                <button v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a href="#" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
-                                </button>
+                                <div v-for="book in books" class= "not-button col-sm-6 col-md-6 col-lg-6 text-center"  v-on:click="Active_Chapter = book" ><a v-bind:id="book" href="#" class="not-active" data-toggle="modal" data-target="#sideModalLeftChapter">{{ book }}</a>
+                                </div>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                 <h4 class="modal-title" id="myModalLabel2">Chapter Select</h4>
                             </div>
                             <div class="modal-body">
-                                <div v-for='chapter in BOM[Active_Chapter]' v-bind:id="chapter" class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center" onclick="chapternav()">{{chapter}}</div>
+                                <a v-for='chapter in BOM[Active_Chapter]' v-bind:id="chapter" class= "chapter not-button col-sm-6 col-md-6 col-lg-6 text-center not-active" onclick="chapternav()">{{chapter}}</a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
 
                             </div>
@@ -253,6 +253,9 @@
             $(chapter).append(" " + chapter_num);
             $(nav_chapter).append(" " + chapter_num);
 
+            $("#Chapter\\ 1").removeClass("not-active");
+            $("#Chapter\\ 2").removeClass("not-active");
+            $("#1\\ Nephi").removeClass("not-active");
             function chapternav(){
                 
                 var id = event.target.id;

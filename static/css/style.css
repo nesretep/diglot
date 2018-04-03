@@ -35,3 +35,9 @@ body {
   border-bottom: 1px dotted #ffffff;
   text-decoration: none;
 }
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  text-decoration:none;
+  color:black;
+}
