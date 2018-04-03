@@ -10,10 +10,13 @@ function peek(instance_id){
   var current_lang = id[0];
 
   //get target language logic
-  var lang = "spa";
-  if(current_lang == "spa"){
-    lang = "eng";
+  var target_lang = sessionStorage.getItem("target_lang_id");
+  var origin_lang = sessionStorage.getItem("origin_lang_id");
+  var lang = target_lang;
+  if(current_lang == target_lang){
+    lang = origin_lang;
   }
+  
 
   //fetch
   var url = "http://diglot.it.et.byu.edu/peek?lang=" + lang + "&mp=" + mp;
