@@ -1,0 +1,138 @@
+user_load
+
+-------------------- SQL --------------------
+	SELECT origin_language, target_language, level, current_position 
+		FROM user_settings 
+		WHERE user_id LIKE v_user_id;
+
+-------------------- PYTHON -----------------
+	user_info_query = "SELECT origin_language, target_language, level, current_position FROM user_settings WHERE user_id LIKE '{}'".format(user_id) 
+
+
+flip_instance
+
+-------------------- SQL --------------------
+	SELECT con.concept_id
+		FROM "table" con
+		inner join "table" origin
+		where origin.instance_id LIKE v_instance_id ;
+
+	insert into flipped_list (user_id, concept_id) VALUES (v_user_id, v_concept_id);
+
+	select origin.master_position 
+		from "table" origin 
+		where origin.instance_id LIKE v_instance_id;
+	
+	select target.instance_id, target.instance_text
+		from "table" target
+		where v_master_positon = target.master_position
+
+-------------------- PYTHON -----------------
+	concept_id_query = "SELECT con.concept_id FROM {}_concept con inner join {} lang on con.chunk_id = lang.chunk_id where lang.instance_id LIKE '{}',".format(pri_table, instance_id))
+
+	concept_id_insert = "INSERT INTO flipped_list (user_id, concept_id) VALUES ({}, {})".format(user_id, concept_id)
+
+	get_mp_query = "SELECT origin.master_position FROM {} origin WHERE origin.instance_id LIKE '{}'".format(origin_table, instance_id)
+
+	get_flipped_instance = "SELECT target.instance_id, target.instance_text FROM {} target WHERE target.instance_id LIKE '{}'".format(target_table,)
+	
+get_chapter
+
+-------------------- SQL --------------------	
+	SELECT t.master_position, t.instance_id, t.instance_text
+		FROM "table" t
+		WHERE t.instance_id LIKE v_instance_id
+		ORDER BY t.instance_id;
+
+-------------------- PYTHON -----------------
+	get_chapter_query = "SELECT t.master_position, t.instance_id, t.instance_text FROM {} t WHERE t.instance_id LIKE '{}%' ORDER BY t.instance_id".format(table, chapter_id)
+
+all_flips
+
+-------------------- SQL --------------------
+	select origin.instance_id, target.instance_id, target.instance_text
+	from user_settings u
+	inner join flipped_list f on u.user_id = f.user_id
+	inner join "table"_concept con on con.concept_id = f.concept_id
+	inner join "table" origin on origin.chunk_id = con.chunk_id
+	inner join "table" target on origin.master_position = target.master_position
+	where user_id = user_id
+	order by origin.instance_id;
+
+-------------------- PYTHON -----------------
+	get_flipped_chunks_query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM user_settings u INNER JOIN flipped_list f on u.user_id = f.user_id INNER JOIN {}_concept con on con.concept_id = f.concept_id INNER JOIN {} origin on origin.chunk_id = con.chunk_id INNER JOIN {} target on origin.master_position = target.master_position WHERE user_id LIKE '{}' ORDER BY origin.instance_id".format(table_origin, table_origin, table_target, user_id)
+
+
+PEEK
+-------------------- SQL --------------------
+	select lang.instance_text
+		from "lang" lang
+		where lang.master_position LIKE '01:01:01:001';
+
+-------------------- PYTHON -----------------
+
+	query_result = "SELECT lang.instance_text FROM {} lang WHERE lang.master_position LIKE '{}'".format(table, master_position)
+
+-------------------- SQL --------------------
+	select origin.instance_id, target.instance_id, target.instance_text
+	from "table"_concept con
+	inner join "table" origin on origin.chunk_id = con.chunk_id
+	inner join "table" target on origin.master_position = target.master_position
+	where con.concept_id = v_concept_id
+	order by origin.instance_id;
+
+-------------------- PYTHON -----------------
+	get_flipped_chunk_query = "SELECT origin.instance_id, target.instance_id, target.instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position WHERE con.concept_id = {} ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+
+
+
+-------------------- SQL --------------------
+	select origin.instance_id, target.instance_id, target.instance_text
+	from "table"_concept con
+	inner join "table" origin on origin.chunk_id = con.chunk_id
+	inner join "table" target on origin.master_position = target.master_position
+	where con.concept_id = v_concept_id
+	order by origin.instance_id;
+
+-------------------- PYTHON -----------------
+	flip_back_query = "SELECT target.instance_id AS target_instance_id, origin.instance_id AS origin_instance_id, origin.instance_text AS origin_instance_text FROM {}_concept AS con INNER JOIN {} AS origin ON origin.chunk_id = con.chunk_id INNER JOIN {} AS target ON origin.master_position = target.master_position WHERE con.concept_id = {} ORDER BY origin.instance_id".format(lang, lang, target_lang, concept_id)
+
+
+-------------------- SQL --------------------
+	select spa.instance_id from spa 
+	left join eng on spa.master_position = eng.master_position 
+	left join eng_concept on eng.chunk_id = eng_concept.chunk_id 
+	left join flipped_list on eng_concept.concept_id = flipped_list.concept_id 
+	where flipped_list.user_id = 1
+	order by spa.instance_id;
+
+-------------------- PYTHON -----------------
+	already_flipped = "SELECT target.instance_id AS target_instance_id FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept ON origin.chunk_id = origin_concept.chunk_id LEFT JOIN flipped_list ON origin_concept.concept_id = flipped_list.concept_id WHERE flipped_list = {} ORDER BY target.instance_id".format(target_lang, lang, lang, user_id)
+
+get chapter in other language
+-------------------- SQL --------------------
+	select spa.instance_id, spa.master_position, spa.instance_text, eng_concept.concept_id from spa 
+	left join eng on spa.master_position = eng.master_position 
+	left join eng_concept on eng.chunk_id = eng_concept.chunk_id
+	where spa.instance_id like 'spa:01:01%'
+	order by spa.instance_id;
+
+-------------------- PYTHON -----------------
+	critical_chapter_grab = "SELECT target.instance_id AS target_instance_id, target.master_position AS target_master_position, target.instance_text AS target_instance_text, origin_concept.concept_id AS origin_concept_concept_id FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept ON orign.chunk_id = origin_concept.chunk_id WHERE target.instance_id like '{}%' ORDER BY target.instance_id".format(target_lang, lang, lang, chapter_id)
+
+-------------------- SQL --------------------
+
+select spa.instance_id, eng.instance_id, eng.instance_text
+	from spa
+	left join eng on spa.master_position = eng.master_position
+	left join eng_concept on eng.chunk_id = eng_concept.chunk_id
+	left join (select * from flipped_list where flipped_list.user_id = 1) as FL
+	on eng_concept.concept_id = FL.concept_id
+	where eng.instance_id like 'eng:01:01%'
+	and FL.user_id IS NULL;
+
+-------------------- PYTHON -----------------
+	chunks_yet_to_flip = "SELECT target.instance_id AS target_instance_ID, origin.instance_id AS origin_instance_id, origin.instance_text AS origin_instance_text FROM {} AS target LEFT JOIN {} AS origin ON target.master_position = origin.master_position LEFT JOIN {}_concept AS origin_concept ON origin.chunk_id = orign_concept.chunk_id LEFT JOIN (SELECT * FROM flipped_list WHERE flipped_list.user_id = {}) AS fl ON origin_concept.concept_id = fl.concept_id WHERE  origin.instance_id LIKE '{}' AND fl.user_id IS NULL".format(target_land, lang, lang, user_id, current_pos)
+
+
+select (select count(*) from flipped_list where user_id = 1) / (select count(*) from eng_concept);
