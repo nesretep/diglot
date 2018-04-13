@@ -19,7 +19,7 @@ def csv_dict_list(variables_file):
 
 
 def get_language(instance_id):
-    # iterate through the natural position id and get the language
+    # iterate through the instance_id and get the language
     instance_list = instance_id.split(":")
     lang = instance_list[0]
     # return the language to indicate where to insert the data.

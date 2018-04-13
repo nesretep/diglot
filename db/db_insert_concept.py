@@ -19,7 +19,7 @@ def csv_dict_list(variables_file):
 
 
 def get_language(chunk_id):
-    # iterate through the natural position id and get the language
+    # iterate through the chunk_id and get the language
     chunk_list = chunk_id.split("_")
     lang = chunk_list[0]
     lang_concept = lang + "_concept"
